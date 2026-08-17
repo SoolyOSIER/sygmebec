@@ -1,0 +1,42 @@
+[
+  {
+    "model": "members.fonction",
+    "pk": 1,
+    "fields": {
+      "nomFonction": "Diacre",
+      "dateDebut": "2024-01-01"
+    }
+  },
+  {
+    "model": "members.fonction",
+    "pk": 2,
+    "fields": {
+      "nomFonction": "Chorale",
+      "dateDebut": "2024-01-01"
+    }
+  },
+  {
+    "model": "members.fonction",
+    "pk": 3,
+    "fields": {
+      "nomFonction": "École du dimanche",
+      "dateDebut": "2024-01-01"
+    }
+  },
+  {
+    "model": "members.fonction",
+    "pk": 4,
+    "fields": {
+      "nomFonction": "Protocole",
+      "dateDebut": "2024-01-01"
+    }
+  },
+  {
+    "model": "members.fonction",
+    "pk": 5,
+    "fields": {
+      "nomFonction": "Trésorier",
+      "dateDebut": "2024-01-01"
+    }
+  }
+]

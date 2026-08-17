@@ -1,0 +1,12 @@
+/**
+ * Converts a media path returned by Django into a URL the React app can use.
+ * DRF usually returns an absolute URL, but this also supports relative paths.
+ */
+export const getMediaUrl = (value) => {
+  if (!value) return undefined
+  if (/^https?:\/\//i.test(value) || value.startsWith('data:')) return value
+
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'
+  const origin = apiUrl.replace(/\/api\/v1\/?$/, '')
+  return `${origin}${value.startsWith('/') ? '' : '/'}${value}`
+}

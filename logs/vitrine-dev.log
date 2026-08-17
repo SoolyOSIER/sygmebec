@@ -1,0 +1,29 @@
+
+> sygmebec-vitrine@2.0.0 dev
+> vite --host 127.0.0.1 --port 5174
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m4430[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5174[22m/[39m
+[2m8:46:52 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PublicPages.jsx[22m
+[2m8:46:52 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/main.jsx[22m
+[2m8:46:52 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PublicPages.jsx[22m
+[2m8:46:55 PM[22m [36m[1m[vite][22m[39m [32m✨ new dependencies optimized: [33mreact-helmet-async, lucide-react, framer-motion[32m[39m
+[2m8:46:55 PM[22m [36m[1m[vite][22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m8:46:58 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Galerie.jsx, /src/pages/Evenements.jsx, /src/pages/espace-membre/MonProfil.jsx, /src/pages/Adhesion.jsx, /src/pages/EvenementDetail.jsx, /src/pages/espace-membre/MesInscriptions.jsx, /src/components/home/PresentationSection.jsx, /src/components/home/EvenementsAVenir.jsx[22m
+[2m8:47:21 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Galerie.jsx, /src/pages/Evenements.jsx, /src/pages/espace-membre/MonProfil.jsx, /src/pages/Adhesion.jsx, /src/pages/EvenementDetail.jsx, /src/pages/espace-membre/MesInscriptions.jsx, /src/components/home/PresentationSection.jsx, /src/components/home/EvenementsAVenir.jsx[22m
+[2m8:48:21 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Galerie.jsx, /src/pages/Evenements.jsx, /src/pages/espace-membre/MonProfil.jsx, /src/pages/Adhesion.jsx, /src/pages/EvenementDetail.jsx, /src/pages/espace-membre/MesInscriptions.jsx, /src/components/home/PresentationSection.jsx, /src/components/home/EvenementsAVenir.jsx[22m
+[2m8:48:26 PM[22m [36m[1m[vite][22m[39m [32m✨ new dependencies optimized: [33mclsx, react-icons/fi[32m[39m
+[2m8:48:26 PM[22m [36m[1m[vite][22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m8:48:49 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Evenements.jsx, /src/components/home/EvenementsAVenir.jsx[22m
+[2m8:48:50 PM[22m [36m[1m[vite][22m[39m [32m✨ new dependencies optimized: [33mdate-fns, date-fns/locale[32m[39m
+[2m8:48:50 PM[22m [36m[1m[vite][22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m8:49:10 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/Button.jsx[22m
+[2m8:49:41 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/Badge.jsx[22m
+[2m8:50:10 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Contact.jsx[22m
+[2m8:50:34 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/Input.jsx[22m
+[2m8:51:10 PM[22m [36m[1m[vite][22m[39m [32m✨ new dependencies optimized: [33mreact-icons/fa[32m[39m
+[2m8:51:10 PM[22m [36m[1m[vite][22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m9:06:30 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles.css[22m
+[2m9:07:20 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/espace-membre/Connexion.jsx[22m

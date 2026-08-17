@@ -1,0 +1,30 @@
+[
+  {
+    "model": "members.statut",
+    "pk": 1,
+    "fields": {
+      "libelle": "Actif"
+    }
+  },
+  {
+    "model": "members.statut",
+    "pk": 2,
+    "fields": {
+      "libelle": "Inactif"
+    }
+  },
+  {
+    "model": "members.statut",
+    "pk": 3,
+    "fields": {
+      "libelle": "Transféré"
+    }
+  },
+  {
+    "model": "members.statut",
+    "pk": 4,
+    "fields": {
+      "libelle": "Décédé"
+    }
+  }
+]

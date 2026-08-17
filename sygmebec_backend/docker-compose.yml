@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: sygmebec-db
+    environment:
+      POSTGRES_DB: sygmebec
+      POSTGRES_USER: sygmebec
+      POSTGRES_PASSWORD: sygmebec2024
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sygmebec"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: sygmebec-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: sygmebec-backend
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgres://sygmebec:sygmebec2024@db:5432/sygmebec
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=your-secret-key-here
+      - DEBUG=True
+    volumes:
+      - ./:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: python manage.py runserver 0.0.0.0:8000
+
+  celery-worker:
+    build: .
+    container_name: sygmebec-celery
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgres://sygmebec:sygmebec2024@db:5432/sygmebec
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=your-secret-key-here
+      - DEBUG=True
+    volumes:
+      - ./:/app
+      - media_volume:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: celery -A config worker -l info
+
+  celery-beat:
+    build: .
+    container_name: sygmebec-celery-beat
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgres://sygmebec:sygmebec2024@db:5432/sygmebec
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=your-secret-key-here
+      - DEBUG=True
+    volumes:
+      - ./:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+volumes:
+  postgres_data:
+  redis_data:
+  static_volume:
+  media_volume:

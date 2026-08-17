@@ -1,0 +1,23 @@
+[
+  {
+    "model": "accounts.roleacces",
+    "pk": 1,
+    "fields": {
+      "nomRole": "SECRETAIRE"
+    }
+  },
+  {
+    "model": "accounts.roleacces",
+    "pk": 2,
+    "fields": {
+      "nomRole": "PASTEUR"
+    }
+  },
+  {
+    "model": "accounts.roleacces",
+    "pk": 3,
+    "fields": {
+      "nomRole": "ADMINISTRATEUR"
+    }
+  }
+]
