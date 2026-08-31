@@ -7,10 +7,12 @@ from .views import (
     ImageGalerieListView,
     InscriptionEvenementCreateView,
     MessageContactCreateView,
+    VersetDuJourView,
 )
 
 
 urlpatterns = [
+    path('verset-du-jour/', VersetDuJourView.as_view(), name='public-daily-verse'),
     path('evenements/', EvenementPublicListView.as_view(), name='public-evenements'),
     path('evenements/<int:pk>/', EvenementPublicDetailView.as_view(), name='public-evenement-detail'),
     path('evenements/<int:pk>/inscription/', InscriptionEvenementCreateView.as_view(), name='public-evenement-inscription'),

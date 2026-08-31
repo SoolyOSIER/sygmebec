@@ -5,6 +5,8 @@ import { Moon, Sun } from 'lucide-react'
 import { memberApi } from '../services/publicApi'
 import { useMemberAuthStore } from '../store/memberAuthStore'
 import { useTheme } from '../theme/ThemeProvider'
+import LanguageSelect from './ui/LanguageSelect'
+import { useLanguageStore } from '../i18n'
 
 const navigationLinks = [
   ['/', 'Accueil'],
@@ -19,6 +21,8 @@ export default function Layout() {
   const navigate = useNavigate()
   const { user, clearSession } = useMemberAuthStore()
   const { theme, setTheme } = useTheme()
+  const language = useLanguageStore((state) => state.language)
+  const setLanguage = useLanguageStore((state) => state.setLanguage)
 
   const handleLogout = async () => {
     try {
@@ -49,6 +53,7 @@ export default function Layout() {
           ))}
         </nav>
         <div className="member-actions">
+          <LanguageSelect value={language} onChange={setLanguage} />
           <button
             className="theme-toggle"
             type="button"

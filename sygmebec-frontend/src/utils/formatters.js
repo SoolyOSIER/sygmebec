@@ -1,6 +1,10 @@
 // src/utils/formatters.js
 import { format, parseISO, differenceInDays, isToday, isTomorrow, isPast, isFuture } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { useUIStore } from '../store/uiStore'
+import { languageLocales } from '../i18n/useT'
+
+const currentLocale = () => languageLocales[useUIStore.getState().language] || languageLocales.fr
 
 export const formatDate = (date, pattern = 'dd/MM/yyyy') => {
   if (!date) return ''
@@ -53,7 +57,7 @@ export const formatRelativeDate = (date) => {
 }
 
 export const formatCurrency = (amount, currency = 'EUR') => {
-  return new Intl.NumberFormat('fr-FR', {
+  return new Intl.NumberFormat(currentLocale(), {
     style: 'currency',
     currency,
     minimumFractionDigits: 2,
@@ -115,7 +119,7 @@ export const getInitialsColor = (name) => {
 }
 
 export const formatNumber = (number, options = {}) => {
-  return new Intl.NumberFormat('fr-FR', options).format(number)
+  return new Intl.NumberFormat(currentLocale(), options).format(number)
 }
 
 export const pluralize = (count, singular, plural) => {

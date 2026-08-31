@@ -65,6 +65,7 @@ export const useCreateMembre = () => {
     mutationFn: membresApi.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['membres'] })
+      queryClient.invalidateQueries({ queryKey: ['membres-statistiques'] })
       toast.success('Membre créé avec succès 🎉')
     },
     onError: (error) => {
@@ -80,6 +81,7 @@ export const useUpdateMembre = () => {
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['membres'] })
       queryClient.invalidateQueries({ queryKey: ['membre', id] })
+      queryClient.invalidateQueries({ queryKey: ['membres-statistiques'] })
       toast.success('Membre modifié avec succès ✨')
     },
     onError: (error) => {
@@ -94,7 +96,8 @@ export const useDeleteMembre = () => {
     mutationFn: membresApi.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['membres'] })
-      toast.success('Membre supprimé avec succès 🗑️')
+      queryClient.invalidateQueries({ queryKey: ['membres-statistiques'] })
+      toast.success('Membre déplacé dans la corbeille.')
     },
     onError: (error) => {
       toast.error(getApiErrorMessage(error, 'Erreur lors de la suppression'))
@@ -109,10 +112,25 @@ export const useChangerStatut = () => {
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['membres'] })
       queryClient.invalidateQueries({ queryKey: ['membre', id] })
+      queryClient.invalidateQueries({ queryKey: ['membres-statistiques'] })
       toast.success('Statut modifié avec succès 🔄')
     },
     onError: (error) => {
       toast.error(getApiErrorMessage(error, 'Erreur lors du changement de statut'))
+    },
+  })
+}
+
+export const useCreateFonction = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: membresApi.createFonction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['fonctions'] })
+      toast.success('Fonction ajoutée avec succès.')
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Impossible d'ajouter cette fonction."))
     },
   })
 }

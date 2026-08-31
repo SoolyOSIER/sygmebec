@@ -3,8 +3,10 @@ import { useState } from 'react'
 import { Users, Loader2 } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { toast } from 'react-toastify'
+import useT from '../../i18n/useT'
 
 const FormulaireInscription = ({ evenementId, onSuccess, capaciteMax }) => {
+  const { t } = useT()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     nom: '',
@@ -24,10 +26,10 @@ const FormulaireInscription = ({ evenementId, onSuccess, capaciteMax }) => {
     try {
       // Appel API d'inscription
       await evenementService.inscrire(evenementId, formData)
-      toast.success('Inscription réussie !')
+      toast.success(t('events.registrationSuccess'))
       onSuccess?.()
     } catch (error) {
-      toast.error("Erreur lors de l'inscription")
+      toast.error(t('events.registrationError'))
     } finally {
       setLoading(false)
     }
@@ -106,7 +108,7 @@ const FormulaireInscription = ({ evenementId, onSuccess, capaciteMax }) => {
         />
         {capaciteMax && (
           <p className="text-xs text-gray-500 mt-1">
-            Maximum {capaciteMax} places disponibles
+            {t('events.availablePlaces', { count: capaciteMax })}
           </p>
         )}
       </div>
@@ -120,12 +122,12 @@ const FormulaireInscription = ({ evenementId, onSuccess, capaciteMax }) => {
         {loading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin mr-2" />
-            Inscription en cours...
+            {t('events.registering')}
           </>
         ) : (
           <>
             <Users className="w-4 h-4 mr-2" />
-            S'inscrire
+            {t('events.register')}
           </>
         )}
       </Button>

@@ -12,6 +12,18 @@ class DemandeAdhesion(TimeStampedModel):
         (VALIDEE, 'Validée'),
         (REJETEE, 'Rejetée'),
     ]
+    NIVEAU_ETUDE_PRIMAIRE = 'PRIMAIRE'
+    NIVEAU_ETUDE_SECONDAIRE = 'SECONDAIRE'
+    NIVEAU_ETUDE_UNIVERSITAIRE = 'UNIVERSITAIRE'
+    NIVEAU_ETUDE_PROFESSIONNEL = 'PROFESSIONNEL'
+    NIVEAU_ETUDE_AUTRE = 'AUTRE'
+    NIVEAU_ETUDE_CHOICES = [
+        (NIVEAU_ETUDE_PRIMAIRE, 'Primaire'),
+        (NIVEAU_ETUDE_SECONDAIRE, 'Secondaire'),
+        (NIVEAU_ETUDE_UNIVERSITAIRE, 'Universitaire'),
+        (NIVEAU_ETUDE_PROFESSIONNEL, 'Professionnel'),
+        (NIVEAU_ETUDE_AUTRE, 'Autre'),
+    ]
 
     nom = models.CharField(max_length=150)
     prenom = models.CharField(max_length=150)
@@ -19,10 +31,13 @@ class DemandeAdhesion(TimeStampedModel):
     telephone = models.CharField(max_length=30, blank=True)
     telephone_secondaire = models.CharField(max_length=30, blank=True)
     adresse = models.CharField(max_length=255, blank=True)
+    zone_habitation = models.CharField(max_length=120, blank=True)
     eglise_origine = models.CharField(max_length=180, blank=True)
     date_naissance = models.DateField(null=True, blank=True)
     sexe = models.CharField(max_length=20, blank=True)
     etat_matrimonial = models.CharField(max_length=20, blank=True)
+    niveau_etude = models.CharField(max_length=20, choices=NIVEAU_ETUDE_CHOICES, blank=True)
+    profession = models.CharField(max_length=120, blank=True)
     actuellement_employe = models.BooleanField(default=False)
     actuellement_etudiant = models.BooleanField(default=False)
     anciennete_ebec = models.CharField(max_length=120, blank=True)

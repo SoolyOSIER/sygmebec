@@ -21,6 +21,7 @@ import ConfirmDialog from '../../components/ui/ConfirmDialog'
 import AnimatedCard from '../../components/ui/AnimatedCard'
 import { useDeleteMembre } from '../../hooks/useMembres'
 import Avatar from '../../components/ui/Avatar'
+import './membreDetailPremium.css'
 
 export default function MembreDetailPage() {
   const { id } = useParams()
@@ -77,9 +78,9 @@ export default function MembreDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="member-detail-premium space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="member-premium-topbar flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link to="/membres">
             <Button variant="ghost" icon={FiArrowLeft} size="sm">
@@ -116,9 +117,9 @@ export default function MembreDetailPage() {
         </div>
       </div>
 
-      <AnimatedCard className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-2xl" delay={0.05}>
+      <AnimatedCard className="member-premium-hero overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-2xl" delay={0.05}>
         <div className="grid md:grid-cols-[minmax(260px,0.9fr)_minmax(0,1.45fr)]">
-          <div className="relative overflow-hidden bg-gradient-to-br from-indigo-800 via-indigo-700 to-violet-700 p-7 text-white">
+          <div className="member-premium-identity relative overflow-hidden bg-gradient-to-br from-indigo-800 via-indigo-700 to-violet-700 p-7 text-white">
             <div className="absolute -right-16 -top-12 h-48 w-48 rounded-full bg-white/10" />
             <div className="absolute -bottom-20 -left-16 h-48 w-48 rounded-full bg-fuchsia-400/20" />
             <div className="relative flex h-full flex-col items-center text-center">
@@ -132,7 +133,7 @@ export default function MembreDetailPage() {
               </div>
             </div>
           </div>
-          <div className="p-7">
+          <div className="member-premium-summary p-7">
             <div className="flex flex-wrap items-start justify-between gap-3 border-b border-gray-100 pb-5">
               <div><p className="text-sm text-secondary-400">Fiche d'identification</p><h3 className="mt-1 text-xl font-bold text-secondary-900">Informations du membre</h3></div>
               <StatutBadge statut={membre.statut?.libelle} />
@@ -152,7 +153,7 @@ export default function MembreDetailPage() {
       {/* Info Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <AnimatedCard className="bg-white rounded-2xl shadow-card border border-gray-100/80 p-6">
+          <AnimatedCard className="member-premium-section bg-white rounded-2xl shadow-card border border-gray-100/80 p-6">
             <h3 className="font-semibold text-secondary-900 mb-4 flex items-center gap-2">
               <FiUser className="text-primary-500" />
               Informations
@@ -187,7 +188,7 @@ export default function MembreDetailPage() {
           </AnimatedCard>
 
           {/* Contact */}
-          <AnimatedCard className="bg-white rounded-2xl shadow-card border border-gray-100/80 p-6" delay={0.1}>
+          <AnimatedCard className="member-premium-section bg-white rounded-2xl shadow-card border border-gray-100/80 p-6" delay={0.1}>
             <h3 className="font-semibold text-secondary-900 mb-4">Contact</h3>
             <div className="space-y-3">
               {membre.telephone && (
@@ -215,7 +216,7 @@ export default function MembreDetailPage() {
           </AnimatedCard>
 
           {/* Fonctions */}
-          <AnimatedCard className="bg-white rounded-2xl shadow-card border border-gray-100/80 p-6" delay={0.15}>
+          <AnimatedCard className="member-premium-section bg-white rounded-2xl shadow-card border border-gray-100/80 p-6" delay={0.15}>
             <h3 className="font-semibold text-secondary-900 mb-4">Fonctions</h3>
             {membre.fonctions?.length > 0 ? (
               <div className="flex flex-wrap gap-2">
@@ -233,7 +234,7 @@ export default function MembreDetailPage() {
 
         {/* Historique */}
         <div className="lg:col-span-1">
-          <AnimatedCard className="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-800 via-indigo-700 to-violet-800 p-6 text-white shadow-xl" delay={0.15}>
+          <AnimatedCard className="member-premium-membership relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-800 via-indigo-700 to-violet-800 p-6 text-white shadow-xl" delay={0.15}>
             <div className="absolute -right-12 -top-16 h-44 w-44 rounded-full bg-white/10" />
             <div className="absolute -bottom-16 -left-12 h-40 w-40 rounded-full bg-fuchsia-400/15" />
             <div className="relative">
@@ -255,7 +256,7 @@ export default function MembreDetailPage() {
               <div className="mt-6 border-t border-white/20 pt-3 text-xs text-indigo-100">Membre depuis le {formatDate(membre.date_adhesion)}</div>
             </div>
           </AnimatedCard>
-          <AnimatedCard className="bg-white rounded-2xl shadow-card border border-gray-100/80 p-6" delay={0.2}>
+          <AnimatedCard className="member-premium-section bg-white rounded-2xl shadow-card border border-gray-100/80 p-6" delay={0.2}>
             <h3 className="font-semibold text-secondary-900 mb-4">Historique des statuts</h3>
             <HistoriqueStatutList historique={membre.historiques_statut} />
           </AnimatedCard>
@@ -276,8 +277,8 @@ export default function MembreDetailPage() {
         isOpen={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleDelete}
-        title="Supprimer le membre"
-        message={`Êtes-vous sûr de vouloir supprimer ${membre.nom} ${membre.prenom || ''} ? Cette action est irréversible.`}
+        title="Mettre le membre à la corbeille"
+        message={`${membre.nom} ${membre.prenom || ''} sera placé dans la corbeille et pourra être restauré par un administrateur.`}
         isLoading={isDeleting}
       />
     </div>

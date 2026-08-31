@@ -4,11 +4,14 @@ from sygmebec_backend.apps.core.models import TimeStampedModel
 
 
 class Lettre(TimeStampedModel):
+    ATTESTATION = 'ATTESTATION'
+    # Kept so letters created before the new templates remain readable.
     RECOMMANDATION = 'RECOMMANDATION'
     TRANSFERT = 'TRANSFERT'
     TYPE_CHOICES = [
-        (RECOMMANDATION, 'Lettre de recommandation'),
+        (ATTESTATION, 'Lettre d’attestation'),
         (TRANSFERT, 'Lettre de transfert'),
+        (RECOMMANDATION, 'Lettre de recommandation (ancienne)'),
     ]
 
     type_lettre = models.CharField(max_length=20, choices=TYPE_CHOICES)

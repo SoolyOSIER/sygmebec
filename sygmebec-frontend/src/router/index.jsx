@@ -21,7 +21,7 @@ import MembresListPage from '../pages/membres/MembresListPage'
 import MembreDetailPage from '../pages/membres/MembreDetailPage'
 import MembreCreatePage from '../pages/membres/MembreCreatePage'
 import MembreEditPage from '../pages/membres/MembreEditPage'
-import DemandesAdhesionPage from '../pages/membres/DemandesAdhesionPage'
+import DemandesAdhesionPage from '../pages/membres/DemandesAdhesionPremiumPage'
 import GalerieGestionPage from '../pages/galerie/GalerieGestionPage'
 
 // Événements
@@ -30,6 +30,8 @@ import EvenementDetailPage from '../pages/evenements/EvenementDetailPage'
 import EvenementCreatePage from '../pages/evenements/EvenementCreatePage'
 import EvenementEditPage from '../pages/evenements/EvenementEditPage'
 import AuditLogsPage from '../pages/audit/AuditLogsPage'
+import CorbeillePage from '../pages/CorbeillePage'
+import StatistiquesPage from '../pages/statistiques/StatistiquesPage'
 
 // Rapports
 import RapportsListPage from '../pages/rapports/RapportsListPage'
@@ -74,12 +76,13 @@ export default function AppRouter() {
           <Route path="/rapports/generer" element={<RapportGenererPage />} />
           <Route path="/lettres" element={<LettresListPage />} />
 
-          <Route path="/statistiques" element={<AuditLogsPage />} />
-          <Route path="/audit-logs" element={<Navigate to="/statistiques" replace />} />
+          <Route path="/statistiques" element={<StatistiquesPage />} />
+          <Route path="/audit-logs" element={<AuditLogsPage />} />
 
           {/* Comptes - Administrateur uniquement */}
           <Route element={<RoleRoute requiredRole="ADMINISTRATEUR" />}>
             <Route path="/comptes" element={<ComptesListPage />} />
+            <Route path="/corbeille" element={<CorbeillePage />} />
           </Route>
 
           {/* Fallback */}

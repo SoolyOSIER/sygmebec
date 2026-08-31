@@ -14,6 +14,7 @@ class EvenementListSerializer(serializers.ModelSerializer):
     est_passe = serializers.BooleanField(read_only=True)
     est_aujourdhui = serializers.BooleanField(read_only=True)
     type_evenement = TypeEvenementSerializer(read_only=True)
+    deleted_by_nom = serializers.CharField(source='deleted_by.identifiant', read_only=True)
     
     class Meta:
         model = Evenement
@@ -22,7 +23,7 @@ class EvenementListSerializer(serializers.ModelSerializer):
             'responsable', 'responsable_nom',
             'est_public', 'image', 'capacite', 'type_evenement',
             'est_passe', 'est_aujourdhui',
-            'dateCreation'
+            'dateCreation', 'deleted_at', 'deleted_by_nom'
         ]
 
 

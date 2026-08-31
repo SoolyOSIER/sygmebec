@@ -2,7 +2,7 @@
 // src/pages/evenements/EvenementEditPage.jsx - Complété
 // ============================================
 import { useParams, useNavigate } from 'react-router-dom'
-import { useEvenement, useUpdateEvenement, useTypesEvenements } from '../../hooks/useEvenements'
+import { useEvenement, useUpdateEvenement } from '../../hooks/useEvenements'
 import { useMembres } from '../../hooks/useMembres'
 import EvenementForm from '../../components/evenements/EvenementForm'
 import AnimatedCard from '../../components/ui/AnimatedCard'
@@ -13,7 +13,6 @@ export default function EvenementEditPage() {
   const { data: evenement, isLoading } = useEvenement(id)
   const { mutate: updateEvenement, isPending } = useUpdateEvenement()
   const { data: membres } = useMembres({ page_size: 1000 })
-  const { data: typesEvenements } = useTypesEvenements()
 
   if (isLoading) {
     return (
@@ -57,7 +56,6 @@ export default function EvenementEditPage() {
           onSubmit={handleSubmit}
           isLoading={isPending}
           membres={membres?.results || []}
-          typesEvenements={typesEvenements?.results || typesEvenements || []}
           isEditing
         />
       </AnimatedCard>

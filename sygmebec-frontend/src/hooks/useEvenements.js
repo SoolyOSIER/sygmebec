@@ -57,7 +57,7 @@ export const useDeleteEvenement = () => {
     mutationFn: evenementsApi.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['evenements'] })
-      toast.success('Événement supprimé avec succès 🗑️')
+      toast.success('Événement déplacé dans la corbeille.')
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || 'Erreur lors de la suppression')

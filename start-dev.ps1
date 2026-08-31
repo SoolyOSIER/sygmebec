@@ -36,11 +36,11 @@ if (-not (Test-Path (Join-Path $dashboardDir "node_modules"))) {
 
 $backendPort = Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue
 if ($backendPort) {
-    Write-Host "Backend deja lance sur http://localhost:8000"
+    Write-Host "Backend deja lance sur http://127.0.0.1:8000"
 } else {
-    Write-Host "Lancement du backend Django sur http://localhost:8000"
+    Write-Host "Lancement du backend Django sur http://127.0.0.1:8000"
     $backend = Start-Process -FilePath $backendPython `
-        -ArgumentList @("manage.py", "runserver", "127.0.0.1:8000") `
+        -ArgumentList @("manage.py", "runserver", "127.0.0.1:8000", "--noreload") `
         -WorkingDirectory $root `
         -RedirectStandardOutput $backendLog `
         -RedirectStandardError $backendErr `
@@ -51,9 +51,9 @@ if ($backendPort) {
 
 $vitrineProcess = Get-NetTCPConnection -LocalPort $vitrinePort -State Listen -ErrorAction SilentlyContinue
 if ($vitrineProcess) {
-    Write-Host "Site vitrine deja lance sur http://localhost:$vitrinePort"
+    Write-Host "Site vitrine deja lance sur http://127.0.0.1:$vitrinePort"
 } else {
-    Write-Host "Lancement du site vitrine sur http://localhost:$vitrinePort"
+    Write-Host "Lancement du site vitrine sur http://127.0.0.1:$vitrinePort"
     $vitrine = Start-Process -FilePath "cmd.exe" `
         -ArgumentList @("/c", "npm run dev -- --host 127.0.0.1 --port $vitrinePort") `
         -WorkingDirectory $vitrineDir `
@@ -66,9 +66,9 @@ if ($vitrineProcess) {
 
 $dashboardProcess = Get-NetTCPConnection -LocalPort $dashboardPort -State Listen -ErrorAction SilentlyContinue
 if ($dashboardProcess) {
-    Write-Host "Tableau de bord deja lance sur http://localhost:$dashboardPort"
+    Write-Host "Tableau de bord deja lance sur http://127.0.0.1:$dashboardPort"
 } else {
-    Write-Host "Lancement du tableau de bord sur http://localhost:$dashboardPort"
+    Write-Host "Lancement du tableau de bord sur http://127.0.0.1:$dashboardPort"
     $dashboard = Start-Process -FilePath "cmd.exe" `
         -ArgumentList @("/c", "npm run dev -- --host 127.0.0.1 --port $dashboardPort") `
         -WorkingDirectory $dashboardDir `
@@ -79,8 +79,8 @@ if ($dashboardProcess) {
     Write-Host "Tableau de bord PID: $($dashboard.Id)"
 }
 
-Write-Host "Ouverture du site vitrine public sur http://localhost:$vitrinePort"
-Start-Process "http://localhost:$vitrinePort"
+Write-Host "Ouverture du site vitrine public sur http://127.0.0.1:$vitrinePort"
+Start-Process "http://127.0.0.1:$vitrinePort"
 Write-Host "Logs backend: $backendLog"
 Write-Host "Logs du site vitrine: $frontendLog"
 Write-Host "Logs du tableau de bord: $dashboardLog"

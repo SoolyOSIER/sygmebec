@@ -63,16 +63,16 @@
   .brand{ display:flex; align-items:center; gap:12px; padding:6px 8px 26px; }
   .brand-mark{
     width:42px; height:42px; border-radius:50%; flex-shrink:0;
-    background: radial-gradient(circle at 32% 28%, var(--gold-light), var(--gold) 70%);
+    background:#fffdf8; padding:4px;
     display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces', serif; font-weight:700; font-size:15.5px; color:#241a05;
-    box-shadow: 0 6px 16px -4px rgba(182,144,63,0.55), inset 0 1px 1px rgba(255,255,255,0.4);
+    box-shadow: 0 6px 16px -4px rgba(0,0,0,0.28), inset 0 1px 1px rgba(255,255,255,0.7);
     position:relative;
   }
   .brand-mark::after{
     content:''; position:absolute; inset:-3px; border-radius:50%;
     border:1px solid rgba(217,184,118,0.35);
   }
+  .brand-mark img{ width:100%; height:100%; object-fit:contain; display:block; }
   .brand-name{ font-weight:800; font-size:15.5px; letter-spacing:0.4px; line-height:1.1; }
   .brand-sub{ font-size:10px; color:#8891ab; letter-spacing:1.6px; margin-top:3px; font-weight:600; }
 
@@ -177,7 +177,7 @@
   .btn{
     font-family:inherit; font-size:13px; font-weight:600; padding:10px 18px; border-radius:11px;
     border:1px solid var(--border); background:#fff; color:var(--text); cursor:pointer;
-    display:flex; align-items:center; gap:8px; transition:all .22s var(--ease);
+    display:flex; align-items:center; gap:8px; text-decoration:none; transition:all .22s var(--ease);
   }
   .btn svg{ width:15px; height:15px; }
   .btn:hover{ transform:translateY(-1px); box-shadow:0 8px 18px -10px rgba(0,0,0,0.2); border-color:var(--gold-light); color:var(--gold); }
@@ -447,7 +447,7 @@
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">EB</div>
+      <div class="brand-mark"><img src="../Logo.png" alt="Logo EBEC"></div>
       <div>
         <div class="brand-name">SYGMEBEC</div>
         <div class="brand-sub">E.B.E.C.</div>
@@ -515,7 +515,7 @@
         </div>
         <div class="head-actions">
           <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M4 12h16"/></svg>Exporter</button>
-          <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>Ajouter un membre</button>
+          <a class="btn btn-primary" href="nouveau-membre.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>Ajouter un membre</a>
         </div>
       </div>
 

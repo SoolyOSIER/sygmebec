@@ -1,5 +1,5 @@
 from django.db import models
-from sygmebec_backend.apps.core.models import TimeStampedModel
+from sygmebec_backend.apps.core.models import SoftDeleteModel
 from django.utils import timezone
 
 class Statut(models.Model):
@@ -15,7 +15,7 @@ class Statut(models.Model):
     def __str__(self):
         return self.libelle
 
-class Membre(TimeStampedModel):
+class Membre(SoftDeleteModel):
     """Membre model - corresponds to Membre in class diagram."""
     SEXE_MALE = 'MALE'
     SEXE_FEMELLE = 'FEMELLE'
@@ -37,12 +37,26 @@ class Membre(TimeStampedModel):
         (ETAT_VEUF, 'Veuf(ve)'),
     ]
 
+    NIVEAU_ETUDE_PRIMAIRE = 'PRIMAIRE'
+    NIVEAU_ETUDE_SECONDAIRE = 'SECONDAIRE'
+    NIVEAU_ETUDE_UNIVERSITAIRE = 'UNIVERSITAIRE'
+    NIVEAU_ETUDE_PROFESSIONNEL = 'PROFESSIONNEL'
+    NIVEAU_ETUDE_AUTRE = 'AUTRE'
+    NIVEAU_ETUDE_CHOICES = [
+        (NIVEAU_ETUDE_PRIMAIRE, 'Primaire'),
+        (NIVEAU_ETUDE_SECONDAIRE, 'Secondaire'),
+        (NIVEAU_ETUDE_UNIVERSITAIRE, 'Universitaire'),
+        (NIVEAU_ETUDE_PROFESSIONNEL, 'Professionnel'),
+        (NIVEAU_ETUDE_AUTRE, 'Autre'),
+    ]
+
     nom = models.CharField(max_length=150)
     prenom = models.CharField(max_length=150, blank=True)
     telephone = models.CharField(max_length=30, blank=True)
     telephone_secondaire = models.CharField(max_length=30, blank=True)
     email = models.EmailField(blank=True)
     adresse = models.CharField(max_length=255, blank=True)
+    zone_habitation = models.CharField(max_length=120, blank=True)
     eglise_origine = models.CharField(max_length=180, blank=True)
     date_naissance = models.DateField(null=True, blank=True)
     date_adhesion = models.DateField(auto_now_add=True)
@@ -53,6 +67,8 @@ class Membre(TimeStampedModel):
     date_bapteme = models.DateField(null=True, blank=True)
     sexe = models.CharField(max_length=20, choices=SEXE_CHOICES, blank=True)
     etat_matrimonial = models.CharField(max_length=20, choices=ETAT_MATRIMONIAL_CHOICES, blank=True)
+    niveau_etude = models.CharField(max_length=20, choices=NIVEAU_ETUDE_CHOICES, blank=True)
+    profession = models.CharField(max_length=120, blank=True)
     actuellement_employe = models.BooleanField(default=False)
     actuellement_etudiant = models.BooleanField(default=False)
     anciennete_ebec = models.CharField(max_length=120, blank=True)

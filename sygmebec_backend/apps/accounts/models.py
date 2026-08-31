@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.password_validation import validate_password
 from django.utils import timezone
 
 class RoleAcces(models.Model):
@@ -35,6 +36,10 @@ class UtilisateurManager(BaseUserManager):
             raise ValueError('L\'identifiant est obligatoire')
         
         user = self.model(identifiant=identifiant, **extra_fields)
+        if password is not None:
+            # The manager is also used by commands and server-side scripts, so
+            # it must not provide a way around AUTH_PASSWORD_VALIDATORS.
+            validate_password(password, user=user)
         user.set_password(password)
         user.save(using=self._db)
         return user

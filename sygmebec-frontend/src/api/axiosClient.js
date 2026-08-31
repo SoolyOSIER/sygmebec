@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useAuthStore } from '../store/authStore.js'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
+  baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1',
   withCredentials: true,
 })
 
@@ -23,6 +23,14 @@ api.interceptors.request.use((config) => {
 let isRefreshing = false
 let pendingQueue = []
 
+const announceDataChange = () => {
+  window.dispatchEvent(new Event('sygmebec:data-changed'))
+  if (!('BroadcastChannel' in window)) return
+  const channel = new BroadcastChannel('sygmebec-live-sync')
+  channel.postMessage({ type: 'mutation' })
+  channel.close()
+}
+
 const processQueue = (error, token = null) => {
   pendingQueue.forEach(({ resolve, reject }) =>
     error ? reject(error) : resolve(token)
@@ -31,7 +39,10 @@ const processQueue = (error, token = null) => {
 }
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (['post', 'put', 'patch', 'delete'].includes(response.config?.method?.toLowerCase())) announceDataChange()
+    return response
+  },
   async (error) => {
     const original = error.config
     const isAuthenticationRequest =
@@ -57,7 +68,7 @@ api.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'}/auth/token/refresh/`,
+          `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/token/refresh/`,
           {},
           { withCredentials: true }
         )

@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BookOpen, Church, HandHeart, Heart, MapPin, Music2, Send, Sparkles, Star, Users, Wheat } from 'lucide-react'
 import AnimatedSection from '../ui/AnimatedSection'
+import { publicApi } from '../../services/publicApi'
 import './homeLanding.css'
 
 const values = [
@@ -31,7 +33,37 @@ const stats = [
   ['4', 'Générations réunies'],
 ]
 
+const dailyVerseFallback = Object.freeze({
+  texte: 'Car là où deux ou trois sont assemblés en mon nom, je suis au milieu d’eux.',
+  reference: 'Matthieu 18:20',
+})
+
+const readDailyVerse = (verse) => {
+  const texte = typeof verse?.texte === 'string' ? verse.texte.trim() : ''
+  const reference = typeof verse?.reference === 'string' ? verse.reference.trim() : ''
+
+  return texte && reference
+    ? { date: verse.date, texte, reference }
+    : dailyVerseFallback
+}
+
 export default function HomeLanding() {
+  const [dailyVerse, setDailyVerse] = useState(dailyVerseFallback)
+
+  useEffect(() => {
+    let active = true
+
+    publicApi.getDailyVerse()
+      .then(({ data }) => {
+        if (active) setDailyVerse(readDailyVerse(data))
+      })
+      .catch(() => {
+        if (active) setDailyVerse(dailyVerseFallback)
+      })
+
+    return () => { active = false }
+  }, [])
+
   return (
     <div className="ebec-home">
       <section className="ebec-hero">
@@ -96,6 +128,12 @@ export default function HomeLanding() {
       </section>
 
       <div className="ebec-marquee" aria-hidden="true"><div>Foi <b>·</b> Espérance <b>·</b> Amour <b>·</b> Communion <b>·</b> Service <b>·</b> Intégrité <b>·</b> Foi <b>·</b> Espérance <b>·</b> Amour <b>·</b> Communion <b>·</b> Service <b>·</b> Intégrité</div></div>
+
+      <AnimatedSection className="ebec-daily-verse">
+        <span>Verset du jour</span>
+        <blockquote>« {dailyVerse.texte} »</blockquote>
+        <cite>— {dailyVerse.reference}</cite>
+      </AnimatedSection>
 
       <AnimatedSection className="ebec-quote"><blockquote>« Former des disciples de Jésus-Christ capables d'impacter positivement leur famille, leur communauté et leur pays. »</blockquote><cite>Vision de l'Église Baptiste de l'Espoir</cite></AnimatedSection>
 

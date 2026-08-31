@@ -6,10 +6,12 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from sygmebec_backend.apps.accounts.permissions import IsSecretaireOrPlus
 from sygmebec_backend.apps.events.models import Evenement
 
+from .daily_verses import get_daily_verse
 from .models import DemandeAdhesion, ImageGalerie, InscriptionEvenement
 from .serializers import (
     DemandeAdhesionBackofficeSerializer,
@@ -23,6 +25,16 @@ from .serializers import (
     RejeterDemandeAdhesionSerializer,
 )
 from .services import valider_demande_adhesion
+
+
+class VersetDuJourView(APIView):
+    """Expose un verset quotidien pour les interfaces publiques."""
+
+    permission_classes = [AllowAny]
+    throttle_scope = 'public-read'
+
+    def get(self, request):
+        return Response(get_daily_verse())
 
 
 class EvenementPublicListView(ListAPIView):

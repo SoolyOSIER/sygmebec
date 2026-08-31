@@ -46,8 +46,8 @@ class DemandeAdhesionCreateSerializer(HoneypotSerializerMixin, serializers.Model
     class Meta:
         model = DemandeAdhesion
         fields = [
-            'nom', 'prenom', 'email', 'telephone', 'telephone_secondaire', 'adresse', 'eglise_origine',
-            'date_naissance', 'sexe', 'etat_matrimonial', 'actuellement_employe', 'actuellement_etudiant',
+            'nom', 'prenom', 'email', 'telephone', 'telephone_secondaire', 'adresse', 'zone_habitation', 'eglise_origine',
+            'date_naissance', 'sexe', 'etat_matrimonial', 'niveau_etude', 'profession', 'actuellement_employe',
             'anciennete_ebec', 'membre_petit_groupe', 'dans_ecole_dimanche', 'classe_ecole_dimanche',
             'date_presentation', 'date_conversion', 'date_affiliation', 'date_bapteme', 'photo',
             'message', 'honeypot', 'recaptcha_token',
@@ -130,8 +130,8 @@ class DemandeAdhesionBackofficeSerializer(serializers.ModelSerializer):
     class Meta:
         model = DemandeAdhesion
         fields = [
-            'id', 'nom', 'prenom', 'email', 'telephone', 'telephone_secondaire', 'adresse', 'eglise_origine',
-            'date_naissance', 'sexe', 'etat_matrimonial', 'actuellement_employe', 'actuellement_etudiant',
+            'id', 'nom', 'prenom', 'email', 'telephone', 'telephone_secondaire', 'adresse', 'zone_habitation', 'eglise_origine',
+            'date_naissance', 'sexe', 'etat_matrimonial', 'niveau_etude', 'profession', 'actuellement_employe',
             'anciennete_ebec', 'membre_petit_groupe', 'dans_ecole_dimanche', 'classe_ecole_dimanche',
             'date_presentation', 'date_conversion', 'date_affiliation', 'date_bapteme', 'photo',
             'message', 'date_demande', 'statut', 'motif_rejet',

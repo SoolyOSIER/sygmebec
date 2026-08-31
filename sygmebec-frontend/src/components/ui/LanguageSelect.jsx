@@ -7,9 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const languages = [
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'ht', label: 'Kreyòl', flag: '🇭🇹' },
   { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
 ]
 
 const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
@@ -27,6 +26,10 @@ const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    setSelected(languages.find((language) => language.code === value) || languages[0])
+  }, [value])
+
   const handleSelect = (lang) => {
     setSelected(lang)
     setIsOpen(false)
@@ -36,7 +39,10 @@ const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
   return (
     <div ref={dropdownRef} className={`relative ${className}`}>
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-secondary-700 hover:bg-gray-50 transition-colors"
       >
         <span>{selected.flag}</span>
@@ -56,6 +62,7 @@ const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
             {languages.map((lang) => (
               <button
                 key={lang.code}
+                type="button"
                 onClick={() => handleSelect(lang)}
                 className={`
                   flex w-full items-center gap-3 px-4 py-2.5 text-sm transition-colors

@@ -6,6 +6,7 @@ import api from '../../api/axiosClient'
 import Badge from '../../components/ui/Badge'
 import Button from '../../components/ui/Button'
 import AnimatedCard from '../../components/ui/AnimatedCard'
+import './demandesAdhesionPremium.css'
 
 const dateFormat = (value) => value ? new Date(value).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' }) : '—'
 const statusVariant = { EN_ATTENTE: 'warning', VALIDEE: 'success', REJETEE: 'danger' }
@@ -56,7 +57,7 @@ export default function DemandesAdhesionPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="online-registration-premium space-y-6">
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"><div><h1 className="text-2xl font-bold text-secondary-900">Inscriptions en ligne</h1><p className="mt-1 text-secondary-500">Demandes envoyées depuis le site vitrine, à valider avant création du membre.</p></div><Button icon={FiRefreshCw} variant="outline" onClick={load} isLoading={loading}>Actualiser</Button></div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3"><AnimatedCard className="rounded-xl border border-amber-100 bg-amber-50 p-4"><p className="text-sm text-amber-700">À traiter</p><p className="text-3xl font-bold text-amber-900">{pending.length}</p></AnimatedCard><AnimatedCard className="rounded-xl border border-emerald-100 bg-emerald-50 p-4"><p className="text-sm text-emerald-700">Validées</p><p className="text-3xl font-bold text-emerald-900">{demandes.filter((item) => item.statut === 'VALIDEE').length}</p></AnimatedCard><AnimatedCard className="rounded-xl border border-gray-100 bg-white p-4"><p className="text-sm text-secondary-500">Total</p><p className="text-3xl font-bold text-secondary-900">{demandes.length}</p></AnimatedCard></div>
       <AnimatedCard className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card">

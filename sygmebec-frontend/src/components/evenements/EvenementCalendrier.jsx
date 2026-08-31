@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react'
 import { Calendar, ChevronLeft, ChevronRight, Clock, MapPin } from 'lucide-react'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday } from 'date-fns'
-import { fr } from 'date-fns/locale'
 import { Link } from 'react-router-dom'
 import { Badge } from '../ui/Badge'
+import useT from '../../i18n/useT'
 
 const EvenementCalendrier = ({ evenements = [] }) => {
+  const { t, locale } = useT()
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(null)
 
@@ -34,7 +35,7 @@ const EvenementCalendrier = ({ evenements = [] }) => {
       {/* Header */}
       <div className="p-4 border-b border-gray-100 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-navy-900">
-          {format(currentDate, 'MMMM yyyy', { locale: fr })}
+          {new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(currentDate)}
         </h3>
         <div className="flex gap-2">
           <button
@@ -56,11 +57,13 @@ const EvenementCalendrier = ({ evenements = [] }) => {
       <div className="p-4">
         {/* Days header */}
         <div className="grid grid-cols-7 gap-1 mb-2">
-          {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map((day) => (
-            <div key={day} className="text-center text-xs font-medium text-gray-500 py-2">
+          {[0, 1, 2, 3, 4, 5, 6].map((offset) => {
+            const monday = new Date(2024, 0, 1 + offset)
+            const day = new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(monday)
+            return <div key={offset} className="text-center text-xs font-medium text-gray-500 py-2">
               {day}
             </div>
-          ))}
+          })}
         </div>
 
         {/* Days */}
@@ -94,7 +97,7 @@ const EvenementCalendrier = ({ evenements = [] }) => {
                   ))}
                   {dayEvents.length > 2 && (
                     <div className="text-[10px] text-gray-400">
-                      +{dayEvents.length - 2} autre(s)
+                      {t('events.otherEvents', { count: dayEvents.length - 2 })}
                     </div>
                   )}
                 </div>
@@ -109,11 +112,11 @@ const EvenementCalendrier = ({ evenements = [] }) => {
         <div className="flex flex-wrap gap-4 text-xs text-gray-500">
           <span className="flex items-center gap-2">
             <div className="w-3 h-3 bg-primary-50 rounded border border-primary-200" />
-            Événement
+            {t('navigation.events')}
           </span>
           <span className="flex items-center gap-2">
             <div className="w-3 h-3 bg-primary-500 rounded-full border border-primary-300" />
-            Aujourd'hui
+            {t('events.today')}
           </span>
         </div>
       </div>

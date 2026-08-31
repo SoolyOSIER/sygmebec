@@ -1,5 +1,5 @@
 from django.db import models
-from sygmebec_backend.apps.core.models import TimeStampedModel
+from sygmebec_backend.apps.core.models import TimeStampedModel, SoftDeleteModel
 
 
 class TypeEvenement(TimeStampedModel):
@@ -18,7 +18,7 @@ class TypeEvenement(TimeStampedModel):
         return self.nom
 
 
-class Evenement(TimeStampedModel):
+class Evenement(SoftDeleteModel):
     """Evenement model - corresponds to Evenement in class diagram."""
     CATEGORIE_CULTE = 'CULTE'
     CATEGORIE_PRIERE = 'PRIERE'

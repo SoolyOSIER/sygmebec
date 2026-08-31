@@ -1,0 +1,3 @@
+.reference-steps button{border:0;background:transparent;padding:0;text-align:left;cursor:pointer}
+
+.reference-function-add{display:flex;gap:8px;width:100%}.reference-function-add input{min-width:0;flex:1}.reference-function-add button{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 12px;border:0;border-radius:8px;background:#0e1830;color:#fff;font:700 11px Inter,Arial,sans-serif;cursor:pointer}.reference-function-add button:disabled{cursor:not-allowed;opacity:.55}.reference-function-add button svg{width:14px}.reference-help{display:block;margin:7px 0 10px;color:#78746a;font-size:10px;line-height:1.4}@media(max-width:520px){.reference-function-add{flex-direction:column}.reference-function-add button{min-height:38px}}

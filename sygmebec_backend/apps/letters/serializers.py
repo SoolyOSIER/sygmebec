@@ -18,9 +18,20 @@ class LettreSerializer(serializers.ModelSerializer):
             'destinataire', 'objet', 'contenu', 'date_emission', 'cree_par_nom', 'fichier',
             'created_at', 'updated_at',
         ]
-        read_only_fields = ['reference', 'fichier', 'created_at', 'updated_at']
+        read_only_fields = ['reference', 'fichier', 'objet', 'contenu', 'created_at', 'updated_at']
 
     def validate(self, attrs):
-        if attrs.get('type_lettre') == Lettre.TRANSFERT and not attrs.get('destinataire') and not getattr(self.instance, 'destinataire', ''):
+        letter_type = attrs.get('type_lettre', getattr(self.instance, 'type_lettre', None))
+        if letter_type == Lettre.TRANSFERT and not attrs.get('destinataire') and not getattr(self.instance, 'destinataire', ''):
             raise serializers.ValidationError({'destinataire': 'Le destinataire est requis pour une lettre de transfert.'})
         return attrs
+
+    def create(self, validated_data):
+        letter_type = validated_data['type_lettre']
+        validated_data['objet'] = (
+            'Lettre de transfert de membre'
+            if letter_type == Lettre.TRANSFERT
+            else 'Lettre d’attestation de membre'
+        )
+        validated_data['contenu'] = ''
+        return super().create(validated_data)

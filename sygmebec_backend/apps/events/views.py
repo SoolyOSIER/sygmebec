@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 
 from .models import Evenement, TypeEvenement
 from sygmebec_backend.apps.core.models import AuditLog
@@ -16,7 +17,7 @@ from .serializers import (
     EvenementCreateUpdateSerializer
     , TypeEvenementSerializer
 )
-from sygmebec_backend.apps.accounts.permissions import IsSecretaireOrPlus, IsPasteurOrPlus
+from sygmebec_backend.apps.accounts.permissions import IsSecretaireOrPlus, IsAdministrateur
 
 
 def audit_changes(instance):
@@ -39,8 +40,8 @@ class EvenementViewSet(viewsets.ModelViewSet):
     ordering = ['date']
     
     def get_permissions(self):
-        if self.action == 'destroy':
-            return [IsPasteurOrPlus()]
+        if self.action in ['corbeille', 'restaurer']:
+            return [IsAdministrateur()]
         return [IsSecretaireOrPlus()]
     
     def get_serializer_class(self):
@@ -81,6 +82,42 @@ class EvenementViewSet(viewsets.ModelViewSet):
                 )
         except Exception:
             pass
+
+    def perform_destroy(self, instance):
+        """L'événement, son image et ses relations restent conservés en corbeille."""
+        instance.soft_delete(self.request.user)
+        AuditLog.objects.create(
+            actor=self.request.user,
+            action='delete',
+            content_type='Evenement',
+            object_id=str(instance.pk),
+            object_repr=str(instance),
+            changes=audit_changes(instance),
+        )
+
+    @action(detail=False, methods=['get'], url_path='corbeille')
+    def corbeille(self, request):
+        evenements = Evenement.all_objects.filter(deleted_at__isnull=False).select_related(
+            'responsable', 'type_evenement', 'deleted_by'
+        ).order_by('-deleted_at')
+        return Response(EvenementListSerializer(evenements, many=True).data)
+
+    @action(detail=True, methods=['post'], url_path='restaurer')
+    def restaurer(self, request, pk=None):
+        evenement = get_object_or_404(Evenement.all_objects, pk=pk, deleted_at__isnull=False)
+        evenement.restore()
+        AuditLog.objects.create(
+            actor=request.user,
+            action='restore',
+            content_type='Evenement',
+            object_id=str(evenement.pk),
+            object_repr=str(evenement),
+            changes=audit_changes(evenement),
+        )
+        return Response({
+            'message': 'Événement restauré avec toutes ses informations.',
+            'evenement': EvenementDetailSerializer(evenement).data,
+        })
     
     @action(detail=False, methods=['get'])
     def statistiques(self, request):

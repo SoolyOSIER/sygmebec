@@ -10,6 +10,12 @@ const errorMessage = (error, fallback) => {
   return value?.[0] || fallback
 }
 
+const downloadFilename = (contentDisposition, fallback) => {
+  const utf8Filename = contentDisposition?.match(/filename\*=UTF-8''([^;]+)/i)?.[1]
+  const filename = utf8Filename || contentDisposition?.match(/filename="?([^";]+)"?/i)?.[1]
+  return filename ? decodeURIComponent(filename) : fallback
+}
+
 export const useLettres = (params = {}) => useQuery({
   queryKey: ['lettres', params],
   queryFn: () => lettresApi.getAll(params).then((response) => response.data),
@@ -28,12 +34,15 @@ export const useCreateLettre = () => {
 }
 
 export const useDownloadLettre = () => useMutation({
-  mutationFn: lettresApi.download,
-  onSuccess: (response) => {
-    const url = URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
+  mutationFn: ({ id, format }) => lettresApi.download(id, format),
+  onSuccess: (response, { format }) => {
+    const mimeType = format === 'docx'
+      ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      : 'application/pdf'
+    const url = URL.createObjectURL(new Blob([response.data], { type: mimeType }))
     const link = document.createElement('a')
     link.href = url
-    link.download = 'lettre.pdf'
+    link.download = downloadFilename(response.headers?.['content-disposition'], `lettre.${format}`)
     document.body.appendChild(link)
     link.click()
     link.remove()

@@ -3,6 +3,10 @@
 // ============================================
 import { format, formatDistanceToNow, parseISO } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { useUIStore } from '../store/uiStore'
+import { languageLocales } from '../i18n/useT'
+
+const currentLocale = () => languageLocales[useUIStore.getState().language] || languageLocales.fr
 
 export const formatDate = (date, pattern = 'dd/MM/yyyy') => {
   if (!date) return '-'
@@ -24,4 +28,12 @@ export const formatRelativeTime = (date) => {
   } catch {
     return '-'
   }
+}
+
+/** Formatage natif, adapté à la langue sélectionnée. */
+export const formatLocalizedDate = (date, options = { dateStyle: 'medium' }) => {
+  if (!date) return '-'
+  const parsed = new Date(date)
+  if (Number.isNaN(parsed.getTime())) return '-'
+  return new Intl.DateTimeFormat(currentLocale(), options).format(parsed)
 }

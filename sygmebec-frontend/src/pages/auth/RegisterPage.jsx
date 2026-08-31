@@ -6,6 +6,7 @@ import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import { authApi } from '../../api/authApi'
 import { useNavigate } from 'react-router-dom'
+import { getPasswordPolicyError, getPasswordStrength, PASSWORD_POLICY_SUMMARY } from '../../utils/passwordPolicy'
 
 export default function RegisterPage() {
   const [nom, setNom] = useState('')
@@ -18,8 +19,10 @@ export default function RegisterPage() {
   const [identifiant, setIdentifiant] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+  const passwordStrength = getPasswordStrength(password)
 
   const { mutate: registerUser, isLoading: isPending } = useMutation({
     mutationFn: authApi.register,
@@ -31,7 +34,17 @@ export default function RegisterPage() {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!nom || !prenom || !telephone || !email || !adresse || !identifiant || !password) return
-    if (password !== passwordConfirm) return
+    if (password !== passwordConfirm) {
+      setPasswordError('Les deux mots de passe ne correspondent pas.')
+      return
+    }
+    const policyError = getPasswordPolicyError(password)
+    if (policyError) {
+      setPasswordError(policyError)
+      return
+    }
+
+    setPasswordError('')
 
     registerUser({
       nom,
@@ -149,7 +162,7 @@ export default function RegisterPage() {
                   <Input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => { setPassword(e.target.value); setPasswordError('') }}
                     placeholder="Mot de passe"
                     required
                   />
@@ -162,6 +175,7 @@ export default function RegisterPage() {
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
+                <p className="mt-2 text-xs text-secondary-600" aria-live="polite"><strong>{passwordStrength.label}.</strong> {PASSWORD_POLICY_SUMMARY}</p>
               </div>
 
               <div>
@@ -169,14 +183,15 @@ export default function RegisterPage() {
                 <Input
                   type="password"
                   value={passwordConfirm}
-                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  onChange={(e) => { setPasswordConfirm(e.target.value); setPasswordError('') }}
                   placeholder="Confirmez le mot de passe"
                   required
                 />
               </div>
+              {passwordError ? <p className="text-sm text-rose-600" role="alert">{passwordError}</p> : null}
 
               <div className="grid grid-cols-2 gap-4 pt-2">
-                <Button type="submit" isLoading={isPending} className="h-11">
+                <Button type="submit" isLoading={isPending} disabled={!passwordStrength.isCompliant || password !== passwordConfirm} className="h-11">
                   Créer un compte
                 </Button>
                 <Button type="button" variant="outline" onClick={() => navigate('/login')} className="h-11">

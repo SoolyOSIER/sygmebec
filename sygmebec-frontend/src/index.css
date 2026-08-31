@@ -36,6 +36,10 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
+  #root {
+    min-height: 100vh;
+  }
+
   .dark body {
     @apply bg-slate-950 text-slate-100;
   }
@@ -51,6 +55,12 @@
   .dark .bg-amber-50,
   .dark .bg-emerald-50 {
     background-color: rgb(30 41 59) !important;
+  }
+
+  .dark .bg-gray-100,
+  .dark .hover\:bg-gray-50:hover,
+  .dark .hover\:bg-gray-100:hover {
+    background-color: rgb(51 65 85) !important;
   }
 
   .dark .text-secondary-900,
@@ -79,6 +89,42 @@
     background-color: rgb(15 23 42) !important;
     color: rgb(241 245 249) !important;
     border-color: rgb(71 85 105) !important;
+  }
+
+  .dark .settings-page {
+    --st-navy: #f1f5f9;
+    --st-ink: #e2e8f0;
+    --st-muted: #94a3b8;
+    --st-line: #334155;
+    --st-paper: #0f172a;
+  }
+
+  .dark .settings-page .settings-card-footer,
+  .dark .settings-page .settings-password-form,
+  .dark .settings-page .settings-segmented,
+  .dark .settings-page .settings-plan {
+    background: #172033;
+  }
+
+  .dark .settings-page .settings-button,
+  .dark .settings-page .settings-segmented button.active {
+    background-color: #1e293b;
+    border-color: #475569;
+    color: #e2e8f0;
+  }
+
+  .dark .settings-page input,
+  .dark .settings-page .settings-segmented {
+    border-color: #475569;
+  }
+
+  .reduce-motion *,
+  .reduce-motion *::before,
+  .reduce-motion *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
   }
 
   ::-webkit-scrollbar {
@@ -260,6 +306,9 @@
   .sidebar-premium {
     @apply fixed top-0 left-0 z-40 h-full w-72 
            border-r border-white/10 shadow-2xl transition-all duration-300;
+    bottom: 0;
+    height: 100dvh;
+    overflow: hidden;
     background:
       radial-gradient(circle at 8% 5%, rgba(129, 140, 248, 0.45), transparent 30%),
       radial-gradient(circle at 88% 76%, rgba(37, 99, 235, 0.35), transparent 32%),

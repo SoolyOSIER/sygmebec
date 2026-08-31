@@ -1,41 +1,247 @@
 import { useEffect, useState } from 'react'
-import { Calendar, Camera, Edit2, Eye, EyeOff, LockKeyhole, Mail, MapPin, Phone, Save, User, X } from 'lucide-react'
+import {
+  Bell,
+  CalendarDays,
+  Camera,
+  Check,
+  CircleUserRound,
+  Clock3,
+  Eye,
+  EyeOff,
+  Globe2,
+  Laptop,
+  LockKeyhole,
+  Mail,
+  MapPin,
+  Monitor,
+  Palette,
+  Save,
+  ShieldAlert,
+  ShieldCheck,
+  Smartphone,
+  Trash2,
+  User,
+  X,
+} from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import SEO from '../../components/common/SEO'
-import AnimatedSection from '../../components/ui/AnimatedSection'
-import { Button } from '../../components/ui/Button'
-import { Card, CardContent } from '../../components/ui/Card'
-import { Badge } from '../../components/ui/Badge'
 import { memberApi, toMediaUrl } from '../../services/publicApi'
 import { useMemberAuthStore } from '../../store/memberAuthStore'
+import { useTheme } from '../../theme/ThemeProvider'
+import { getPasswordPolicyError, getPasswordStrength, PASSWORD_POLICY_SUMMARY } from '../../utils/passwordPolicy'
+import { useLanguageStore } from '../../i18n'
+import './profileReference.css'
 
-const emptyProfile = { nom: '', prenom: '', email: '', telephone: '', telephone_secondaire: '', adresse: '', date_naissance: '' }
+const emptyProfile = {
+  nom: '',
+  prenom: '',
+  email: '',
+  telephone: '',
+  telephone_secondaire: '',
+  adresse: '',
+  date_naissance: '',
+}
+
+const defaultPreferences = {
+  theme: 'light',
+  accent: 'gold',
+  language: 'fr',
+  dailySummary: true,
+  pushNotifications: true,
+  productNews: false,
+}
+
+const accents = [
+  { id: 'gold', color: '#b6903f', label: 'Doré' },
+  { id: 'green', color: '#1fa060', label: 'Vert' },
+  { id: 'blue', color: '#3768d6', label: 'Bleu' },
+  { id: 'purple', color: '#7c50d1', label: 'Violet' },
+]
+
 const profileFromUser = (user) => {
   const membre = user?.membre || {}
   return {
-    nom: membre.nom || '', prenom: membre.prenom || '', email: membre.email || '',
-    telephone: membre.telephone || '', telephone_secondaire: membre.telephone_secondaire || '',
-    adresse: membre.adresse || '', date_naissance: membre.date_naissance || '',
+    nom: membre.nom || '',
+    prenom: membre.prenom || '',
+    email: membre.email || '',
+    telephone: membre.telephone || '',
+    telephone_secondaire: membre.telephone_secondaire || '',
+    adresse: membre.adresse || '',
+    date_naissance: membre.date_naissance || '',
   }
 }
 
-function ProfileField({ label, icon: Icon, required = false, ...props }) {
-  return <label className="block text-sm font-medium text-gray-700">{label}{required && ' *'}<span className="relative mt-1.5 block">{Icon && <Icon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />}<input {...props} required={required} className={`w-full rounded-xl border border-gray-200 py-2.5 pr-3 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-200 disabled:bg-gray-50 ${Icon ? 'pl-10' : 'px-3'}`} /></span></label>
+function readPreferences(theme) {
+  if (typeof window === 'undefined') return { ...defaultPreferences, theme }
+  try {
+    const stored = JSON.parse(localStorage.getItem('sygmebec-member-preferences') || '{}')
+    return {
+      ...defaultPreferences,
+      ...stored,
+      theme: ['light', 'dark'].includes(stored.theme) ? stored.theme : theme,
+    }
+  } catch {
+    return { ...defaultPreferences, theme }
+  }
 }
 
-function PasswordField({ label, visible, toggle, ...props }) {
-  return <label className="block text-sm font-medium text-gray-700">{label}<span className="relative mt-1.5 block"><input {...props} type={visible ? 'text' : 'password'} className="w-full rounded-xl border border-gray-200 px-3 py-2.5 pr-11 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-200" /><button type="button" onClick={toggle} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700" aria-label={visible ? 'Masquer les mots de passe' : 'Afficher les mots de passe'}>{visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></span></label>
+function formatDate(value, options) {
+  if (!value) return 'Non renseignée'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return 'Non renseignée'
+  return new Intl.DateTimeFormat('fr-FR', options).format(date)
+}
+
+function initials(name) {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase() || 'M'
+}
+
+function currentBrowserName() {
+  if (typeof navigator === 'undefined') return 'Navigateur actuel'
+  if (/Edg\//.test(navigator.userAgent)) return 'Microsoft Edge'
+  if (/Firefox\//.test(navigator.userAgent)) return 'Firefox'
+  if (/Chrome\//.test(navigator.userAgent)) return 'Chrome'
+  if (/Safari\//.test(navigator.userAgent)) return 'Safari'
+  return 'Navigateur actuel'
+}
+
+function AccountField({ label, icon: Icon, helper, required = false, className = '', ...inputProps }) {
+  const fieldClass = ['profile-reference__field', className].filter(Boolean).join(' ')
+  const inputClass = ['profile-reference__input', Icon ? 'has-icon' : ''].filter(Boolean).join(' ')
+
+  return (
+    <label className={fieldClass}>
+      <span>{label}{required ? ' *' : ''}</span>
+      <span className="profile-reference__input-wrap">
+        {Icon ? <Icon aria-hidden="true" /> : null}
+        <input {...inputProps} required={required} className={inputClass} />
+      </span>
+      {helper ? <span className="profile-reference__field-hint">{helper}</span> : null}
+    </label>
+  )
+}
+
+function PasswordField({ label, name, value, onChange, visible, onToggle, autoComplete, showStrength = false }) {
+  const strength = getPasswordStrength(value)
+
+  return (
+    <label className="profile-reference__field">
+      <span>{label}</span>
+      <span className="profile-reference__input-wrap">
+        <input
+          className="profile-reference__input has-button"
+          type={visible ? 'text' : 'password'}
+          name={name}
+          value={value}
+          onChange={onChange}
+          autoComplete={autoComplete}
+        />
+        <button
+          className="profile-reference__eye"
+          type="button"
+          onClick={onToggle}
+          aria-label={visible ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+        >
+          {visible ? <EyeOff size={16} /> : <Eye size={16} />}
+        </button>
+      </span>
+      {showStrength ? (
+        <>
+          <span className="profile-reference__strength" aria-label={strength.label}>
+            {[1, 2, 3, 4, 5].map((level) => (
+              <i
+                key={level}
+                className={[
+                  'profile-reference__strength-bar',
+                  strength.score >= level ? 'is-active' : '',
+                  strength.isCompliant ? 'is-strong' : '',
+                ].filter(Boolean).join(' ')}
+              />
+            ))}
+          </span>
+          <span className="profile-reference__strength-label">{strength.label}</span>
+        </>
+      ) : null}
+    </label>
+  )
+}
+
+function ProfileSwitch({ icon: Icon, label, description, checked, onChange, disabled = false }) {
+  return (
+    <div className="profile-reference__switch-row">
+      <div className="profile-reference__switch-copy">
+        <div className="profile-reference__switch-title">{Icon ? <Icon aria-hidden="true" /> : null}{label}</div>
+        <p className="profile-reference__switch-description">{description}</p>
+      </div>
+      <label className={['profile-reference__switch', disabled ? 'is-disabled' : ''].filter(Boolean).join(' ')}>
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(event) => onChange?.(event.target.checked)}
+          disabled={disabled}
+          aria-label={label}
+        />
+        <span className="profile-reference__switch-track"><span className="profile-reference__switch-thumb" /></span>
+      </label>
+    </div>
+  )
+}
+
+function ProgressRing({ value, label, color }) {
+  const normalizedValue = Math.max(0, Math.min(100, value))
+  const circumference = 138.23
+  const dashArray = [Math.round((circumference * normalizedValue) * 100) / 100, circumference].join(' ')
+
+  return (
+    <div className="profile-reference__ring">
+      <svg viewBox="0 0 54 54" aria-hidden="true">
+        <circle className="profile-reference__ring-track" cx="27" cy="27" r="22" />
+        <circle
+          className="profile-reference__ring-value"
+          cx="27"
+          cy="27"
+          r="22"
+          style={{ stroke: color, strokeDasharray: dashArray }}
+        />
+      </svg>
+      <span className="profile-reference__ring-label">{label}</span>
+    </div>
+  )
+}
+
+function MiniCard({ label, icon: Icon, children, success = false }) {
+  return (
+    <div className="profile-reference__mini-card">
+      <div className="profile-reference__mini-label">{label}</div>
+      <div className={['profile-reference__mini-value', success ? 'is-success' : ''].filter(Boolean).join(' ')}>
+        {Icon ? <Icon aria-hidden="true" /> : null}
+        <span>{children}</span>
+      </div>
+    </div>
+  )
 }
 
 export default function MonProfil() {
   const { user, accessToken, setSession } = useMemberAuthStore()
+  const { theme, setTheme } = useTheme()
+  const language = useLanguageStore((state) => state.language)
+  const setLanguage = useLanguageStore((state) => state.setLanguage)
+  const [activeTab, setActiveTab] = useState('profil')
   const [formData, setFormData] = useState(emptyProfile)
   const [passwords, setPasswords] = useState({ current_password: '', new_password: '', new_password_confirm: '' })
-  const [isEditing, setIsEditing] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const [showPasswords, setShowPasswords] = useState({ current: false, next: false, confirm: false })
+  const [savingProfile, setSavingProfile] = useState(false)
+  const [savingPassword, setSavingPassword] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const [showPasswords, setShowPasswords] = useState(false)
   const [passwordError, setPasswordError] = useState('')
+  const [preferences, setPreferences] = useState(() => ({ ...readPreferences(theme), language }))
+  const [savedPreferences, setSavedPreferences] = useState(() => ({ ...readPreferences(theme), language }))
 
   useEffect(() => setFormData(profileFromUser(user)), [user])
 
@@ -46,8 +252,9 @@ export default function MonProfil() {
   }
 
   useEffect(() => {
-    if (!user?.membre?.id) return
+    if (!user?.id) return undefined
     let mounted = true
+
     memberApi.getProfile()
       .then((response) => {
         if (!mounted) return
@@ -57,17 +264,25 @@ export default function MonProfil() {
       .catch(() => {
         if (mounted) toast.error('Impossible de charger les informations complètes du profil.')
       })
+
     return () => { mounted = false }
-  // La fiche détaillée est chargée une fois à l'ouverture du profil.
+  // Le profil détaillé est chargé une fois à l'ouverture de la page.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.membre?.id])
+  }, [user?.id])
 
   const handlePhotoUpload = async (event) => {
     const file = event.target.files?.[0]
     event.target.value = ''
     if (!file) return
-    if (!file.type.startsWith('image/')) return toast.error('Veuillez sélectionner une image valide.')
-    if (file.size > 20 * 1024 * 1024) return toast.error('La photo ne doit pas dépasser 20 Mo.')
+    if (!file.type.startsWith('image/')) {
+      toast.error('Veuillez sélectionner une image valide.')
+      return
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      toast.error('La photo ne doit pas dépasser 20 Mo.')
+      return
+    }
+
     const payload = new FormData()
     payload.append('photo', file)
     setUploading(true)
@@ -77,61 +292,367 @@ export default function MonProfil() {
       toast.success('Photo de profil mise à jour.')
     } catch (error) {
       toast.error(error.response?.data?.photo?.[0] || 'Impossible de mettre à jour la photo.')
-    } finally { setUploading(false) }
+    } finally {
+      setUploading(false)
+    }
   }
 
-  const handleSubmit = async (event) => {
+  const handleProfileSave = async (event) => {
     event.preventDefault()
-    const hasPasswordInput = Object.values(passwords).some(Boolean)
-    if (hasPasswordInput && (!passwords.current_password || !passwords.new_password || !passwords.new_password_confirm)) {
-      setPasswordError('Pour modifier le mot de passe, remplissez les trois champs.')
-      return
-    }
-    if (hasPasswordInput && passwords.new_password !== passwords.new_password_confirm) {
-      setPasswordError('Les deux nouveaux mots de passe ne correspondent pas.')
-      return
-    }
-    setSaving(true)
+    setSavingProfile(true)
     try {
       const response = await memberApi.updateProfile(formData)
       updateSession(response.data)
-      if (hasPasswordInput) {
-        await memberApi.changePassword(passwords)
-        setPasswords({ current_password: '', new_password: '', new_password_confirm: '' })
-      }
-      setIsEditing(false)
-      toast.success(hasPasswordInput ? 'Profil et mot de passe mis à jour.' : 'Informations du profil mises à jour.')
+      toast.success('Informations du profil mises à jour.')
     } catch (error) {
-      const message = error.response?.data?.current_password?.[0] || error.response?.data?.new_password?.[0] || 'Une erreur est survenue lors de la mise à jour.'
-      setPasswordError(hasPasswordInput ? message : '')
-      toast.error(message)
-    } finally { setSaving(false) }
+      const detail = error.response?.data
+      const fieldError = detail && typeof detail === 'object'
+        ? Object.values(detail).find((value) => Array.isArray(value))
+        : null
+      toast.error(fieldError?.[0] || detail?.detail || 'Impossible de mettre à jour le profil.')
+    } finally {
+      setSavingProfile(false)
+    }
+  }
+
+  const handlePasswordChange = async (event) => {
+    event.preventDefault()
+    if (!passwords.current_password || !passwords.new_password || !passwords.new_password_confirm) {
+      setPasswordError('Remplissez les trois champs pour modifier le mot de passe.')
+      return
+    }
+    if (passwords.new_password !== passwords.new_password_confirm) {
+      setPasswordError('Les deux nouveaux mots de passe ne correspondent pas.')
+      return
+    }
+    const policyError = getPasswordPolicyError(passwords.new_password)
+    if (policyError) {
+      setPasswordError(policyError)
+      return
+    }
+
+    setSavingPassword(true)
+    setPasswordError('')
+    try {
+      await memberApi.changePassword(passwords)
+      setPasswords({ current_password: '', new_password: '', new_password_confirm: '' })
+      toast.success('Mot de passe modifié avec succès.')
+    } catch (error) {
+      const detail = error.response?.data
+      const fieldError = detail && typeof detail === 'object'
+        ? Object.values(detail).find((value) => Array.isArray(value))
+        : null
+      setPasswordError(fieldError?.[0] || detail?.detail || 'Impossible de modifier le mot de passe.')
+    } finally {
+      setSavingPassword(false)
+    }
+  }
+
+  const resetProfile = () => setFormData(profileFromUser(user))
+
+  const updatePreference = (key, value) => {
+    setPreferences((current) => ({ ...current, [key]: value }))
+    if (key === 'language') setLanguage(value)
+  }
+
+  const chooseTheme = (nextTheme) => {
+    updatePreference('theme', nextTheme)
+    setTheme(nextTheme)
+  }
+
+  const savePreferences = () => {
+    try {
+      localStorage.setItem('sygmebec-member-preferences', JSON.stringify(preferences))
+    } catch {
+    }
+    setSavedPreferences(preferences)
+    toast.success('Préférences enregistrées sur cet appareil.')
+  }
+
+  const cancelPreferences = () => {
+    setPreferences(savedPreferences)
+    setTheme(savedPreferences.theme)
+    setLanguage(savedPreferences.language)
   }
 
   if (!user) return <div className="loading-screen">Chargement de votre profil…</div>
-  const membre = user.membre
-  if (!membre) return <main className="py-20"><div className="container-custom max-w-xl"><Card><CardContent className="p-7 text-center"><User className="mx-auto h-10 w-10 text-primary-600" /><h1 className="mt-4 text-2xl font-playfair font-bold text-navy-900">Profil membre indisponible</h1><p className="mt-3 text-gray-600">Votre compte n’est pas encore lié à une fiche membre. Contactez un administrateur pour compléter votre profil.</p></CardContent></Card></div></main>
 
-  const fullName = `${membre.prenom || ''} ${membre.nom || ''}`.trim() || user.identifiant
-  const photoUrl = toMediaUrl(membre.photo)
-  const cancelEdit = () => {
-    setFormData(profileFromUser(user))
-    setPasswords({ current_password: '', new_password: '', new_password_confirm: '' })
-    setPasswordError('')
-    setIsEditing(false)
+  const membre = user.membre
+  if (!membre) {
+    return (
+      <main className="py-20">
+        <div className="container-custom max-w-xl">
+          <section className="form-card text-center">
+            <User className="mx-auto h-10 w-10 text-primary-600" />
+            <h1 className="mt-4 text-2xl font-bold text-navy-900">Profil membre indisponible</h1>
+            <p className="mt-3 text-gray-600">Votre compte n’est pas encore lié à une fiche membre. Contactez un administrateur pour compléter votre profil.</p>
+          </section>
+        </div>
+      </main>
+    )
   }
-  return <>
-    <SEO title="Mon profil - Église Baptiste de l’Espoir" />
-    <main className="py-16 md:py-20"><div className="container-custom max-w-5xl">
-      <AnimatedSection><div className="mb-8 flex flex-wrap items-center justify-between gap-4"><div><span className="section-subtitle"><User className="h-4 w-4" /> Mon profil</span><h1 className="section-title mt-3">Mes informations personnelles</h1></div><Badge variant="gold" className="px-4 py-2">{user.role_nom || user.role_acces?.nomRole || 'Membre'}</Badge></div></AnimatedSection>
-      <div className="grid gap-8 md:grid-cols-[.72fr_1.28fr]">
-        <AnimatedSection><Card><CardContent className="p-7 text-center"><div className="relative mx-auto w-fit"><div className="h-28 w-28 overflow-hidden rounded-full bg-gradient-to-br from-primary-600 to-primary-400 text-white shadow-lg">{photoUrl ? <img src={photoUrl} alt={fullName} className="h-full w-full object-cover" /> : <span className="grid h-full place-items-center text-3xl font-bold">{fullName.split(' ').map((part) => part[0]).slice(0, 2).join('')}</span>}</div><label className="absolute bottom-0 right-0 grid h-10 w-10 cursor-pointer place-items-center rounded-full border-4 border-white bg-gold-500 text-navy-900 shadow-md transition hover:scale-105" title="Modifier ma photo"><Camera className="h-4 w-4" /><input type="file" accept="image/png,image/jpeg,image/webp,image/gif" className="hidden" onChange={handlePhotoUpload} disabled={uploading} /></label></div><p className="mt-3 text-xs text-gray-500">{uploading ? 'Téléchargement en cours…' : 'PNG, JPG, WEBP ou GIF · 20 Mo maximum'}</p><h2 className="mt-5 font-playfair text-2xl font-bold text-navy-900">{fullName}</h2><p className="mt-1 text-sm text-gray-500">{membre.email || user.identifiant}</p><div className="mt-6 space-y-3 border-t border-gray-100 pt-5 text-left text-sm text-gray-600"><p className="flex gap-3"><Mail className="h-4 w-4 shrink-0 text-primary-600" /> {membre.email || 'Email non renseigné'}</p><p className="flex gap-3"><Phone className="h-4 w-4 shrink-0 text-primary-600" /> {membre.telephone || 'Téléphone non renseigné'}</p><p className="flex gap-3"><MapPin className="h-4 w-4 shrink-0 text-primary-600" /> {membre.adresse || 'Adresse non renseignée'}</p></div></CardContent></Card></AnimatedSection>
-        <AnimatedSection delay={.08}><Card><CardContent className="p-6 md:p-8"><div className="mb-6 flex items-center justify-between"><div><h2 className="text-xl font-semibold text-navy-900">Informations et sécurité</h2><p className="mt-1 text-sm text-gray-500">Gardez vos coordonnées à jour.</p></div>{!isEditing && <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}><Edit2 className="mr-2 h-4 w-4" /> Modifier</Button>}</div>
-          <form onSubmit={handleSubmit} className="space-y-5"><fieldset disabled={!isEditing} className="space-y-4 disabled:opacity-75"><div className="grid gap-4 sm:grid-cols-2"><ProfileField label="Nom" name="nom" value={formData.nom} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} required /><ProfileField label="Prénom" name="prenom" value={formData.prenom} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} required /></div><ProfileField label="Email" name="email" value={formData.email} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} type="email" icon={Mail} /><div className="grid gap-4 sm:grid-cols-2"><ProfileField label="Téléphone" name="telephone" value={formData.telephone} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} type="tel" icon={Phone} /><ProfileField label="Téléphone secondaire" name="telephone_secondaire" value={formData.telephone_secondaire} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} type="tel" icon={Phone} /></div><ProfileField label="Adresse" name="adresse" value={formData.adresse} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} icon={MapPin} /><ProfileField label="Date de naissance" name="date_naissance" value={formData.date_naissance} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} type="date" icon={Calendar} /></fieldset>
-            {isEditing && <section className="border-t border-gray-100 pt-6"><div className="flex items-start gap-3"><LockKeyhole className="mt-1 h-5 w-5 shrink-0 text-gold-600" /><div><h3 className="font-semibold text-navy-900">Changer mon mot de passe <span className="text-sm font-normal text-gray-500">(facultatif)</span></h3><p className="mt-1 text-sm text-gray-500">Laissez ces champs vides si vous souhaitez seulement modifier vos informations.</p></div></div><div className="mt-4 grid gap-4 sm:grid-cols-2"><PasswordField label="Mot de passe actuel" name="current_password" value={passwords.current_password} onChange={(event) => { setPasswords({ ...passwords, [event.target.name]: event.target.value }); setPasswordError('') }} visible={showPasswords} toggle={() => setShowPasswords((value) => !value)} /><PasswordField label="Nouveau mot de passe" name="new_password" value={passwords.new_password} onChange={(event) => { setPasswords({ ...passwords, [event.target.name]: event.target.value }); setPasswordError('') }} visible={showPasswords} toggle={() => setShowPasswords((value) => !value)} /><PasswordField label="Confirmer le nouveau mot de passe" name="new_password_confirm" value={passwords.new_password_confirm} onChange={(event) => { setPasswords({ ...passwords, [event.target.name]: event.target.value }); setPasswordError('') }} visible={showPasswords} toggle={() => setShowPasswords((value) => !value)} /></div>{passwordError && <p className="mt-3 text-sm text-rose-600">{passwordError}</p>}</section>}
-            {isEditing && <div className="flex flex-wrap gap-3 border-t border-gray-100 pt-5"><Button type="submit" variant="gold" disabled={saving}>{saving ? 'Enregistrement…' : <><Save className="mr-2 h-4 w-4" /> Enregistrer les modifications</>}</Button><Button type="button" variant="outline" onClick={cancelEdit}><X className="mr-2 h-4 w-4" /> Annuler</Button></div>}
-          </form></CardContent></Card></AnimatedSection>
-      </div>
-    </div></main>
-  </>
+
+  const fullName = [membre.prenom, membre.nom].filter(Boolean).join(' ') || user.identifiant
+  const photoUrl = toMediaUrl(membre.photo)
+  const roleName = user.role_nom || user.role_acces?.nomRole || 'Membre'
+  const accountCreatedAt = formatDate(user.date_creation_compte, { day: '2-digit', month: 'long', year: 'numeric' })
+  const accountYear = user.date_creation_compte
+    ? formatDate(user.date_creation_compte, { year: 'numeric' })
+    : 'date non renseignée'
+  const lastAccess = formatDate(user.dernier_acces, { day: '2-digit', month: 'short' })
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Haïti (UTC-5)'
+  const profileItems = [
+    formData.prenom,
+    formData.nom,
+    formData.email,
+    formData.telephone,
+    formData.telephone_secondaire,
+    formData.adresse,
+    formData.date_naissance,
+    photoUrl,
+  ]
+  const completion = Math.round((profileItems.filter(Boolean).length / profileItems.length) * 100)
+  const selectedAccent = accents.find((accent) => accent.id === preferences.accent) || accents[0]
+  const rootStyle = { '--profile-reference-accent': selectedAccent.color }
+  const tabs = [
+    { id: 'profil', label: 'Profil', icon: User },
+    { id: 'securite', label: 'Sécurité', icon: ShieldCheck },
+    { id: 'preferences', label: 'Préférences', icon: Palette },
+  ]
+
+  return (
+    <>
+      <SEO title="Mon profil - Église Baptiste de l’Espoir" />
+      <section className="profile-reference" style={rootStyle}>
+        <div className="profile-reference__container">
+          <header className="profile-reference__hero">
+            <span className="profile-reference__dots" />
+            <div className="profile-reference__hero-avatar-wrap">
+              <div className="profile-reference__hero-avatar">
+                {photoUrl ? <img src={photoUrl} alt={fullName} /> : <span>{initials(fullName)}</span>}
+              </div>
+              <label className="profile-reference__camera" title="Modifier ma photo">
+                <Camera size={14} />
+                <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handlePhotoUpload} disabled={uploading} />
+              </label>
+            </div>
+            <div className="profile-reference__hero-content">
+              <p className="profile-reference__eyebrow">Paramètres du compte</p>
+              <h1>{fullName}</h1>
+              <p className="profile-reference__hero-subtitle">{membre.email || user.identifiant}</p>
+              <div className="profile-reference__tags">
+                <span className="profile-reference__tag"><CircleUserRound />{roleName}</span>
+                <span className="profile-reference__tag"><CalendarDays />Membre depuis {accountYear}</span>
+                <span className="profile-reference__tag"><ShieldCheck />2FA indisponible</span>
+              </div>
+              <div className="profile-reference__stats">
+                <div className="profile-reference__stat">
+                  <ProgressRing value={completion} label={String(completion) + '%'} color={selectedAccent.color} />
+                  <div><div className="profile-reference__stat-number">{completion} %</div><div className="profile-reference__stat-label">Profil complété</div></div>
+                </div>
+                <div className="profile-reference__stat">
+                  <ProgressRing value={100} label="1" color="#1fa060" />
+                  <div><div className="profile-reference__stat-number">1 session</div><div className="profile-reference__stat-label">Appareil actuel</div></div>
+                </div>
+                <div className="profile-reference__stat">
+                  <ProgressRing value={user.dernier_acces ? 100 : 0} label={user.dernier_acces ? '✓' : '—'} color="#7c50d1" />
+                  <div><div className="profile-reference__stat-number">{lastAccess}</div><div className="profile-reference__stat-label">Dernier accès connu</div></div>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <nav className="profile-reference__tabs" aria-label="Paramètres du profil" role="tablist">
+            {tabs.map((tab) => {
+              const Icon = tab.icon
+              const active = activeTab === tab.id
+              return (
+                <button
+                  key={tab.id}
+                  className={['profile-reference__tab', active ? 'is-active' : ''].filter(Boolean).join(' ')}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <Icon aria-hidden="true" />{tab.label}
+                </button>
+              )
+            })}
+          </nav>
+
+          {activeTab === 'profil' ? (
+            <form className="profile-reference__tab-panel" onSubmit={handleProfileSave}>
+              <div className="profile-reference__grid">
+                <div>
+                  <section className="profile-reference__panel">
+                    <h2 className="profile-reference__panel-title"><Camera />Photo de profil</h2>
+                    <p className="profile-reference__panel-subtitle">Visible par les membres de l’espace de travail.</p>
+                    <div className="profile-reference__photo-row">
+                      <div className="profile-reference__photo-avatar-wrap">
+                        <div className="profile-reference__photo-avatar">
+                          {photoUrl ? <img src={photoUrl} alt={fullName} /> : <span>{initials(fullName)}</span>}
+                        </div>
+                      </div>
+                      <div>
+                        <label className="profile-reference__photo-upload">
+                          <Camera size={15} />
+                          {uploading ? 'Téléversement…' : 'Ajouter une image'}
+                          <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handlePhotoUpload} disabled={uploading} />
+                        </label>
+                        <p className="profile-reference__photo-hint">PNG, JPG, WEBP ou GIF · 20 Mo maximum</p>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section className="profile-reference__panel">
+                    <h2 className="profile-reference__panel-title"><User />Informations personnelles</h2>
+                    <p className="profile-reference__panel-subtitle">Utilisées pour vous identifier dans l’espace de travail.</p>
+                    <div className="profile-reference__field-grid">
+                      <AccountField label="Prénom" name="prenom" value={formData.prenom} onChange={(event) => setFormData({ ...formData, prenom: event.target.value })} required />
+                      <AccountField label="Nom" name="nom" value={formData.nom} onChange={(event) => setFormData({ ...formData, nom: event.target.value })} required />
+                      <AccountField label="Adresse courriel" type="email" icon={Mail} className="profile-reference__field--wide" name="email" value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} helper="Utilisée pour vous contacter et identifier votre compte." />
+                      <AccountField label="Téléphone" type="tel" icon={Smartphone} name="telephone" value={formData.telephone} onChange={(event) => setFormData({ ...formData, telephone: event.target.value })} />
+                      <AccountField label="Téléphone secondaire" type="tel" icon={Smartphone} name="telephone_secondaire" value={formData.telephone_secondaire} onChange={(event) => setFormData({ ...formData, telephone_secondaire: event.target.value })} />
+                      <AccountField label="Adresse" icon={MapPin} className="profile-reference__field--wide" name="adresse" value={formData.adresse} onChange={(event) => setFormData({ ...formData, adresse: event.target.value })} />
+                      <AccountField label="Date de naissance" type="date" icon={CalendarDays} name="date_naissance" value={formData.date_naissance} onChange={(event) => setFormData({ ...formData, date_naissance: event.target.value })} />
+                    </div>
+                  </section>
+                </div>
+
+                <div>
+                  <section className="profile-reference__panel">
+                    <h2 className="profile-reference__panel-title"><Clock3 />Aperçu du compte</h2>
+                    <div className="profile-reference__mini-grid">
+                      <MiniCard label="Rôle" icon={CircleUserRound}>{roleName}</MiniCard>
+                      <MiniCard label="Statut" icon={Check} success>{user.is_active === false ? 'En attente' : 'Actif'}</MiniCard>
+                      <MiniCard label="Créé le" icon={CalendarDays}>{accountCreatedAt}</MiniCard>
+                      <MiniCard label="Fuseau horaire" icon={Clock3}>{timeZone}</MiniCard>
+                    </div>
+                  </section>
+                  <section className="profile-reference__panel">
+                    <h2 className="profile-reference__panel-title"><ShieldCheck />Vérification</h2>
+                    <div className="profile-reference__verification">
+                      <Mail />
+                      <p>Le statut de vérification de l’adresse e-mail n’est pas communiqué par le serveur. Aucune action n’est requise ici.</p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div className="profile-reference__action-bar">
+                <button className="profile-reference__cancel" type="button" onClick={resetProfile}><X size={15} />Annuler</button>
+                <button className="profile-reference__save" type="submit" disabled={savingProfile}><Save size={15} />{savingProfile ? 'Enregistrement…' : 'Enregistrer'}</button>
+              </div>
+            </form>
+          ) : null}
+
+          {activeTab === 'securite' ? (
+            <section className="profile-reference__tab-panel">
+              <div className="profile-reference__grid">
+                <div>
+                  <form className="profile-reference__panel" onSubmit={handlePasswordChange}>
+                    <h2 className="profile-reference__panel-title"><LockKeyhole />Changer le mot de passe</h2>
+                    <p className="profile-reference__panel-subtitle">{PASSWORD_POLICY_SUMMARY}</p>
+                    <div className="profile-reference__password-grid">
+                      <PasswordField label="Mot de passe actuel" name="current_password" value={passwords.current_password} onChange={(event) => { setPasswords({ ...passwords, current_password: event.target.value }); setPasswordError('') }} visible={showPasswords.current} onToggle={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })} autoComplete="current-password" />
+                      <PasswordField label="Nouveau mot de passe" name="new_password" value={passwords.new_password} onChange={(event) => { setPasswords({ ...passwords, new_password: event.target.value }); setPasswordError('') }} visible={showPasswords.next} onToggle={() => setShowPasswords({ ...showPasswords, next: !showPasswords.next })} autoComplete="new-password" showStrength />
+                      <PasswordField label="Confirmer" name="new_password_confirm" value={passwords.new_password_confirm} onChange={(event) => { setPasswords({ ...passwords, new_password_confirm: event.target.value }); setPasswordError('') }} visible={showPasswords.confirm} onToggle={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })} autoComplete="new-password" />
+                    </div>
+                    {passwordError ? <p className="profile-reference__error">{passwordError}</p> : null}
+                    <button className="profile-reference__password-submit" type="submit" disabled={savingPassword || !passwords.current_password || !getPasswordStrength(passwords.new_password).isCompliant || !passwords.new_password_confirm}><LockKeyhole size={14} />{savingPassword ? 'Modification…' : 'Modifier le mot de passe'}</button>
+                  </form>
+
+                  <section className="profile-reference__panel">
+                    <h2 className="profile-reference__panel-title"><ShieldCheck />Protection du compte</h2>
+                    <ProfileSwitch icon={ShieldCheck} label="Authentification à deux facteurs" description="Cette protection sera disponible lorsqu’elle sera reliée au serveur." checked={false} disabled />
+                    <ProfileSwitch icon={Bell} label="Alertes de connexion" description="Les alertes de connexion ne sont pas encore configurables pour ce compte." checked={false} disabled />
+                  </section>
+                </div>
+
+                <div>
+                  <section className="profile-reference__panel">
+                    <h2 className="profile-reference__panel-title"><Monitor />Sessions actives</h2>
+                    <p className="profile-reference__panel-subtitle">Seule la session de cet appareil peut être affichée par le serveur actuel.</p>
+                    <div className="profile-reference__session">
+                      <span className="profile-reference__session-icon"><Laptop /></span>
+                      <div className="profile-reference__session-copy">
+                        <div className="profile-reference__session-title">{currentBrowserName()} <span className="profile-reference__current">Actuelle</span></div>
+                        <p className="profile-reference__session-subtitle">Cette session est active sur l’appareil que vous utilisez.</p>
+                      </div>
+                    </div>
+                    <div className="profile-reference__session">
+                      <span className="profile-reference__session-icon"><Smartphone /></span>
+                      <div className="profile-reference__session-copy">
+                        <div className="profile-reference__session-title">Autres appareils</div>
+                        <p className="profile-reference__session-subtitle">La liste et la déconnexion à distance ne sont pas encore disponibles.</p>
+                      </div>
+                      <span className="profile-reference__session-action">Indisponible</span>
+                    </div>
+                  </section>
+
+                  <section className="profile-reference__danger">
+                    <h2 className="profile-reference__panel-title"><ShieldAlert />Zone sensible</h2>
+                    <p className="profile-reference__panel-subtitle">La suppression autonome du compte n’est pas activée. Contactez l’administration si cette action est nécessaire.</p>
+                    <button className="profile-reference__danger-button" type="button" disabled title="Cette action nécessite une fonctionnalité serveur"><Trash2 size={14} />Supprimer mon compte</button>
+                  </section>
+                </div>
+              </div>
+            </section>
+          ) : null}
+
+          {activeTab === 'preferences' ? (
+            <section className="profile-reference__tab-panel">
+              <div className="profile-reference__grid">
+                <section className="profile-reference__panel">
+                  <h2 className="profile-reference__panel-title"><Globe2 />Apparence</h2>
+                  <div className="profile-reference__preference-row">
+                    <div><div className="profile-reference__preference-label">Thème</div><p className="profile-reference__preference-subtitle">Appliqué à la vitrine sur cet appareil.</p></div>
+                    <div className="profile-reference__segmented">
+                      <button className={['profile-reference__segment', preferences.theme === 'light' ? 'is-active' : ''].filter(Boolean).join(' ')} type="button" onClick={() => chooseTheme('light')}>Clair</button>
+                      <button className="profile-reference__segment" type="button" disabled title="Le thème système n’est pas encore disponible">Système</button>
+                      <button className={['profile-reference__segment', preferences.theme === 'dark' ? 'is-active' : ''].filter(Boolean).join(' ')} type="button" onClick={() => chooseTheme('dark')}>Sombre</button>
+                    </div>
+                  </div>
+                  <div className="profile-reference__preference-row">
+                    <div><div className="profile-reference__preference-label">Couleur d’accent</div><p className="profile-reference__preference-subtitle">Appliquée à cette page sur cet appareil.</p></div>
+                    <div className="profile-reference__swatches">
+                      {accents.map((accent) => (
+                        <button
+                          key={accent.id}
+                          className={['profile-reference__swatch', preferences.accent === accent.id ? 'is-active' : ''].filter(Boolean).join(' ')}
+                          style={{ background: accent.color }}
+                          type="button"
+                          aria-label={'Utiliser la couleur ' + accent.label}
+                          aria-pressed={preferences.accent === accent.id}
+                          onClick={() => updatePreference('accent', accent.id)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="profile-reference__preference-row">
+                    <div><div className="profile-reference__preference-label">Langue</div><p className="profile-reference__preference-subtitle">La langue s’applique immédiatement à toute la vitrine.</p></div>
+                    <div className="profile-reference__segmented">
+                      {[['fr', 'Français'], ['ht', 'Kreyòl'], ['en', 'English']].map(([code, label]) => <button className={['profile-reference__segment', preferences.language === code ? 'is-active' : ''].filter(Boolean).join(' ')} type="button" key={code} onClick={() => updatePreference('language', code)}>{label}</button>)}
+                    </div>
+                  </div>
+                </section>
+
+                <section className="profile-reference__panel">
+                  <h2 className="profile-reference__panel-title"><Bell />Notifications rapides</h2>
+                  <ProfileSwitch label="Résumé quotidien" description="Préférence enregistrée sur cet appareil." checked={preferences.dailySummary} onChange={(checked) => updatePreference('dailySummary', checked)} />
+                  <ProfileSwitch label="Notifications push" description="Préférence enregistrée sur cet appareil." checked={preferences.pushNotifications} onChange={(checked) => updatePreference('pushNotifications', checked)} />
+                  <ProfileSwitch label="Actualités produit" description="Préférence enregistrée sur cet appareil." checked={preferences.productNews} onChange={(checked) => updatePreference('productNews', checked)} />
+                  <p className="profile-reference__local-note">Ces réglages sont locaux à ce navigateur. Ils ne modifient pas encore les notifications envoyées par le serveur.</p>
+                </section>
+              </div>
+              <div className="profile-reference__action-bar">
+                <button className="profile-reference__cancel" type="button" onClick={cancelPreferences}><X size={15} />Annuler</button>
+                <button className="profile-reference__save" type="button" onClick={savePreferences}><Save size={15} />Enregistrer</button>
+              </div>
+            </section>
+          ) : null}
+        </div>
+      </section>
+    </>
+  )
 }

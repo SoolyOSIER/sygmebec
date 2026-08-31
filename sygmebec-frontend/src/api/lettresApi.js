@@ -5,5 +5,8 @@ export const lettresApi = {
   create: (data) => api.post('/lettres/', data),
   update: (id, data) => api.patch(`/lettres/${id}/`, data),
   remove: (id) => api.delete(`/lettres/${id}/`),
-  download: (id) => api.get(`/lettres/${id}/telecharger/`, { responseType: 'blob' }),
+  download: (id, format) => api.get(
+    format === 'pdf' ? `/lettres/${id}/telecharger/` : `/lettres/${id}/exporter/`,
+    { params: format === 'pdf' ? undefined : { export_format: format }, responseType: 'blob' },
+  ),
 }

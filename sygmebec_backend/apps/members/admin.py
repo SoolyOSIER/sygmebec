@@ -1,13 +1,20 @@
 from django.contrib import admin
 from .models import Membre, Statut, Fonction, HistoriqueStatut, MembreFonction
 
+
+class MembreFonctionInline(admin.TabularInline):
+    model = MembreFonction
+    extra = 0
+    autocomplete_fields = ['fonction']
+
+
 @admin.register(Membre)
 class MembreAdmin(admin.ModelAdmin):
     list_display = ['nom', 'prenom', 'statut', 'email', 'telephone', 'telephone_secondaire', 'date_adhesion']
     list_filter = ['statut', 'sexe', 'date_adhesion']
     search_fields = ['nom', 'prenom', 'email', 'telephone', 'telephone_secondaire', 'eglise_origine']
     readonly_fields = ['date_adhesion', 'created_at', 'updated_at']
-    filter_horizontal = ['fonctions']
+    inlines = [MembreFonctionInline]
 
 @admin.register(Statut)
 class StatutAdmin(admin.ModelAdmin):

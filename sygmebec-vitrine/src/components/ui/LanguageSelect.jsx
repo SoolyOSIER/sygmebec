@@ -7,9 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const languages = [
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'ht', label: 'Kreyòl', flag: '🇭🇹' },
   { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
 ]
 
 const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
@@ -26,6 +25,8 @@ const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  useEffect(() => setSelected(languages.find((language) => language.code === value) || languages[0]), [value])
 
   const handleSelect = (lang) => {
     setSelected(lang)

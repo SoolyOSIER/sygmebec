@@ -30,6 +30,7 @@ class VitrineApiTests(APITestCase):
             'telephone': '555-0100',
             'telephone_secondaire': '555-0102',
             'adresse': 'Rue de la Foi',
+            'niveau_etude': 'UNIVERSITAIRE',
             'date_presentation': '2024-01-15',
             'date_conversion': '2024-02-15',
             'date_affiliation': '2024-03-15',
@@ -42,6 +43,7 @@ class VitrineApiTests(APITestCase):
         demande = DemandeAdhesion.objects.get(email='jean@example.org')
         self.assertEqual(str(demande.date_affiliation), '2024-03-15')
         self.assertEqual(demande.adresse, 'Rue de la Foi')
+        self.assertEqual(demande.niveau_etude, 'UNIVERSITAIRE')
 
     def test_secretary_can_validate_a_public_request_and_create_member(self):
         role, _ = RoleAcces.objects.get_or_create(nomRole='SECRETAIRE')
@@ -50,6 +52,7 @@ class VitrineApiTests(APITestCase):
         )
         demande = DemandeAdhesion.objects.create(
             nom='Marie', prenom='Joseph', email='marie@example.org', telephone='555-0101',
+            niveau_etude='SECONDAIRE',
             date_presentation='2024-01-15', date_conversion='2024-02-15',
             date_affiliation='2024-03-15', date_bapteme='2024-04-15',
         )
@@ -64,6 +67,7 @@ class VitrineApiTests(APITestCase):
         membre = Membre.objects.get(email='marie@example.org')
         self.assertEqual(str(membre.date_presentation), '2024-01-15')
         self.assertEqual(str(membre.date_bapteme), '2024-04-15')
+        self.assertEqual(membre.niveau_etude, 'SECONDAIRE')
 
     def test_secretary_can_reject_a_public_request(self):
         role, _ = RoleAcces.objects.get_or_create(nomRole='SECRETAIRE')

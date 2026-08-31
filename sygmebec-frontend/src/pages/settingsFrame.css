@@ -1,0 +1,7 @@
+.settings-html-frame {
+  display: block;
+  width: 100%;
+  min-height: calc(100vh - 4rem);
+  border: 0;
+  background: #f7f5f0;
+}

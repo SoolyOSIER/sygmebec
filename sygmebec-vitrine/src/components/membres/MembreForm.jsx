@@ -8,6 +8,21 @@ import Select from '../ui/Select'
 import Button from '../ui/Button'
 import { FiUser, FiMail, FiPhone, FiMapPin, FiCalendar, FiTag, FiUsers, FiFileText, FiBookOpen } from 'react-icons/fi'
 
+function formatRegistrationDate(value) {
+  const date = value ? new Date(value) : new Date()
+  if (Number.isNaN(date.getTime())) return '—'
+
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }).format(date)
+}
+
 export default function MembreForm({
   initialData = {},
   onSubmit,
@@ -29,16 +44,17 @@ export default function MembreForm({
     sexe: initialData.sexe || '',
     etat_matrimonial: initialData.etat_matrimonial || '',
     actuellement_employe: Boolean(initialData.actuellement_employe),
-    actuellement_etudiant: Boolean(initialData.actuellement_etudiant),
+    niveau_etude: initialData.niveau_etude || '',
     anciennete_ebec: initialData.anciennete_ebec || '',
     membre_petit_groupe: Boolean(initialData.membre_petit_groupe),
     dans_ecole_dimanche: Boolean(initialData.dans_ecole_dimanche),
     classe_ecole_dimanche: initialData.classe_ecole_dimanche || '',
-    date_bapteme: initialData.date_bapteme || initialData.date_signature || '',
+    date_bapteme: initialData.date_bapteme || '',
     statut: initialData.statut?.id || '',
     fonctions: initialData.fonctions?.map(f => f.id) || [],
   })
 
+  const [registrationDate, setRegistrationDate] = useState(() => formatRegistrationDate(initialData.created_at))
   const [errors, setErrors] = useState({})
   const [photoPreview, setPhotoPreview] = useState(initialData.photo || '')
   const [fonctionInput, setFonctionInput] = useState(
@@ -69,6 +85,8 @@ export default function MembreForm({
       return
     }
 
+    if (!isEditing) setRegistrationDate(formatRegistrationDate())
+
     const submitData = new FormData()
 
     Object.entries({
@@ -76,7 +94,6 @@ export default function MembreForm({
       statut_id: formData.statut ? parseInt(formData.statut, 10) : null,
       fonctions_ids: formData.fonctions.map(f => parseInt(f, 10)),
       actuellement_employe: Boolean(formData.actuellement_employe),
-      actuellement_etudiant: Boolean(formData.actuellement_etudiant),
       membre_petit_groupe: Boolean(formData.membre_petit_groupe),
       dans_ecole_dimanche: Boolean(formData.dans_ecole_dimanche),
     }).forEach(([key, value]) => {
@@ -235,15 +252,18 @@ export default function MembreForm({
           />
           <span>Actuellement employé</span>
         </label>
-        <label className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-sm text-secondary-700">
-          <input
-            type="checkbox"
-            checked={formData.actuellement_etudiant}
-            onChange={(e) => handleChange('actuellement_etudiant', e.target.checked)}
-            className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-          />
-          <span>Actuellement étudiant</span>
-        </label>
+        <Select
+          label="Niveau d'étude"
+          value={formData.niveau_etude}
+          onChange={(e) => handleChange('niveau_etude', e.target.value)}
+          placeholder="Sélectionner un niveau"
+          icon={FiBookOpen}
+          options={[
+            { value: 'PRIMAIRE', label: 'Primaire' },
+            { value: 'SECONDAIRE', label: 'Secondaire' },
+            { value: 'UNIVERSITAIRE', label: 'Universitaire' },
+          ]}
+        />
       </motion.div>
 
       <motion.div
@@ -306,6 +326,13 @@ export default function MembreForm({
           value={formData.date_bapteme}
           onChange={(e) => handleChange('date_bapteme', e.target.value)}
           icon={FiCalendar}
+        />
+        <Input
+          label="Date d'enregistrement (automatique)"
+          value={registrationDate}
+          readOnly
+          icon={FiCalendar}
+          className="bg-gray-50"
         />
       </motion.div>
 

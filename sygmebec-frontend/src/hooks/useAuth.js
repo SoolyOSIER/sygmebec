@@ -20,10 +20,13 @@ export const useLogin = () => {
       navigate('/')
     },
     onError: (error) => {
+      const connectionUnavailable = !error.response
       toast.error(
-        error.response?.data?.detail ||
-          error.response?.data?.error ||
-          'Erreur de connexion'
+        connectionUnavailable
+          ? 'Impossible de joindre le serveur. Vérifiez que l’API est démarrée, puis réessayez.'
+          : error.response?.data?.detail ||
+            error.response?.data?.error ||
+            'La connexion a échoué. Veuillez réessayer.'
       )
     },
   })

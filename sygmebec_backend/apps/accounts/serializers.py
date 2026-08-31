@@ -1,8 +1,25 @@
 from rest_framework import serializers
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth.password_validation import validate_password
 from .models import Utilisateur, RoleAcces
 from sygmebec_backend.apps.members.serializers import MembreSimpleSerializer
 from sygmebec_backend.apps.members.models import Membre, Statut
+
+
+def validate_account_password(password, *, user, field_name):
+    """Run Django's centrally configured password policy for an account."""
+    try:
+        validate_password(password, user=user)
+    except DjangoValidationError as error:
+        raise serializers.ValidationError({field_name: list(error.messages)})
+
+
+def password_validation_user(identifiant, instance=None):
+    """Build a safe candidate account when an identifier changes during edit."""
+    if instance is not None and instance.identifiant == identifiant:
+        return instance
+    return Utilisateur(identifiant=identifiant)
+
 
 class RoleAccesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,7 +59,7 @@ class MonProfilMembreSerializer(serializers.ModelSerializer):
 
 
 class UtilisateurCreateSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password = serializers.CharField(write_only=True, required=True)
     password_confirm = serializers.CharField(write_only=True, required=True)
     role_id = serializers.IntegerField(write_only=True, required=False, allow_null=True)
     membre_id = serializers.IntegerField(write_only=True, required=False, allow_null=True)
@@ -59,6 +76,12 @@ class UtilisateurCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['password'] != data['password_confirm']:
             raise serializers.ValidationError({'password_confirm': 'Les mots de passe ne correspondent pas.'})
+
+        validate_account_password(
+            data['password'],
+            user=password_validation_user(data['identifiant']),
+            field_name='password',
+        )
         
         if data.get('role_id') is not None:
             try:
@@ -111,7 +134,7 @@ class UtilisateurCreateSerializer(serializers.ModelSerializer):
 
 
 class UtilisateurRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password = serializers.CharField(write_only=True, required=True)
     password_confirm = serializers.CharField(write_only=True, required=True)
     nom = serializers.CharField(required=True)
     prenom = serializers.CharField(required=True)
@@ -131,6 +154,12 @@ class UtilisateurRegistrationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['password'] != data['password_confirm']:
             raise serializers.ValidationError({'password_confirm': 'Les mots de passe ne correspondent pas.'})
+
+        validate_account_password(
+            data['password'],
+            user=password_validation_user(data['identifiant']),
+            field_name='password',
+        )
 
         if Utilisateur.objects.filter(identifiant=data['identifiant']).exists():
             raise serializers.ValidationError({'identifiant': 'Ce nom d\'utilisateur est déjà utilisé.'})
@@ -177,7 +206,7 @@ class UtilisateurRegistrationSerializer(serializers.ModelSerializer):
 
 
 class UtilisateurUpdateSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=False, validators=[validate_password])
+    password = serializers.CharField(write_only=True, required=False)
     password_confirm = serializers.CharField(write_only=True, required=False)
     role_id = serializers.IntegerField(write_only=True, required=False)
     membre_id = serializers.IntegerField(write_only=True, required=False, allow_null=True)
@@ -193,6 +222,14 @@ class UtilisateurUpdateSerializer(serializers.ModelSerializer):
         if password or password_confirm:
             if password != password_confirm:
                 raise serializers.ValidationError({'password_confirm': 'Les mots de passe ne correspondent pas.'})
+            validate_account_password(
+                password,
+                user=password_validation_user(
+                    data.get('identifiant', self.instance.identifiant),
+                    instance=self.instance,
+                ),
+                field_name='password',
+            )
 
         if data.get('role_id'):
             try:
@@ -237,12 +274,30 @@ class UtilisateurUpdateSerializer(serializers.ModelSerializer):
 
 
 class ChangerMotDePasseSerializer(serializers.Serializer):
-    new_password = serializers.CharField(required=True, validators=[validate_password])
-    new_password_confirm = serializers.CharField(required=True)
+    """Validates a new password against the account it will be assigned to."""
+
+    new_password = serializers.CharField(required=True, write_only=True)
+    new_password_confirm = serializers.CharField(required=True, write_only=True)
+
+    def _password_user(self):
+        """Return the target account for contextual Django password validators."""
+        user = self.context.get('user')
+        if user is not None:
+            return user
+
+        request = self.context.get('request')
+        return getattr(request, 'user', None)
     
     def validate(self, data):
         if data['new_password'] != data['new_password_confirm']:
             raise serializers.ValidationError({'new_password_confirm': 'Les mots de passe ne correspondent pas.'})
+
+        validate_account_password(
+            data['new_password'],
+            user=self._password_user(),
+            field_name='new_password',
+        )
+
         return data
 
 

@@ -226,8 +226,8 @@ export default function EvenementDetailPage() {
         isOpen={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleDelete}
-        title="Supprimer l'événement"
-        message={`Êtes-vous sûr de vouloir supprimer "${evenement.titre}" ? Cette action est irréversible.`}
+        title="Mettre l’événement à la corbeille"
+        message={`« ${evenement.titre} » sera placé dans la corbeille et pourra être restauré par un administrateur.`}
         isLoading={isDeleting}
       />
     </div>

@@ -1,40 +1,18 @@
-// ============================================
-// src/pages/membres/MembreCreatePage.jsx
-// ============================================
 import { useNavigate } from 'react-router-dom'
-import { useCreateMembre, useStatuts, useFonctions } from '../../hooks/useMembres'
+import { FiArrowLeft } from 'react-icons/fi'
+import { useCreateMembre, useFonctions, useStatuts } from '../../hooks/useMembres'
 import MembreForm from '../../components/membres/MembreForm'
-import AnimatedCard from '../../components/ui/AnimatedCard'
 
 export default function MembreCreatePage() {
   const navigate = useNavigate()
   const { mutate: createMembre, isPending } = useCreateMembre()
   const { data: statuts } = useStatuts()
   const { data: fonctions } = useFonctions()
+  const handleSubmit = (data) => createMembre(data, { onSuccess: (response) => navigate(`/membres/${response.data.id}`) })
 
-  const handleSubmit = (data) => {
-    createMembre(data, {
-      onSuccess: (response) => {
-        navigate(`/membres/${response.data.id}`)
-      },
-    })
-  }
-
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-secondary-900">Nouveau membre</h1>
-        <p className="text-secondary-500 mt-1">Enregistrer un nouveau membre dans l'église</p>
-      </div>
-
-      <AnimatedCard className="bg-white rounded-2xl shadow-card border border-gray-100/80 p-6">
-        <MembreForm
-          onSubmit={handleSubmit}
-          isLoading={isPending}
-          statuts={statuts || []}
-          fonctions={fonctions || []}
-        />
-      </AnimatedCard>
-    </div>
-  )
+  return <div className="programme-page">
+    <button type="button" className="reference-back" onClick={() => navigate('/membres')}><FiArrowLeft />Retour aux membres</button>
+    <div className="programme-head"><div><span>Gestion des membres</span><h1>Enregistrement d'un membre</h1><p>Ajoutez un membre dans le registre de l'assemblée, avec toutes les informations utiles au suivi.</p></div></div>
+    <MembreForm onSubmit={handleSubmit} isLoading={isPending} statuts={statuts || []} fonctions={fonctions || []} />
+  </div>
 }

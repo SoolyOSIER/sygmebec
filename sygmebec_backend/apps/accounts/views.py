@@ -8,7 +8,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 from django.conf import settings
+from django.db import transaction
 from django.db.models import Q
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from sygmebec_backend.apps.members.models import Membre, Statut
 
 from .models import Utilisateur, RoleAcces
@@ -19,6 +21,12 @@ from .serializers import (
     MonProfilMembreSerializer
 )
 from .permissions import IsAdministrateur, IsSecretaireOrPlus
+
+
+def blacklist_outstanding_refresh_tokens(user):
+    """Invalidate every refresh token previously issued to the user."""
+    for outstanding_token in OutstandingToken.objects.filter(user=user).only('id'):
+        BlacklistedToken.objects.get_or_create(token=outstanding_token)
 
 
 class LoginView(TokenObtainPairView):
@@ -246,16 +254,32 @@ class UtilisateurViewSet(viewsets.ModelViewSet):
             UtilisateurSerializer(user).data,
             status=status.HTTP_201_CREATED
         )
+
+    def perform_update(self, serializer):
+        """Revoke active sessions when an administrator changes a password."""
+        password_changed = bool(serializer.validated_data.get('password'))
+
+        with transaction.atomic():
+            user = serializer.save()
+            if password_changed:
+                blacklist_outstanding_refresh_tokens(user)
+
+        return user
     
     @action(detail=True, methods=['post'], url_path='reset-password')
     def reset_password(self, request, id=None):
         """Réinitialise directement le mot de passe depuis le tableau de bord."""
         user = self.get_object()
-        serializer = ChangerMotDePasseSerializer(data=request.data)
+        serializer = ChangerMotDePasseSerializer(data=request.data, context={'user': user})
         serializer.is_valid(raise_exception=True)
 
-        user.set_password(serializer.validated_data['new_password'])
-        user.save()
+        with transaction.atomic():
+            user.set_password(serializer.validated_data['new_password'])
+            # Keeping update_fields explicit lets the audit signal record only
+            # a safe password-reset marker, never a password hash.
+            user.save(update_fields=['password'])
+            blacklist_outstanding_refresh_tokens(user)
+
         return Response({'message': 'Mot de passe réinitialisé avec succès.'})
     
     @action(detail=True, methods=['post'])

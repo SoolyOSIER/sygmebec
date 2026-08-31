@@ -1,14 +1,9 @@
 
 > sygmebec-frontend@2.0.0 dev
-> vite --host 127.0.0.1
+> vite --host 127.0.0.1 --port 5173
 
+4:32:29 PM [vite] (client) Re-optimizing dependencies because vite config has changed
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m417[22m[2m[0m ms[22m
+  VITE v8.2.2  ready in 368 ms
 
-  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
-[2m3:18:19 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.js[22m
-[2m3:18:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/layouts/MainLayout.jsx, /src/components/layout/Sidebar.jsx, /src/components/layout/Navbar.jsx[22m
-[2m3:18:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
-[2m3:18:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/Button.jsx, /src/index.css[22m
-[2m3:18:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
-[2m3:18:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/Modal.jsx, /src/index.css[22m
+  ➜  Local:   http://127.0.0.1:5173/

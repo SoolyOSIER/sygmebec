@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.db import transaction
+from django.utils import timezone
 from .models import Membre, Statut, Fonction, HistoriqueStatut, MembreFonction
 
 class StatutSerializer(serializers.ModelSerializer):
@@ -14,6 +15,15 @@ class FonctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fonction
         fields = ['id', 'nomFonction', 'dateDebut', 'dateFin', 'est_active']
+        extra_kwargs = {
+            'dateDebut': {'required': False},
+            'dateFin': {'required': False},
+        }
+
+    def create(self, validated_data):
+        """A function entered from a member sheet starts today by default."""
+        validated_data.setdefault('dateDebut', timezone.localdate())
+        return super().create(validated_data)
 
 
 class MembreFonctionSerializer(serializers.ModelSerializer):
@@ -49,15 +59,19 @@ class MembreListSerializer(serializers.ModelSerializer):
     statut = StatutSerializer(read_only=True)
     nom_complet = serializers.CharField(read_only=True)
     fonctions = serializers.StringRelatedField(many=True)
+    deleted_by_nom = serializers.CharField(source='deleted_by.identifiant', read_only=True)
     
     class Meta:
         model = Membre
         fields = [
             'id', 'nom', 'prenom', 'nom_complet', 'statut',
-            'telephone', 'telephone_secondaire', 'email', 'adresse',
-            'eglise_origine', 'sexe', 'etat_matrimonial',
+            'telephone', 'telephone_secondaire', 'email', 'adresse', 'zone_habitation',
+            'eglise_origine', 'sexe', 'etat_matrimonial', 'niveau_etude', 'profession',
             'date_adhesion', 'date_presentation', 'date_conversion', 'date_affiliation', 'date_bapteme',
-            'membre_petit_groupe', 'dans_ecole_dimanche', 'classe_ecole_dimanche', 'photo', 'fonctions'
+            'actuellement_employe', 'actuellement_etudiant', 'anciennete_ebec',
+            'signature_membre', 'date_signature', 'membre_petit_groupe', 'dans_ecole_dimanche',
+            'classe_ecole_dimanche', 'photo', 'fonctions',
+            'deleted_at', 'deleted_by_nom'
         ]
 
 
@@ -72,12 +86,12 @@ class MembreDetailSerializer(serializers.ModelSerializer):
         model = Membre
         fields = [
             'id', 'nom', 'prenom', 'nom_complet', 'statut',
-            'telephone', 'telephone_secondaire', 'email', 'adresse',
-            'eglise_origine', 'date_naissance', 'sexe', 'etat_matrimonial',
+            'telephone', 'telephone_secondaire', 'email', 'adresse', 'zone_habitation',
+            'eglise_origine', 'date_naissance', 'sexe', 'etat_matrimonial', 'niveau_etude', 'profession',
             'date_presentation', 'date_conversion', 'date_affiliation', 'date_bapteme',
-            'actuellement_employe',
-            'actuellement_etudiant', 'anciennete_ebec',
-            'membre_petit_groupe', 'dans_ecole_dimanche', 'classe_ecole_dimanche', 'signature_membre', 'date_signature', 'photo',
+            'actuellement_employe', 'anciennete_ebec',
+            'actuellement_etudiant', 'signature_membre', 'date_signature',
+            'membre_petit_groupe', 'dans_ecole_dimanche', 'classe_ecole_dimanche', 'photo',
             'age', 'date_adhesion', 'created_at', 'updated_at',
             'fonctions', 'historiques_statut'
         ]
@@ -94,12 +108,12 @@ class MembreCreateUpdateSerializer(serializers.ModelSerializer):
         model = Membre
         fields = [
             'id', 'nom', 'prenom', 'telephone', 'telephone_secondaire',
-            'email', 'adresse', 'eglise_origine', 'date_naissance',
-            'sexe', 'etat_matrimonial',
+            'email', 'adresse', 'zone_habitation', 'eglise_origine', 'date_naissance',
+            'sexe', 'etat_matrimonial', 'niveau_etude', 'profession',
             'date_presentation', 'date_conversion', 'date_affiliation', 'date_bapteme',
-            'actuellement_employe', 'actuellement_etudiant',
+            'actuellement_employe', 'actuellement_etudiant', 'signature_membre', 'date_signature',
             'anciennete_ebec', 'membre_petit_groupe', 'dans_ecole_dimanche', 'classe_ecole_dimanche',
-            'signature_membre', 'date_signature', 'photo',
+            'photo',
             'statut_id', 'fonctions_ids'
         ]
 

@@ -5,12 +5,19 @@ export const getMembre     = (id)        => api.get(`/membres/${id}/`)
 export const createMembre  = (data)      => api.post('/membres/', data)
 export const updateMembre  = (id, data)  => api.patch(`/membres/${id}/`, data)
 export const deleteMembre  = (id)        => api.delete(`/membres/${id}/`)
+export const getMembresCorbeille = ()    => api.get('/membres/corbeille/')
+export const restaurerMembre = (id)      => api.post(`/membres/${id}/restaurer/`)
 export const changerStatut = (id, data)  => api.post(`/membres/${id}/changer-statut/`, data)
 
 export const getStatuts    = ()          => api.get('/statuts/')
 export const getFonctions  = ()          => api.get('/fonctions/')
+export const createFonction = (data)     => api.post('/fonctions/', data)
 export const getHistorique = (membreId)  => api.get('/historiques-statut/', { params: { membre: membreId } })
 export const getStatistiques = ()        => api.get('/membres/statistiques/')
+export const exportMembres = (format, params = {}) => api.get('/membres/exporter/', {
+  params: { ...params, format },
+  responseType: 'blob',
+})
 
 export const membresApi = {
   getAll: getMembres,
@@ -18,9 +25,13 @@ export const membresApi = {
   create: createMembre,
   update: updateMembre,
   delete: deleteMembre,
+  getCorbeille: getMembresCorbeille,
+  restaurer: restaurerMembre,
   changerStatut,
   getStatuts,
   getFonctions,
+  createFonction,
   getHistorique,
   getStatistiques,
+  exportMembres,
 }

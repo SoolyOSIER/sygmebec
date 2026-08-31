@@ -1,12 +1,17 @@
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore.js'
+import { useUIStore } from '../store/uiStore.js'
+import LanguageSelect from '../components/ui/LanguageSelect.jsx'
 
 export default function AuthLayout() {
   const { isAuthenticated } = useAuthStore()
+  const language = useUIStore((state) => state.language)
+  const setLanguage = useUIStore((state) => state.setLanguage)
   if (isAuthenticated) return <Navigate to="/" replace />
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 relative">
+      <LanguageSelect value={language} onChange={setLanguage} className="absolute right-4 top-4 z-10" />
       <Outlet />
     </div>
   )
