@@ -2,7 +2,7 @@ import api from './api'
 
 export const toMediaUrl = (path) => {
   if (!path || path.startsWith('http://') || path.startsWith('https://')) return path
-  return `${import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:8001'}${path}`
+  return `${import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:8000'}${path}`
 }
 
 export const publicApi = {

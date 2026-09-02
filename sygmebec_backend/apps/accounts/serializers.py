@@ -37,9 +37,9 @@ class UtilisateurSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'identifiant', 'role_acces', 'role_nom',
             'telephone', 'membre', 'date_creation_compte', 'dernier_acces',
-            'is_active', 'is_staff'
+            'is_active', 'is_staff', 'is_administrateur_principal'
         ]
-        read_only_fields = ['date_creation_compte', 'dernier_acces']
+        read_only_fields = ['date_creation_compte', 'dernier_acces', 'is_administrateur_principal']
 
 
 class MonProfilMembreSerializer(serializers.ModelSerializer):
@@ -85,9 +85,13 @@ class UtilisateurCreateSerializer(serializers.ModelSerializer):
         
         if data.get('role_id') is not None:
             try:
-                RoleAcces.objects.get(id=data['role_id'])
+                role = RoleAcces.objects.get(id=data['role_id'])
             except RoleAcces.DoesNotExist:
                 raise serializers.ValidationError({'role_id': 'Rôle invalide.'})
+            if role.nomRole == 'ADMINISTRATEUR':
+                raise serializers.ValidationError({
+                    'role_id': "Le rôle Administrateur est réservé à l'administrateur principal."
+                })
         
         if data.get('membre_id'):
             from sygmebec_backend.apps.members.models import Membre
@@ -233,9 +237,28 @@ class UtilisateurUpdateSerializer(serializers.ModelSerializer):
 
         if data.get('role_id'):
             try:
-                RoleAcces.objects.get(id=data['role_id'])
+                role = RoleAcces.objects.get(id=data['role_id'])
             except RoleAcces.DoesNotExist:
-                raise serializers.ValidationError({'role_id': 'Role invalide.'})
+                raise serializers.ValidationError({'role_id': 'Rôle invalide.'})
+
+            is_unchanged_primary_role = (
+                self.instance.is_administrateur_principal
+                and role.pk == self.instance.role_acces_id
+            )
+            if role.nomRole == 'ADMINISTRATEUR' and not is_unchanged_primary_role:
+                raise serializers.ValidationError({
+                    'role_id': "Le rôle Administrateur est réservé à l'administrateur principal."
+                })
+
+        if self.instance.is_administrateur_principal:
+            if data.get('is_active') is False:
+                raise serializers.ValidationError({
+                    'is_active': "L'administrateur principal ne peut pas être désactivé."
+                })
+            if data.get('role_id') and data['role_id'] != self.instance.role_acces_id:
+                raise serializers.ValidationError({
+                    'role_id': "Le rôle de l'administrateur principal ne peut pas être modifié."
+                })
 
         if data.get('membre_id'):
             from sygmebec_backend.apps.members.models import Membre

@@ -49,7 +49,6 @@ class Membre(SoftDeleteModel):
         (NIVEAU_ETUDE_PROFESSIONNEL, 'Professionnel'),
         (NIVEAU_ETUDE_AUTRE, 'Autre'),
     ]
-
     nom = models.CharField(max_length=150)
     prenom = models.CharField(max_length=150, blank=True)
     telephone = models.CharField(max_length=30, blank=True)

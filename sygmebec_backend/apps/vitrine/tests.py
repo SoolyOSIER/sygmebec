@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
 
 from sygmebec_backend.apps.accounts.models import RoleAcces, Utilisateur
 from sygmebec_backend.apps.events.models import Evenement, TypeEvenement
-from sygmebec_backend.apps.members.models import Membre
+from sygmebec_backend.apps.members.models import Membre, Statut
 
 from .models import DemandeAdhesion
 
@@ -93,7 +93,7 @@ class VitrineApiTests(APITestCase):
 
     def test_login_accepts_identifier_without_matching_case(self):
         role, _ = RoleAcces.objects.get_or_create(nomRole='ADMINISTRATEUR')
-        Utilisateur.objects.create_user(
+        Utilisateur.objects.create_superuser(
             identifiant='AdminPrincipal', password='MotDePasseTest123!', role_acces=role,
         )
 
@@ -107,7 +107,7 @@ class VitrineApiTests(APITestCase):
 
     def test_administrator_can_reset_a_password_directly(self):
         role, _ = RoleAcces.objects.get_or_create(nomRole='ADMINISTRATEUR')
-        administrator = Utilisateur.objects.create_user(
+        administrator = Utilisateur.objects.create_superuser(
             identifiant='admin-reset', password='MotDePasseTest123!', role_acces=role,
         )
         user = Utilisateur.objects.create_user(
@@ -144,6 +144,44 @@ class VitrineApiTests(APITestCase):
         event = Evenement.objects.get(id=response.data['id'])
         self.assertEqual(event.type_evenement.nom, 'Baptême')
         self.assertTrue(TypeEvenement.objects.filter(nom='Baptême').exists())
+
+    def test_secretary_can_clear_optional_event_fields(self):
+        role, _ = RoleAcces.objects.get_or_create(nomRole='SECRETAIRE')
+        secretary = Utilisateur.objects.create_user(
+            identifiant='secretaire-edition-events', password='MotDePasseTest123!', role_acces=role,
+        )
+        statut, _ = Statut.objects.get_or_create(libelle='Actif')
+        responsable = Membre.objects.create(nom='Marie', prenom='Louis', statut=statut)
+        event_type = TypeEvenement.objects.create(nom='Bapteme')
+        event = Evenement.objects.create(
+            titre='Evenement a modifier',
+            categorie=Evenement.CATEGORIE_AUTRE,
+            date=timezone.now() + timedelta(days=14),
+            lieu='Temple SYGMEBEC',
+            description='Description initiale',
+            responsable=responsable,
+            capacite=50,
+            type_evenement=event_type,
+        )
+        self.client.force_authenticate(secretary)
+
+        response = self.client.patch(
+            f'/api/v1/evenements/{event.id}/',
+            {
+                'responsable_id': None,
+                'type_evenement_nom': '',
+                'capacite': None,
+                'description': '',
+            },
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        event.refresh_from_db()
+        self.assertIsNone(event.responsable)
+        self.assertIsNone(event.type_evenement)
+        self.assertIsNone(event.capacite)
+        self.assertEqual(event.description, '')
 
     def test_public_events_only_expose_public_upcoming_events(self):
         response = self.client.get('/api/v1/public/evenements/')

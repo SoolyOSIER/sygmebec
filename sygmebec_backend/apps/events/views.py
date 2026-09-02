@@ -5,7 +5,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-
 from .models import Evenement, TypeEvenement
 from sygmebec_backend.apps.core.models import AuditLog
 from django.forms.models import model_to_dict

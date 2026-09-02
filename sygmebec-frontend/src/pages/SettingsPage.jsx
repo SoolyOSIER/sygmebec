@@ -1,53 +1,253 @@
-import { useEffect, useMemo, useState } from 'react'
-import { FiBell, FiBriefcase, FiCheck, FiChevronRight, FiCreditCard, FiFileText, FiGlobe, FiKey, FiLock, FiMail, FiMonitor, FiMoon, FiShield, FiSliders, FiSun, FiUser, FiUsers } from 'react-icons/fi'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { FiBell, FiCamera, FiCheck, FiChevronRight, FiCloud, FiCreditCard, FiGrid, FiLock, FiMail, FiMonitor, FiMoon, FiRefreshCw, FiShield, FiSliders, FiSun, FiUser, FiX } from 'react-icons/fi'
 import Avatar from '../components/ui/Avatar'
 import { authApi } from '../api/authApi'
+import useT from '../i18n/useT'
 import { useAuthStore } from '../store/authStore'
 import { useUIStore } from '../store/uiStore'
+import { getPasswordStrength, PASSWORD_MIN_LENGTH } from '../utils/passwordPolicy'
 import './settingsReference.css'
 
 const preferenceKey = 'sygmebec-settings-preferences'
-const defaultPrefs = { notifications: true, mentions: true, weeklyDigest: true, reduceMotion: false, compact: false, publicProfile: true }
-const groups = [
-  ['Votre compte', [['profil', 'Profil public', FiUser], ['compte', 'Compte', FiBriefcase], ['apparence', 'Apparence', FiSliders], ['accessibilite', 'Accessibilité', FiMonitor], ['notifications', 'Notifications', FiBell]]],
-  ['Accès', [['facturation', 'Facturation', FiCreditCard], ['emails', 'E-mails', FiMail], ['securite', 'Mot de passe et authentification', FiLock], ['sessions', 'Sessions', FiMonitor], ['api', 'Clés API', FiKey]]],
-  ['Espace de travail', [['eglise', 'Église', FiGlobe], ['membres', 'Membres', FiUsers], ['moderation', 'Modération', FiShield]]],
-  ['Archives', [['journal', 'Journal de sécurité', FiFileText]]],
+const defaults = { digest: true, mentions: true, newMembers: false, push: true, product: false, twoFactor: false, reduceMotion: false, density: 'standard', accent: '#c6a15b' }
+
+const navigationItems = [
+  ['profil', 'settings.profile.title', FiUser],
+  ['securite', 'settings.security.title', FiShield],
+  ['notifications', 'settings.notifications.title', FiBell],
+  ['apparence', 'settings.appearance.title', FiSliders],
+  ['facturation', 'settings.billing.title', FiCreditCard],
+  ['integrations', 'settings.integrations.title', FiGrid],
 ]
-const panels = {
-  compte: ['Compte', 'Gérez les informations essentielles et la visibilité de votre compte.', 'Adresse e-mail de connexion', 'Cette adresse est utilisée pour sécuriser votre connexion.', 'Profil public', 'Autoriser les membres de l’église à voir votre profil.'],
-  facturation: ['Facturation', 'Consultez votre abonnement et les informations de paiement de votre espace.', 'Offre actuelle', 'Votre abonnement est administré par SYGMEBEC.', 'Moyen de paiement', 'Aucun moyen de paiement personnel n’est requis.'],
-  emails: ['E-mails', 'Personnalisez la réception de vos communications par e-mail.', 'Résumé hebdomadaire', 'Recevez un bilan de l’activité de votre église.', 'Communications système', 'Recevez les informations importantes liées au service.'],
-  sessions: ['Sessions', 'Contrôlez les appareils connectés à votre compte.', 'Session actuelle', 'Navigateur actuel · activité à l’instant.', 'Autres sessions', 'Aucune autre session active détectée.'],
-  api: ['Clés API', 'Créez des accès sécurisés pour vos intégrations techniques.', 'Aucune clé active', 'Les clés API permettent à des outils autorisés d’accéder à votre espace.', 'Accès développeur', 'Disponible uniquement pour les administrateurs.'],
-  eglise: ['Église', 'Configurez les informations communes de votre espace de travail.', 'Informations de l’église', 'Nom, adresse, coordonnées et identité visuelle.', 'Préférences locales', 'Fuseau horaire, langue et paramètres de calendrier.'],
-  membres: ['Membres', 'Définissez les règles de gestion et de confidentialité des membres.', 'Inscriptions en ligne', 'Acceptez les nouvelles demandes depuis le formulaire public.', 'Accès au registre', 'Les administrateurs et secrétaires autorisés peuvent gérer le registre.'],
-  moderation: ['Modération', 'Gardez un espace sûr et bien organisé pour toute la communauté.', 'Validation des contenus', 'Les éléments signalés sont confiés à l’équipe de modération.', 'Conservation des données', 'Les éléments supprimés sont placés dans la corbeille avant suppression définitive.'],
-  journal: ['Journal de sécurité', 'Suivez les opérations importantes effectuées dans votre espace.', 'Historique protégé', 'Les connexions et changements sensibles sont consignés automatiquement.', 'Export du journal', 'Disponible uniquement pour les administrateurs.'],
+
+const notificationItems = [
+  ['digest', 'settings.notifications.digest', 'settings.notifications.digestDescription'],
+  ['mentions', 'settings.notifications.mentions', 'settings.notifications.mentionsDescription'],
+  ['newMembers', 'settings.notifications.newMembers', 'settings.notifications.newMembersDescription'],
+  ['push', 'settings.notifications.push', 'settings.notifications.pushDescription'],
+  ['product', 'settings.notifications.product', 'settings.notifications.productDescription'],
+]
+
+const densityItems = [
+  ['comfortable', 'settings.appearance.comfortable'],
+  ['standard', 'settings.appearance.standard'],
+  ['compact', 'settings.appearance.compact'],
+]
+
+const normaliseDensity = (value) => ({
+  Confortable: 'comfortable', Standard: 'standard', Compacte: 'compact',
+  comfortable: 'comfortable', standard: 'standard', compact: 'compact',
+}[value] || 'standard')
+
+function readPreferences() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(preferenceKey) || '{}')
+    const saved = parsed && typeof parsed === 'object' ? parsed : {}
+    return { ...defaults, ...saved, density: normaliseDensity(saved.density) }
+  } catch {
+    return defaults
+  }
 }
-function Toggle({ checked, onChange, label }) { return <button type="button" className={`settings-toggle ${checked ? 'is-on' : ''}`} onClick={onChange} aria-pressed={checked} aria-label={label}><span /></button> }
-function CardHeader({ Icon, title, description }) { return <header className="settings-card-head"><span className="settings-card-icon"><Icon /></span><div><h2>{title}</h2><p>{description}</p></div></header> }
+
+function Toggle({ checked, onChange, label }) {
+  return <button type="button" className={`settings-toggle ${checked ? 'is-on' : ''}`} onClick={onChange} aria-pressed={checked} aria-label={label}><span /></button>
+}
+
+function SectionHeader({ icon: Icon, title, description }) {
+  return <header className="settings-card-head"><span className="settings-card-icon"><Icon /></span><div><h2>{title}</h2><p>{description}</p></div></header>
+}
 
 export default function SettingsPage() {
+  const { t } = useT()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { user, setUser } = useAuthStore()
   const { themePreference, setTheme } = useUIStore()
-  const [active, setActive] = useState('profil')
   const [profile, setProfile] = useState({ prenom: '', nom: '', email: '', telephone: '' })
-  const [prefs, setPrefs] = useState(() => { try { return { ...defaultPrefs, ...JSON.parse(localStorage.getItem(preferenceKey) || '{}') } } catch { return defaultPrefs } })
-  const [notice, setNotice] = useState(null)
-  const [saving, setSaving] = useState(false)
-  const fullName = useMemo(() => `${profile.prenom} ${profile.nom}`.trim() || user?.identifiant || 'Administrateur', [profile, user])
-  useEffect(() => setProfile({ prenom: user?.membre?.prenom || '', nom: user?.membre?.nom || '', email: user?.membre?.email || user?.email || '', telephone: user?.membre?.telephone || '' }), [user])
-  useEffect(() => { localStorage.setItem(preferenceKey, JSON.stringify(prefs)); document.documentElement.classList.toggle('reduce-motion', prefs.reduceMotion) }, [prefs])
-  const toggle = (key) => setPrefs((current) => ({ ...current, [key]: !current[key] }))
-  const saveProfile = async () => { setSaving(true); try { const { data } = await authApi.updateMyProfile(profile); setUser({ ...user, membre: { ...user?.membre, ...data.membre } }); setNotice('Votre profil a été enregistré.') } catch { setNotice('Impossible d’enregistrer le profil pour le moment.') } finally { setSaving(false) } }
-  const basicRow = (title, text, control) => <div className="settings-row"><div><b>{title}</b><span>{text}</span></div>{control}</div>
-  const profilePanel = <article className="settings-card"><CardHeader Icon={FiUser} title="Profil public" description="Ces informations sont visibles par les membres de votre espace de travail." /><div className="settings-profile-row"><Avatar name={fullName} src={user?.membre?.photo} size="2xl" className="settings-avatar" /><div className="settings-profile-meta"><b>{fullName}</b><span>{profile.email || 'Aucune adresse e-mail'}</span></div><button type="button" className="settings-button">Modifier la photo</button></div>{basicRow('Nom', 'Votre nom apparaît dans le registre et les échanges.', <div className="settings-input-grid"><input value={profile.prenom} placeholder="Prénom" onChange={(e) => setProfile({ ...profile, prenom: e.target.value })} /><input value={profile.nom} placeholder="Nom" onChange={(e) => setProfile({ ...profile, nom: e.target.value })} /></div>)}{basicRow('Adresse courriel publique', 'Choisissez l’adresse affichée aux membres.', <input className="settings-profile-input" type="email" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })} />)}{basicRow('Téléphone', 'Utilisé uniquement pour les communications importantes.', <input className="settings-profile-input" value={profile.telephone} placeholder="+509 …" onChange={(e) => setProfile({ ...profile, telephone: e.target.value })} />)}<footer className="settings-card-footer"><p>Vos informations restent protégées.</p><button type="button" className="settings-button settings-primary" onClick={saveProfile} disabled={saving}>{saving ? 'Enregistrement…' : 'Enregistrer'}</button></footer></article>
-  const appearancePanel = <article className="settings-card"><CardHeader Icon={FiSliders} title="Apparence" description="Adaptez l’interface à votre façon de travailler." />{basicRow('Thème', 'Choisissez l’apparence générale de l’application.', <div className="settings-segmented">{[['Clair', FiSun, 'light'], ['Sombre', FiMoon, 'dark'], ['Système', FiMonitor, 'system']].map(([label, Icon, value]) => <button key={value} type="button" className={themePreference === value ? 'active' : ''} onClick={() => setTheme(value)}><Icon />{label}</button>)}</div>)}{basicRow('Interface compacte', 'Réduit l’espacement pour afficher davantage d’informations.', <Toggle checked={prefs.compact} label="Interface compacte" onChange={() => toggle('compact')} />)}</article>
-  const accessibilityPanel = <article className="settings-card"><CardHeader Icon={FiMonitor} title="Accessibilité" description="Réglez l’interface pour votre confort de lecture et de navigation." />{basicRow('Réduire les animations', 'Limite les transitions et les mouvements non essentiels.', <Toggle checked={prefs.reduceMotion} label="Réduire les animations" onChange={() => toggle('reduceMotion')} />)}{basicRow('Navigation au clavier', 'Les contrôles de l’application sont accessibles au clavier.', <span className="settings-button is-disabled">Activée</span>)}</article>
-  const notificationsPanel = <article className="settings-card"><CardHeader Icon={FiBell} title="Notifications" description="Choisissez les alertes qui méritent votre attention." />{[['notifications', 'Notifications push', 'Alertes importantes en temps réel.'], ['mentions', 'Mentions et commentaires', 'Lorsqu’un membre vous cite ou vous répond.'], ['weeklyDigest', 'Résumé hebdomadaire', 'Un bilan de l’activité de votre église.']].map(([key, title, text]) => <div className="settings-row" key={key}><div><b>{title}</b><span>{text}</span></div><Toggle checked={prefs[key]} label={title} onChange={() => toggle(key)} /></div>)}</article>
-  const securityPanel = <article className="settings-card"><CardHeader Icon={FiLock} title="Mot de passe et authentification" description="Protégez durablement l’accès à votre compte." />{basicRow('Mot de passe', 'Utilisez un mot de passe long, unique et difficile à deviner.', <button type="button" className="settings-button" onClick={() => setNotice('La modification du mot de passe est disponible depuis votre profil.')}>Modifier</button>)}{basicRow('Authentification à deux facteurs', 'Ajoute une vérification supplémentaire à votre connexion.', <button type="button" className="settings-button" disabled>Bientôt disponible</button>)}</article>
-  const genericPanel = () => { const [title, description, a, aText, b, bText] = panels[active]; const Icon = groups.flatMap(([, items]) => items).find(([id]) => id === active)?.[2] || FiSliders; return <article className="settings-card"><CardHeader Icon={Icon} title={title} description={description} />{basicRow(a, aText, <button type="button" className="settings-button" disabled>Gérer bientôt</button>)}{basicRow(b, bText, <Toggle checked={active !== 'api' && active !== 'journal'} label={b} onChange={() => setNotice('Préférence mise à jour.')} />)}</article> }
-  const content = active === 'profil' ? profilePanel : active === 'apparence' ? appearancePanel : active === 'accessibilite' ? accessibilityPanel : active === 'notifications' ? notificationsPanel : active === 'securite' ? securityPanel : genericPanel()
-  return <div className="settings-page"><aside className="settings-sidebar"><div className="settings-brand"><span>EB</span><div><b>SYGMEBEC</b><small>Administration</small></div></div>{groups.map(([title, items]) => <div key={title}><p className="settings-nav-label">{title}</p><nav>{items.map(([id, label, Icon]) => <button key={id} type="button" className={active === id ? 'active' : ''} onClick={() => { setActive(id); setNotice(null) }}><Icon />{label}<FiChevronRight /></button>)}</nav></div>)}</aside><main className="settings-main"><header className="settings-hero"><div><span>Paramètres</span><h1>Votre espace, à votre image</h1><p>Gérez avec précision votre compte, vos accès et les réglages de votre église.</p></div><div className="settings-save-status"><i />Espace sécurisé</div></header>{notice && <div className="settings-message success"><span><FiCheck /></span>{notice}</div>}{content}<p className="settings-footnote">SYGMEBEC · Paramètres de votre espace d’administration</p></main></div>
+  const [preferences, setPreferences] = useState(readPreferences)
+  const [passwordForm, setPasswordForm] = useState({ current_password: '', new_password: '', new_password_confirm: '' })
+  const [showPassword, setShowPassword] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [isChangingPassword, setIsChangingPassword] = useState(false)
+  const [message, setMessage] = useState(null)
+  const fileInput = useRef(null)
+  const sectionRefs = useRef({})
+  const activeSection = searchParams.get('tab') === 'general' ? 'profil' : (searchParams.get('tab') || 'profil')
+  const fullName = useMemo(() => `${profile.prenom} ${profile.nom}`.trim() || user?.identifiant || t('settings.administratorAccount'), [profile, user, t])
+  const passwordStrength = getPasswordStrength(passwordForm.new_password)
+  const navItems = navigationItems.map(([id, labelKey, Icon]) => [id, t(labelKey), Icon])
+  const notificationRows = notificationItems.map(([key, titleKey, descriptionKey]) => [key, t(titleKey), t(descriptionKey)])
+  const themeItems = [
+    ['light', t('settings.appearance.light'), FiSun],
+    ['dark', t('settings.appearance.dark'), FiMoon],
+    ['system', t('settings.appearance.system'), FiMonitor],
+  ]
+  const plans = [
+    ['essential', t('settings.billing.essential'), t('settings.billing.starter'), [t('settings.billing.memberManagement'), t('settings.billing.eventAnnouncements')]],
+    ['pro', t('settings.billing.pro'), t('settings.billing.recommended'), [t('settings.billing.enhancedReports'), t('settings.billing.prioritySupport'), t('settings.billing.advancedIntegrations')]],
+    ['enterprise', t('settings.billing.enterprise'), t('settings.billing.custom'), [t('settings.billing.multiTeam'), t('settings.billing.dedicatedSupport')]],
+  ]
+  const integrations = [
+    [t('settings.integrations.googleDrive'), t('settings.integrations.googleDriveDescription'), FiCloud],
+    [t('settings.integrations.email'), t('settings.integrations.emailDescription'), FiMail],
+    [t('settings.integrations.automations'), t('settings.integrations.automationsDescription'), FiRefreshCw],
+  ]
+
+  useEffect(() => {
+    setProfile({
+      prenom: user?.membre?.prenom || '',
+      nom: user?.membre?.nom || '',
+      email: user?.membre?.email || user?.email || '',
+      telephone: user?.membre?.telephone || user?.telephone || '',
+    })
+  }, [user])
+
+  useEffect(() => {
+    localStorage.setItem(preferenceKey, JSON.stringify(preferences))
+    document.documentElement.style.setProperty('--settings-accent', preferences.accent)
+    document.documentElement.classList.toggle('settings-compact', preferences.density === 'compact')
+    document.documentElement.classList.toggle('reduce-motion', preferences.reduceMotion)
+  }, [preferences])
+
+  const updateUser = (membre) => setUser({ ...user, membre: { ...user?.membre, ...membre, nom_complet: `${membre?.prenom ?? profile.prenom} ${membre?.nom ?? profile.nom}`.trim() } })
+  const chooseSection = (id) => { setSearchParams({ tab: id }); sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+  const updatePreference = (key, value) => setPreferences((current) => ({ ...current, [key]: value ?? !current[key] }))
+
+  const saveProfile = async () => {
+    setIsSaving(true)
+    setMessage(null)
+    try {
+      const { data } = await authApi.updateMyProfile(profile)
+      updateUser(data.membre)
+      setMessage({ type: 'success', text: t('settings.profile.saved') })
+    } catch {
+      setMessage({ type: 'error', text: t('settings.profile.saveFailed') })
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const uploadPhoto = async (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) return setMessage({ type: 'error', text: t('settings.profile.chooseImage') })
+    if (file.size > 20 * 1024 * 1024) return setMessage({ type: 'error', text: t('settings.profile.imageTooLarge') })
+
+    const formData = new FormData()
+    formData.append('photo', file)
+    setIsUploading(true)
+    setMessage(null)
+    try {
+      const { data } = await authApi.updateMyProfile(formData)
+      updateUser(data.membre)
+      setMessage({ type: 'success', text: t('settings.profile.photoUpdated') })
+    } catch {
+      setMessage({ type: 'error', text: t('settings.profile.photoUpdateFailed') })
+    } finally {
+      setIsUploading(false)
+      event.target.value = ''
+    }
+  }
+
+  const changePassword = async (event) => {
+    event.preventDefault()
+    if (!passwordForm.current_password || !passwordForm.new_password || !passwordForm.new_password_confirm) {
+      return setMessage({ type: 'error', text: t('settings.security.fillAll') })
+    }
+    const invalidCheck = passwordStrength.checks.find((check) => !check.valid)
+    if (invalidCheck) return setMessage({ type: 'error', text: t(`settings.security.validation.${invalidCheck.id}`) })
+    if (passwordForm.new_password !== passwordForm.new_password_confirm) {
+      return setMessage({ type: 'error', text: t('settings.security.passwordMismatch') })
+    }
+
+    setIsChangingPassword(true)
+    setMessage(null)
+    try {
+      await authApi.changeMyPassword(passwordForm)
+      setPasswordForm({ current_password: '', new_password: '', new_password_confirm: '' })
+      setShowPassword(false)
+      setMessage({ type: 'success', text: t('settings.security.passwordUpdated') })
+    } catch {
+      setMessage({ type: 'error', text: t('settings.security.passwordUpdateFailed') })
+    } finally {
+      setIsChangingPassword(false)
+    }
+  }
+
+  return (
+    <div className="settings-page" data-no-translate>
+      <aside className="settings-sidebar">
+        <div className="settings-brand"><span>EB</span><div><b>SYGMEBEC</b><small>{t('settings.administration')}</small></div></div>
+        <p className="settings-nav-label">{t('settings.account')}</p>
+        <nav>{navItems.slice(0, 3).map(([id, label, Icon]) => <button key={id} type="button" className={activeSection === id ? 'active' : ''} onClick={() => chooseSection(id)}><Icon />{label}<FiChevronRight /></button>)}</nav>
+        <p className="settings-nav-label">{t('settings.workspace')}</p>
+        <nav>{navItems.slice(3).map(([id, label, Icon]) => <button key={id} type="button" className={activeSection === id ? 'active' : ''} onClick={() => chooseSection(id)}><Icon />{label}<FiChevronRight /></button>)}</nav>
+        <div className="settings-sidebar-user"><Avatar name={fullName} src={user?.membre?.photo} size="md" /><div><b>{fullName}</b><small>{user?.membre?.email || user?.identifiant || t('settings.administratorAccount')}</small></div></div>
+      </aside>
+
+      <main className="settings-main">
+        <header className="settings-hero"><div><span>{t('settings.pageEyebrow')}</span><h1>{t('settings.title')}</h1><p>{t('settings.description')}</p></div><div className="settings-save-status"><i />{t('settings.saved')}</div></header>
+        {message && <div className={`settings-message ${message.type}`}><span>{message.type === 'success' ? <FiCheck /> : <FiX />}</span>{message.text}<button type="button" onClick={() => setMessage(null)} aria-label={t('settings.close')}><FiX /></button></div>}
+
+        <section ref={(node) => { sectionRefs.current.profil = node }} id="profil" className="settings-section">
+          <article className="settings-card">
+            <SectionHeader icon={FiUser} title={t('settings.profile.title')} description={t('settings.profile.description')} />
+            <div className="settings-profile-row">
+              <Avatar name={fullName} src={user?.membre?.photo} size="2xl" className="settings-avatar" />
+              <div className="settings-profile-meta"><b>{fullName}</b><span>{profile.email || user?.identifiant || t('settings.profile.noEmail')}</span></div>
+              <button type="button" className="settings-button" onClick={() => fileInput.current?.click()} disabled={isUploading}><FiCamera />{isUploading ? t('settings.profile.uploading') : t('settings.profile.changePhoto')}</button>
+              <input ref={fileInput} className="settings-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={uploadPhoto} />
+            </div>
+            <div className="settings-row settings-fields">
+              <div><b>{t('settings.profile.personalInfo')}</b><span>{t('settings.profile.personalInfoDescription')}</span></div>
+              <div className="settings-input-grid"><input value={profile.prenom} onChange={(event) => setProfile((current) => ({ ...current, prenom: event.target.value }))} placeholder={t('settings.profile.firstName')} /><input value={profile.nom} onChange={(event) => setProfile((current) => ({ ...current, nom: event.target.value }))} placeholder={t('settings.profile.lastName')} /></div>
+            </div>
+            <div className="settings-row settings-fields"><div><b>{t('settings.profile.email')}</b><span>{t('settings.profile.emailDescription')}</span></div><input value={profile.email} type="email" onChange={(event) => setProfile((current) => ({ ...current, email: event.target.value }))} placeholder={t('settings.profile.emailPlaceholder')} /></div>
+            <div className="settings-row settings-fields"><div><b>{t('settings.profile.phone')}</b><span>{t('settings.profile.phoneDescription')}</span></div><input value={profile.telephone} onChange={(event) => setProfile((current) => ({ ...current, telephone: event.target.value }))} placeholder={t('settings.profile.phonePlaceholder')} /></div>
+            <footer className="settings-card-footer"><p>{t('settings.profile.imageHint')}</p><button type="button" className="settings-button settings-primary" onClick={saveProfile} disabled={isSaving}>{isSaving ? t('settings.profile.saving') : t('settings.profile.save')}</button></footer>
+          </article>
+        </section>
+
+        <section ref={(node) => { sectionRefs.current.securite = node }} id="securite" className="settings-section">
+          <article className="settings-card">
+            <SectionHeader icon={FiShield} title={t('settings.security.title')} description={t('settings.security.description')} />
+            <div className="settings-row"><div><b>{t('settings.security.password')}</b><span>{t('settings.security.passwordPolicy')}</span></div><button type="button" className="settings-button" onClick={() => setShowPassword((value) => !value)}>{showPassword ? t('settings.close') : t('settings.security.modify')}</button></div>
+            {showPassword && (
+              <form className="settings-password-form" onSubmit={changePassword}>
+                <label>{t('settings.security.currentPassword')}<input type="password" value={passwordForm.current_password} autoComplete="current-password" onChange={(event) => setPasswordForm((current) => ({ ...current, current_password: event.target.value }))} /></label>
+                <label>
+                  {t('settings.security.newPassword')}
+                  <input type="password" value={passwordForm.new_password} autoComplete="new-password" minLength={PASSWORD_MIN_LENGTH} aria-describedby="settings-password-policy" onChange={(event) => setPasswordForm((current) => ({ ...current, new_password: event.target.value }))} />
+                  <small id="settings-password-policy" className={passwordStrength.isCompliant ? 'is-strong' : ''} role="status">{t(`settings.security.strength.${passwordStrength.score}`)}{passwordStrength.isCompliant ? ` · ${t('settings.security.policySatisfied')}` : ` · ${t('settings.security.allCriteriaRequired')}`}</small>
+                </label>
+                <label>{t('settings.security.confirmNewPassword')}<input type="password" value={passwordForm.new_password_confirm} autoComplete="new-password" onChange={(event) => setPasswordForm((current) => ({ ...current, new_password_confirm: event.target.value }))} /></label>
+                <div><button className="settings-button settings-primary" disabled={isChangingPassword || !passwordStrength.isCompliant || passwordForm.new_password !== passwordForm.new_password_confirm}>{isChangingPassword ? t('settings.security.updating') : t('settings.security.updatePassword')}</button></div>
+              </form>
+            )}
+            <div className="settings-row"><div><b>{t('settings.security.twoFactor')}</b><span>{t('settings.security.twoFactorDescription')}</span></div><Toggle checked={preferences.twoFactor} label={t('settings.security.twoFactor')} onChange={() => updatePreference('twoFactor')} /></div>
+            <div className="settings-row"><div className="settings-session"><span><FiMonitor /></span><div><b>{t('settings.security.currentSession')} <em>{t('settings.security.currentSessionLabel')}</em></b><small>{t('settings.security.currentSessionDescription')}</small></div></div><button type="button" className="settings-button is-disabled" disabled>{t('settings.security.active')}</button></div>
+            <div className="settings-row"><div className="settings-session"><span><FiLock /></span><div><b>{t('settings.security.otherSessions')}</b><small>{t('settings.security.otherSessionsDescription')}</small></div></div><button type="button" className="settings-button" disabled>{t('settings.security.manageSoon')}</button></div>
+          </article>
+        </section>
+
+        <section ref={(node) => { sectionRefs.current.notifications = node }} id="notifications" className="settings-section"><article className="settings-card"><SectionHeader icon={FiBell} title={t('settings.notifications.title')} description={t('settings.notifications.description')} />{notificationRows.map(([key, title, description]) => <div className="settings-row" key={key}><div><b>{title}</b><span>{description}</span></div><Toggle checked={preferences[key]} label={title} onChange={() => updatePreference(key)} /></div>)}</article></section>
+
+        <section ref={(node) => { sectionRefs.current.apparence = node }} id="apparence" className="settings-section">
+          <article className="settings-card">
+            <SectionHeader icon={FiSliders} title={t('settings.appearance.title')} description={t('settings.appearance.description')} />
+            <div className="settings-row"><div><b>{t('settings.appearance.theme')}</b><span>{t('settings.appearance.themeDescription')}</span></div><div className="settings-segmented">{themeItems.map(([id, label, Icon]) => <button key={id} type="button" className={themePreference === id ? 'active' : ''} onClick={() => setTheme(id)}><Icon />{label}</button>)}</div></div>
+            <div className="settings-row"><div><b>{t('settings.appearance.accent')}</b><span>{t('settings.appearance.accentDescription')}</span></div><div className="settings-swatches">{['#c6a15b', '#4c7a5e', '#526ba7', '#a9536a'].map((color) => <button key={color} type="button" aria-label={t('settings.appearance.accentAria', { color })} className={preferences.accent === color ? 'active' : ''} style={{ background: color }} onClick={() => updatePreference('accent', color)} />)}</div></div>
+            <div className="settings-row"><div><b>{t('settings.appearance.density')}</b><span>{t('settings.appearance.densityDescription')}</span></div><div className="settings-segmented">{densityItems.map(([id, labelKey]) => <button key={id} type="button" className={preferences.density === id ? 'active' : ''} onClick={() => updatePreference('density', id)}>{t(labelKey)}</button>)}</div></div>
+            <div className="settings-row"><div><b>{t('settings.appearance.reduceMotion')}</b><span>{t('settings.appearance.reduceMotionDescription')}</span></div><Toggle checked={preferences.reduceMotion} label={t('settings.appearance.reduceMotion')} onChange={() => updatePreference('reduceMotion')} /></div>
+          </article>
+        </section>
+
+        <section ref={(node) => { sectionRefs.current.facturation = node }} id="facturation" className="settings-section"><article className="settings-card"><SectionHeader icon={FiCreditCard} title={t('settings.billing.title')} description={t('settings.billing.description')} /><div className="settings-plan-grid">{plans.map(([id, name, price, features]) => <div key={id} className={`settings-plan ${id === 'pro' ? 'selected' : ''}`}><h3>{name}</h3><strong>{price}</strong><ul>{features.map((feature) => <li key={feature}><FiCheck />{feature}</li>)}</ul></div>)}</div><div className="settings-row"><div><b>{t('settings.billing.churchOffer')}</b><span>{t('settings.billing.churchOfferDescription')}</span></div><button type="button" className="settings-button" disabled>{t('settings.billing.managed')}</button></div></article></section>
+
+        <section ref={(node) => { sectionRefs.current.integrations = node }} id="integrations" className="settings-section"><article className="settings-card"><SectionHeader icon={FiGrid} title={t('settings.integrations.title')} description={t('settings.integrations.description')} />{integrations.map(([name, description, Icon]) => <div className="settings-row settings-integration" key={name}><div><span className="settings-integration-icon"><Icon /></span><div><b>{name}</b><span>{description}</span></div></div><button type="button" className="settings-button" disabled>{t('settings.integrations.comingSoon')}</button></div>)}</article></section>
+        <p className="settings-footnote">{t('settings.footnote')}</p>
+      </main>
+    </div>
+  )
 }

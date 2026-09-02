@@ -15,7 +15,6 @@ class MembreAdmin(admin.ModelAdmin):
     search_fields = ['nom', 'prenom', 'email', 'telephone', 'telephone_secondaire', 'eglise_origine']
     readonly_fields = ['date_adhesion', 'created_at', 'updated_at']
     inlines = [MembreFonctionInline]
-
 @admin.register(Statut)
 class StatutAdmin(admin.ModelAdmin):
     list_display = ['id', 'libelle']

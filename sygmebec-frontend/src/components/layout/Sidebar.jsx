@@ -71,7 +71,7 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-none overflow-y-auto px-3 py-4 space-y-1">
+      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
         {visibleItems.map((item) => {
           const Icon = item.icon
           return (
@@ -100,7 +100,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Bottom */}
-      <div className="px-3 pt-2 pb-4 border-t border-white/5 flex-shrink-0 space-y-1">
+      <div className="px-3 py-4 border-t border-white/5 flex-shrink-0 space-y-1">
         {visibleBottom.map((item) => {
           const Icon = item.icon
           return (

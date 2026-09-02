@@ -20,6 +20,7 @@ import {
   PASSWORD_POLICY_SUMMARY,
 } from '../../utils/passwordPolicy'
 import './utilisateurCreate.css'
+import useT from '../../i18n/useT'
 
 const roles = [
   { id: 3, name: 'Administrateur', text: 'Accès complet : membres, rapports et utilisateurs', icon: FiShield, tone: 'admin' },
@@ -37,6 +38,7 @@ export default function UtilisateurForm({
   membres = [],
   isEditing = false,
 }) {
+  const { t } = useT()
   const existingName = [initialData.membre?.prenom || '', initialData.membre?.nom || ''].join(' ').trim()
   const [form, setForm] = useState({
     nom_complet: existingName,
@@ -115,7 +117,7 @@ export default function UtilisateurForm({
           <div>
             <small>SYGMEBEC · Gestion des accès</small>
             <h2>{isEditing ? 'Modifier un utilisateur' : 'Créer un utilisateur'}</h2>
-            <p>{isEditing ? 'Mettez à jour les informations et les accès de ce compte.' : 'Donnez accès au système à un membre de l’équipe et définissez son rôle.'}</p>
+            <p>{isEditing ? 'Mettez à jour les informations et les accès de ce compte.' : t('accountForm.newUserDescription')}</p>
           </div>
         </div>
         {onCancel && <button type="button" className="user-close" onClick={onCancel} aria-label="Fermer"><FiX /></button>}

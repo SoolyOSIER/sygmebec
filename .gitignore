@@ -4,6 +4,7 @@ __pycache__/
 .env
 db.sqlite3
 *.sqlite3
+db.sqlite3.before-migrations-*.bak
 node_modules/
 dist/
 build/

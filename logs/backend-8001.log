@@ -1,7 +1,10 @@
 Performing system checks...
 
 System check identified no issues (0 silenced).
-August 24, 2026 - 15:44:34
+
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): accounts.
+Run 'python manage.py migrate' to apply them.
+August 31, 2026 - 20:28:37
 Django version 4.2.7, using settings 'sygmebec_backend.settings'
 Starting development server at http://127.0.0.1:8001/
 Quit the server with CTRL-BREAK.

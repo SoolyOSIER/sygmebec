@@ -56,11 +56,9 @@ def redact_audit_changes(value):
 class AuditLogSerializer(serializers.ModelSerializer):
     actor = serializers.SerializerMethodField()
     changes = serializers.SerializerMethodField()
-
     class Meta:
         model = AuditLog
         fields = ['id', 'actor', 'action', 'content_type', 'object_id', 'object_repr', 'changes', 'timestamp']
-
     def get_actor(self, obj):
         if obj.actor:
             return {'id': obj.actor.id, 'identifiant': obj.actor.identifiant}

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { useSelector, useDispatch } from 'react-redux'
+import useT from '../../i18n/useT'
 import { 
   Menu, 
   X, 
@@ -31,6 +32,7 @@ const Header = () => {
   const navigate = useNavigate()
   const dropdownRef = useRef(null)
   const { scrollY } = useScroll()
+  const { t } = useT()
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setIsScrolled(latest > 50)
@@ -52,11 +54,11 @@ const Header = () => {
   }
 
   const navLinks = [
-    { to: '/', label: 'Accueil', icon: Home },
-    { to: '/apropos', label: 'À propos', icon: Info },
-    { to: '/evenements', label: 'Événements', icon: Calendar },
-    { to: '/galerie', label: 'Galerie', icon: ImageIcon },
-    { to: '/contact', label: 'Contact', icon: Mail },
+    { to: '/', label: t('navigation.home'), icon: Home },
+    { to: '/apropos', label: t('navigation.about'), icon: Info },
+    { to: '/evenements', label: t('navigation.events'), icon: Calendar },
+    { to: '/galerie', label: t('navigation.gallery'), icon: ImageIcon },
+    { to: '/contact', label: t('navigation.contact'), icon: Mail },
   ]
 
   return (
@@ -171,7 +173,7 @@ const Header = () => {
                           onClick={() => setIsDropdownOpen(false)}
                         >
                           <User className="w-4 h-4" />
-                          Mon profil
+                          {t('navigation.profile')}
                         </Link>
                         <Link
                           to="/mes-inscriptions"
@@ -179,7 +181,7 @@ const Header = () => {
                           onClick={() => setIsDropdownOpen(false)}
                         >
                           <Calendar className="w-4 h-4" />
-                          Mes inscriptions
+                          {t('navigation.onlineRegistrations')}
                         </Link>
                         {user?.role === 'ADMIN' && (
                           <Link
@@ -188,7 +190,7 @@ const Header = () => {
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             <Settings className="w-4 h-4" />
-                            Administration
+                            {t('navigation.administration')}
                           </Link>
                         )}
                         <div className="border-t border-gray-100 my-1" />
@@ -200,7 +202,7 @@ const Header = () => {
                           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-red-50 transition-colors text-gray-700 hover:text-red-600"
                         >
                           <LogOut className="w-4 h-4" />
-                          Déconnexion
+                          {t('navigation.logout')}
                         </button>
                       </div>
                     </motion.div>
@@ -211,12 +213,12 @@ const Header = () => {
               <>
                 <Link to="/connexion">
                   <Button variant="outline" size="sm">
-                    Connexion
+                    {t('common.login')}
                   </Button>
                 </Link>
                 <Link to="/adhesion">
                   <Button variant="gold" size="sm">
-                    Adhésion
+                    {t('common.membership')}
                   </Button>
                 </Link>
               </>

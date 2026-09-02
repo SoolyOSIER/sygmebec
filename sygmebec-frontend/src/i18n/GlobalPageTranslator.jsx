@@ -6,15 +6,46 @@ const translatableAttributes = ['placeholder', 'title', 'aria-label', 'alt']
 const originalText = new WeakMap()
 const originalAttributes = new WeakMap()
 
+const normalizeForLookup = (value = '') => value
+  .normalize('NFKD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replace(/[\s\u00A0]+/g, ' ')
+  .trim()
+  .toLowerCase()
+
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const getTranslatedText = (dictionary, source) => {
+  if (!source) return source
+  const exact = dictionary[source]
+  if (exact) return exact
+  const normalized = normalizeForLookup(source)
+  const match = Object.entries(dictionary).find(([key]) => normalizeForLookup(key) === normalized)
+  if (match) return match[1]
+
+  // Rendered labels often contain counts or dates, so an exact dictionary
+  // lookup cannot translate the French fragment inside the text node.
+  return Object.entries(dictionary)
+    .filter(([key]) => key.length > 2 && source.includes(key))
+    .sort(([left], [right]) => right.length - left.length)
+    .reduce((value, [key, translated]) => {
+      const pattern = new RegExp(`(^|[^\\p{L}\\p{N}])${escapeRegExp(key)}(?=$|[^\\p{L}\\p{N}])`, 'gu')
+      return value.replace(pattern, (_, prefix) => prefix + translated)
+    }, source)
+}
+
 const translateElement = (element, dictionary) => {
+  if (element?.closest?.('[data-no-translate]')) return
+
   translatableAttributes.forEach((attribute) => {
     const value = element.getAttribute?.(attribute)
     if (!value) return
     const originals = originalAttributes.get(element) || {}
     if (!originals[attribute]) originals[attribute] = value
     originalAttributes.set(element, originals)
-    if (dictionary[originals[attribute]]) element.setAttribute(attribute, dictionary[originals[attribute]])
-    else element.setAttribute(attribute, originals[attribute])
+    const originalValue = originals[attribute]
+    const translated = getTranslatedText(dictionary, originalValue)
+    element.setAttribute(attribute, translated)
   })
 
   for (const child of element.childNodes || []) {
@@ -22,8 +53,11 @@ const translateElement = (element, dictionary) => {
       if (!originalText.has(child)) originalText.set(child, child.nodeValue)
       const source = originalText.get(child)
       const trimmed = source.trim()
-      if (!trimmed || !dictionary[trimmed]) continue
-      child.nodeValue = source.replace(trimmed, dictionary[trimmed])
+      if (!trimmed) continue
+      const translated = getTranslatedText(dictionary, trimmed)
+      if (translated && translated !== trimmed) {
+        child.nodeValue = source.replace(trimmed, translated)
+      }
     } else if (child.nodeType === Node.ELEMENT_NODE && !child.hasAttribute('data-no-translate')) {
       translateElement(child, dictionary)
     }

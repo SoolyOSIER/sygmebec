@@ -59,7 +59,7 @@ const Connexion = () => {
       toast.success('Connexion réussie !')
       // Le cookie de session émis par l'API est partagé entre les ports
       // localhost. Le tableau de bord restaure donc la session à l'ouverture.
-      const dashboardUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:5173'
+      const dashboardUrl = import.meta.env.VITE_ADMIN_URL || `${window.location.protocol}//${window.location.hostname}:5173`
       window.setTimeout(() => window.location.assign(dashboardUrl), 500)
     } catch (error) {
       setErrors({ identifiant: 'Identifiant ou mot de passe incorrect.' })

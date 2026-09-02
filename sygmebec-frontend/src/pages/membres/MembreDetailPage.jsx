@@ -4,9 +4,9 @@
 import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { 
-  FiArrowLeft, FiEdit2, FiRefreshCw, FiMail, FiPhone, 
-  FiMapPin, FiCalendar, FiUser, FiTrash2 
+import {
+  FiArrowLeft, FiEdit2, FiRefreshCw, FiMail, FiPhone,
+  FiMapPin, FiCalendar, FiUser, FiTrash2
 } from 'react-icons/fi'
 import { useMembre, useStatuts, useChangerStatut } from '../../hooks/useMembres'
 import { useAuthStore } from '../../store/authStore'
@@ -32,7 +32,7 @@ export default function MembreDetailPage() {
   const statutsList = Array.isArray(statuts) ? statuts : (statuts && statuts.results) ? statuts.results : []
   const { mutate: changerStatut, isPending: isChanging } = useChangerStatut()
   const { mutate: deleteMembre, isPending: isDeleting } = useDeleteMembre()
-  
+
   const [showStatutModal, setShowStatutModal] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 

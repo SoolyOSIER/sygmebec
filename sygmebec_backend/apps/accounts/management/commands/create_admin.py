@@ -39,5 +39,4 @@ class Command(BaseCommand):
             for message in error.messages:
                 self.stderr.write(self.style.ERROR(message))
             return
-        
         self.stdout.write(self.style.SUCCESS(f'Administrateur "{identifiant}" créé avec succès.'))

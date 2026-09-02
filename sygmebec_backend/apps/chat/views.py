@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from sygmebec_backend.apps.accounts.permissions import IsSecretaireOrPlus
@@ -50,7 +51,13 @@ class ConversationViewSet(viewsets.ModelViewSet):
 
         if request.method == 'GET':
             messages = conversation.messages.select_related('auteur', 'auteur__role_acces', 'auteur__membre')
-            limit = min(int(request.query_params.get('limit', 80)), 200)
+            try:
+                limit = int(request.query_params.get('limit', 80))
+            except (TypeError, ValueError) as error:
+                raise ValidationError({'limit': 'La limite doit etre un entier positif.'}) from error
+            if limit < 1:
+                raise ValidationError({'limit': 'La limite doit etre superieure ou egale a 1.'})
+            limit = min(limit, 200)
             serializer = MessageSerializer(messages.order_by('-created_at')[:limit], many=True)
             return Response(list(reversed(serializer.data)))
 

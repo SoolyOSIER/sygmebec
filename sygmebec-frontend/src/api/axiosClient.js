@@ -31,6 +31,7 @@ const announceDataChange = () => {
   channel.close()
 }
 
+
 const processQueue = (error, token = null) => {
   pendingQueue.forEach(({ resolve, reject }) =>
     error ? reject(error) : resolve(token)

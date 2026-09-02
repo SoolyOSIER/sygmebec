@@ -2,10 +2,15 @@
 > sygmebec-frontend@2.0.0 dev
 > vite --host 127.0.0.1 --port 5173
 
-3:13:42 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+8:45:51 PM [vite] (client) Re-optimizing dependencies because vite config has changed
 
-  VITE v8.1.5  ready in 10291 ms
+  VITE v8.1.5  ready in 5626 ms
 
   ➜  Local:   http://127.0.0.1:5173/
-3:13:50 PM [vite] (client) [optimizer] scanning dependencies...
-3:13:56 PM [vite] (client) [optimizer] bundling dependencies...
+8:45:56 PM [vite] (client) [optimizer] scanning dependencies...
+8:45:57 PM [vite] (client) [optimizer] bundling dependencies...
+8:49:58 PM [vite] vite.config.js changed, restarting server...
+8:49:58 PM [vite] (client) hmr update /src/components/realtime/LiveSync.jsx, /src/pages/membres/DemandesAdhesionPremiumPage.jsx, /src/pages/auth/RegisterPage.jsx, /src/pages/SettingsPage.jsx, /src/pages/ProfilePage.jsx, /src/pages/auth/LoginPage.jsx, /src/components/layout/Navbar.jsx, /src/components/layout/Sidebar.jsx, /src/pages/membres/MembresListPage.jsx, /src/pages/CorbeillePage.jsx, /src/pages/DashboardPage.jsx, /src/pages/membres/MembreCreatePage.jsx, /src/pages/membres/MembreEditPage.jsx and 14 more
+8:49:58 PM [vite] (client) hmr update /src/index.css, /src/pages/ProfilePage.jsx, /src/pages/galerie/GalerieGestionPage.jsx, /src/components/ui/Avatar.jsx
+8:49:58 PM [vite] server restarted.
+8:50:00 PM [vite] (client) [optimizer] bundling dependencies...

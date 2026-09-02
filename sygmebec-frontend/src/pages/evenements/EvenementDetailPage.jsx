@@ -4,9 +4,9 @@
 import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { 
-  FiArrowLeft, FiEdit2, FiCalendar, FiMapPin, FiUser, 
-  FiClock, FiTrash2, FiUsers 
+import {
+  FiArrowLeft, FiEdit2, FiCalendar, FiMapPin, FiUser,
+  FiClock, FiTrash2, FiUsers
 } from 'react-icons/fi'
 import { useEvenement } from '../../hooks/useEvenements'
 import { useAuthStore } from '../../store/authStore'
@@ -141,7 +141,7 @@ export default function EvenementDetailPage() {
               {evenement.responsable && (
                 <div className="p-4 rounded-xl bg-gray-50">
                   <label className="text-xs text-secondary-400 uppercase tracking-wider">Responsable</label>
-                  <Link 
+                  <Link
                     to={`/membres/${evenement.responsable.id}`}
                     className="text-secondary-900 font-medium mt-1 flex items-center gap-2 hover:text-primary-600 transition-colors"
                   >
@@ -188,7 +188,7 @@ export default function EvenementDetailPage() {
                 <FiUser className="text-primary-500" />
                 Responsable
               </h3>
-              <Link 
+              <Link
                 to={`/membres/${evenement.responsable.id}`}
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group"
               >

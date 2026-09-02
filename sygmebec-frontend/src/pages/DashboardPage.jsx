@@ -43,9 +43,8 @@ const formatDate = (value, locale, fallback) => value ? new Intl.DateTimeFormat(
 function SectionTitle({ children, link, to }) {
   return <div className="dash-section-title"><div><i /><h2>{children}</h2></div>{link && <Link to={to}>{link}<FiArrowRight /></Link>}</div>
 }
-
-function Metric({ icon: Icon, label, value, note, tone = 'gold' }) {
-  return <article className="dash-metric"><div className="dash-metric-top"><span>{label}</span><b className={`dash-icon ${tone}`}><Icon /></b></div><strong>{value}</strong><p><em><FiArrowUpRight /> En direct</em>{note}</p></article>
+function Metric({ icon: Icon, label, value, note, tone = 'gold', t }) {
+  return <article className="dash-metric"><div className="dash-metric-top"><span>{label}</span><b className={`dash-icon ${tone}`}><Icon /></b></div><strong>{value}</strong><p><em><FiArrowUpRight /> {t('dashboard.live')}</em>{note}</p></article>
 }
 
 function DemographicOverview({ demographics, total, isLoading, locale, t }) {
@@ -58,10 +57,10 @@ function DemographicOverview({ demographics, total, isLoading, locale, t }) {
   return (
     <section className="dash-demographic-section">
       <article className="dash-card">
-        <SectionTitle link="Voir les statistiques" to="/statistiques">Aperçu démographique</SectionTitle>
-        <p className="dash-subtitle">Répartition réelle des profils enregistrés dans le registre.</p>
+        <SectionTitle link={t('dashboard.viewAll')} to="/statistiques">{t('dashboard.demographicOverview')}</SectionTitle>
+        <p className="dash-subtitle">{t('dashboard.demographicDescription')}</p>
         {isLoading ? (
-          <p className="dash-demographic-loading">Chargement de la répartition démographique…</p>
+          <p className="dash-demographic-loading">{t('dashboard.demographicLoading')}</p>
         ) : dataAvailable ? (
           <div className="dash-demographic-content">
             <div className="dash-sex-cards">
@@ -75,31 +74,31 @@ function DemographicOverview({ demographics, total, isLoading, locale, t }) {
             </div>
             <div className="dash-demographic-details">
               <div>
-                <span>Niveaux d'étude</span>
+                <span>{t('dashboard.educationLevels')}</span>
                 {visibleEducation.length ? visibleEducation.map((item) => (
                   <p key={item.id}><b>{item.label}</b><small>{item.count} · {formatPercentage(item.percentage, locale)}</small></p>
-                )) : <p><small>Non renseigné</small></p>}
+                )) : <p><small>{t('common.notSpecified')}</small></p>}
               </div>
               <div>
-                <span>Zone principale</span>
+                <span>{t('dashboard.mainArea')}</span>
                 {topZone ? <p><b>{topZone.label}</b><small>{t('dashboard.membersCount', { count: topZone.count })} · {formatPercentage(topZone.percentage, locale)}</small></p> : <p><small>{t('dashboard.feminineNotSpecified')}</small></p>}
-                <span className="dash-category-title">Catégories</span>
+                <span className="dash-category-title">{t('dashboard.categories')}</span>
                 <div className="dash-category-chips">
                   {visibleCategories.map((item) => <i key={item.id}>{item.label} <b>{item.count}</b></i>)}
-                  {!visibleCategories.length && <small>Non renseignées</small>}
+                  {!visibleCategories.length && <small>{t('dashboard.noCategories')}</small>}
                 </div>
               </div>
             </div>
           </div>
         ) : (
-          <p className="dash-empty">Aucune donnée démographique renseignée pour le moment.</p>
+          <p className="dash-empty">{t('dashboard.noDemographicData')}</p>
         )}
       </article>
       <article className="dash-card">
-        <SectionTitle link="Détail par âge" to="/statistiques">Répartition par âge</SectionTitle>
-        <p className="dash-subtitle">Effectif et pourcentage par tranche d'âge.</p>
+        <SectionTitle link={t('dashboard.ageDetails')} to="/statistiques">{t('dashboard.ageDistribution')}</SectionTitle>
+        <p className="dash-subtitle">{t('dashboard.ageDescription')}</p>
         {isLoading ? (
-          <p className="dash-demographic-loading">Chargement des tranches d'âge…</p>
+          <p className="dash-demographic-loading">{t('dashboard.ageLoading')}</p>
         ) : visibleAges.length ? (
           <div className="dash-age-list dash-age-list-detailed">
             {visibleAges.map((item) => (
@@ -112,7 +111,7 @@ function DemographicOverview({ demographics, total, isLoading, locale, t }) {
             ))}
           </div>
         ) : (
-          <p className="dash-empty">Aucune tranche d'âge renseignée.</p>
+          <p className="dash-empty">{t('dashboard.noAgeData')}</p>
         )}
       </article>
     </section>
@@ -178,9 +177,9 @@ export default function DashboardPage() {
 
   return <div className="reference-dashboard">
     <DemographicOverview demographics={demographics} total={stats.total} isLoading={isStatisticsLoading} locale={locale} t={t} />
-    <header className="dash-hero"><div><p><span /> Pilotage de la communauté</p><h1>Bonjour, {name}.</h1><small>Voici une vue d’ensemble de l’Église Baptiste de l’Espoir.</small></div><div className="dash-hero-actions"><div className="dash-segments">{['Semaine', 'Mois', 'Année'].map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div><Link to="/membres/nouveau" className="dash-gold-button"><FiPlus /> Nouveau membre</Link></div></header>
+    <header className="dash-hero"><div><p><span /> {t('dashboard.communityMonitoring')}</p><h1>{t('dashboard.hello')}, {name}.</h1><small>{t('dashboard.overview')}</small></div><div className="dash-hero-actions"><div className="dash-segments">{[t('dashboard.weekly'), t('dashboard.monthly'), t('dashboard.yearly')].map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div><Link to="/membres/nouveau" className="dash-gold-button"><FiPlus /> {t('dashboard.newMember')}</Link></div></header>
 
-    <section className="dash-metrics"><Metric icon={FiUsers} label="Total membres" value={stats.total} note="dans le registre" /><Metric icon={FiUserCheck} label="Membres actifs" value={stats.actifs} note={`${stats.rate}% du total`} tone="sage" /><Metric icon={FiCalendar} label="Événements" value={stats.events} note={`${stats.upcoming} à venir`} tone="burgundy" /><Metric icon={FiActivity} label="Taux d’activité" value={`${stats.rate}%`} note="membres engagés" tone="navy" /></section>
+    <section className="dash-metrics"><Metric t={t} icon={FiUsers} label={t('dashboard.totalMembers')} value={stats.total} note={t('dashboard.inTheRegistry')} /><Metric t={t} icon={FiUserCheck} label={t('dashboard.activeMembers')} value={stats.actifs} note={`${stats.rate}% du total`} tone="sage" /><Metric t={t} icon={FiCalendar} label={t('navigation.events')} value={stats.events} note={`${stats.upcoming} ${t('dashboard.upcoming')}`} tone="burgundy" /><Metric t={t} icon={FiActivity} label={t('dashboard.activityRate')} value={`${stats.rate}%`} note={t('dashboard.engagedMembers')} tone="navy" /></section>
 
     <section className="dash-grid-two"><article className="dash-card"><SectionTitle>Évolution du registre</SectionTitle><p className="dash-subtitle">Membres et événements enregistrés</p><div className="dash-chart"><ResponsiveContainer width="100%" height={230}><AreaChart data={growth}><defs><linearGradient id="memberFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="#28396b" stopOpacity=".24" /><stop offset="100%" stopColor="#28396b" stopOpacity="0" /></linearGradient></defs><XAxis dataKey="month" tickLine={false} axisLine={false} /><YAxis allowDecimals={false} tickLine={false} axisLine={false} /><Tooltip /><Area type="monotone" dataKey="membres" name="Membres" stroke="#28396b" strokeWidth={2.5} fill="url(#memberFill)" /><Area type="monotone" dataKey="evenements" name="Événements" stroke="#a9536a" strokeWidth={2.5} fill="transparent" /></AreaChart></ResponsiveContainer></div></article><article className="dash-card"><SectionTitle>Répartition des membres</SectionTitle><p className="dash-subtitle">Selon le statut enregistré</p><div className="dash-donut"><ResponsiveContainer width="100%" height={180}><PieChart><Pie data={statusData.length ? statusData : [{ name: 'Aucun membre', value: 1, color: '#e7e3d8' }]} dataKey="value" innerRadius={52} outerRadius={75} paddingAngle={3}>{(statusData.length ? statusData : [{ color: '#e7e3d8' }]).map((item, index) => <Cell key={index} fill={item.color} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer></div><div className="dash-legend">{statusData.map((item) => <span key={item.name}><i style={{ background: item.color }} /> {item.name} <b>{item.value}</b></span>)}</div></article></section>
 

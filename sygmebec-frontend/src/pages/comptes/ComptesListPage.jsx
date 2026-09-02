@@ -8,12 +8,15 @@ import Modal from '../../components/ui/Modal'
 import ConfirmDialog from '../../components/ui/ConfirmDialog'
 import UtilisateurForm from '../../components/comptes/UtilisateurForm'
 import PasswordResetModal from '../../components/comptes/PasswordResetModal'
+import useT from '../../i18n/useT'
+import { useUIStore } from '../../store/uiStore'
 import './comptesReference.css'
 
 const initials = (value) => (value || '').split(/[ ._-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'US'
-const formatDate = (value) => value ? new Date(value).toLocaleDateString('fr-HT') : 'Jamais'
+const formatDate = (value) => value ? new Date(value).toLocaleDateString({ fr: 'fr-HT', ht: 'ht-HT', en: 'en-US' }[useUIStore.getState().language] || 'fr-HT') : 'Jamais'
 
 export default function ComptesListPage() {
+  const { t } = useT()
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
@@ -52,10 +55,10 @@ export default function ComptesListPage() {
   const openEdit = (user) => { setEditTarget(user.id); setShowEditModal(true) }
 
   return <div className="letters-reference accounts-reference">
-    <div className="lr-page-head"><div><div className="lr-eyebrow">Gestion des comptes</div><h1>Comptes utilisateurs</h1><p>Gérez les comptes, les rôles et les permissions des utilisateurs.</p></div><button className="lr-create" onClick={() => setShowCreateModal(true)}><FiPlus size={16} />Ajouter un utilisateur</button></div>
+    <div className="lr-page-head"><div><div className="lr-eyebrow">{t('navigation.accounts')}</div><h1>{t('management.accountsTitle')}</h1><p>{t('management.accountsDescription')}</p></div><button className="lr-create" onClick={() => setShowCreateModal(true)}><FiPlus size={16} />{t('management.addMember')}</button></div>
 
     <div className="lr-quick-grid">
-      <button className="lr-quick lr-blue" onClick={() => setShowCreateModal(true)}><FiArrowRight className="lr-quick-arrow" size={15} /><span className="lr-quick-icon"><FiUser size={20} /></span><h3>Nouvel utilisateur</h3><p>Créez un compte et attribuez un rôle.</p></button>
+      <button className="lr-quick lr-blue" onClick={() => setShowCreateModal(true)}><FiArrowRight className="lr-quick-arrow" size={15} /><span className="lr-quick-icon"><FiUser size={20} /></span><h3>Nouvel utilisateur</h3><p>{t('accountForm.newUserDescription')}</p></button>
       <button className="lr-quick lr-purple" onClick={() => setFilter('ADMINISTRATEUR')}><FiArrowRight className="lr-quick-arrow" size={15} /><span className="lr-quick-icon"><FiUsers size={20} /></span><h3>Gérer les rôles</h3><p>Consultez les administrateurs et les pasteurs.</p></button>
       <button className="lr-quick lr-green" onClick={() => setFilter('SECRETAIRE')}><FiArrowRight className="lr-quick-arrow" size={15} /><span className="lr-quick-icon"><FiShield size={20} /></span><h3>Permissions</h3><p>Visualisez les accès des secrétaires.</p></button>
       <button className="lr-quick lr-amber" onClick={() => setFilter('INACTIF')}><FiArrowRight className="lr-quick-arrow" size={15} /><span className="lr-quick-icon"><FiFileText size={20} /></span><h3>Archiver</h3><p>Gérez les comptes actuellement inactifs.</p></button>

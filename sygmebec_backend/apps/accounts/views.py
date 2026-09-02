@@ -21,6 +21,7 @@ from .serializers import (
     MonProfilMembreSerializer
 )
 from .permissions import IsAdministrateur, IsSecretaireOrPlus
+from .security import notify_primary_admin_of_login
 
 
 def blacklist_outstanding_refresh_tokens(user):
@@ -59,12 +60,26 @@ class LoginView(TokenObtainPairView):
                 {'error': 'Ce compte est désactivé.'},
                 status=status.HTTP_403_FORBIDDEN
             )
+
+        # The ADMINISTRATEUR role is reserved for the one designated owner.
+        # This remains server-side so a direct API request cannot bypass it.
+        if user.role_acces_id and user.role_acces.nomRole == 'ADMINISTRATEUR' and not user.est_administrateur_principal:
+            notify_primary_admin_of_login(user=user, request=request, blocked=True)
+            return Response(
+                {'error': "Seul l'administrateur principal est autorisé à se connecter avec le rôle Administrateur."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         
         refresh = RefreshToken.for_user(user)
         
         # Update last access
         user.dernier_acces = timezone.now()
         user.save(update_fields=['dernier_acces'])
+
+        # Notify the owner immediately for every successful login performed by
+        # another account. The notification deliberately excludes secrets.
+        if not user.is_administrateur_principal:
+            notify_primary_admin_of_login(user=user, request=request)
         
         response = Response({
             'access': str(refresh.access_token),
@@ -106,10 +121,11 @@ class RoleAccesViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class LogoutView(APIView):
-    """Logout view - clears refresh token cookie."""
+    """Logout view - revokes refresh sessions and clears the browser cookie."""
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
+        blacklist_outstanding_refresh_tokens(request.user)
         response = Response({'message': 'Déconnexion réussie.'})
         response.delete_cookie('refresh_token')
         return response
@@ -138,10 +154,21 @@ class CookieTokenRefreshView(TokenRefreshView):
             
             # Update last access
             user_id = refresh.get('user_id')
-            user = Utilisateur.objects.filter(id=user_id).first()
-            if user and user.is_active:
-                user.dernier_acces = timezone.now()
-                user.save(update_fields=['dernier_acces'])
+            user = Utilisateur.objects.select_related('role_acces').filter(id=user_id).first()
+            if not user or not user.is_active:
+                return Response(
+                    {'error': 'Compte inactif ou introuvable.'},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+            if user.role_acces_id and user.role_acces.nomRole == 'ADMINISTRATEUR' and not user.est_administrateur_principal:
+                blacklist_outstanding_refresh_tokens(user)
+                return Response(
+                    {'error': "Ce compte n'est pas autorisé à accéder à l'administration."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            user.dernier_acces = timezone.now()
+            user.save(update_fields=['dernier_acces'])
             
             return Response({'access': access_token})
         except TokenError:
@@ -149,8 +176,6 @@ class CookieTokenRefreshView(TokenRefreshView):
                 {'error': 'Refresh token invalide ou expiré.'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
-
-
 class MeView(APIView):
     """Get current user information."""
     permission_classes = [IsAuthenticated]
@@ -265,6 +290,14 @@ class UtilisateurViewSet(viewsets.ModelViewSet):
                 blacklist_outstanding_refresh_tokens(user)
 
         return user
+    def destroy(self, request, *args, **kwargs):
+        user = self.get_object()
+        if user.is_administrateur_principal:
+            return Response(
+                {'error': "L'administrateur principal ne peut pas être supprimé."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return super().destroy(request, *args, **kwargs)
     
     @action(detail=True, methods=['post'], url_path='reset-password')
     def reset_password(self, request, id=None):

@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth.password_validation import validate_password
@@ -34,6 +35,11 @@ class UtilisateurManager(BaseUserManager):
     def create_user(self, identifiant, password=None, **extra_fields):
         if not identifiant:
             raise ValueError('L\'identifiant est obligatoire')
+
+        is_principal = extra_fields.get('is_administrateur_principal', False)
+        is_django_admin = extra_fields.get('is_staff', False) or extra_fields.get('is_superuser', False)
+        if is_django_admin and not is_principal:
+            raise ValueError("Seul l'administrateur principal peut recevoir les droits Django d'administration.")
         
         user = self.model(identifiant=identifiant, **extra_fields)
         if password is not None:
@@ -45,9 +51,13 @@ class UtilisateurManager(BaseUserManager):
         return user
     
     def create_superuser(self, identifiant, password=None, **extra_fields):
+        if self.filter(is_administrateur_principal=True).exists():
+            raise ValueError("Un administrateur principal existe déjà. Utilisez la commande set_primary_admin pour le remplacer.")
+
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
+        extra_fields['is_administrateur_principal'] = True
         
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -91,6 +101,11 @@ class Utilisateur(AbstractBaseUser, PermissionsMixin):
     
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_administrateur_principal = models.BooleanField(
+        default=False,
+        db_index=True,
+        help_text="Compte unique autorisé à administrer la plateforme.",
+    )
     
     objects = UtilisateurManager()
     
@@ -102,9 +117,50 @@ class Utilisateur(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Utilisateur'
         verbose_name_plural = 'Utilisateurs'
         ordering = ['-date_creation_compte']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['is_administrateur_principal'],
+                condition=models.Q(is_administrateur_principal=True),
+                name='unique_administrateur_principal',
+            ),
+            models.CheckConstraint(
+                check=(
+                    models.Q(is_administrateur_principal=True)
+                    | (models.Q(is_staff=False) & models.Q(is_superuser=False))
+                ),
+                name='seul_principal_peut_etre_admin_django',
+            ),
+        ]
     
     def __str__(self):
         return self.identifiant
+
+    @property
+    def est_administrateur_principal(self):
+        """True only for the account that may administer the application."""
+        return bool(
+            self.is_administrateur_principal
+            and self.role_acces_id
+            and self.role_acces.nomRole == 'ADMINISTRATEUR'
+            and self.is_active
+        )
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        if self.is_administrateur_principal:
+            if not self.role_acces_id or self.role_acces.nomRole != 'ADMINISTRATEUR':
+                errors['role_acces'] = "L'administrateur principal doit avoir le rôle Administrateur."
+            if not self.is_staff:
+                errors['is_staff'] = "L'administrateur principal doit être membre de l'administration Django."
+            if not self.is_superuser:
+                errors['is_superuser'] = "L'administrateur principal doit être superutilisateur."
+        elif self.is_staff or self.is_superuser:
+            errors['is_staff'] = "Seul l'administrateur principal peut recevoir les droits Django d'administration."
+
+        if errors:
+            raise ValidationError(errors)
     
     def has_role(self, required_role):
         """Check if user has at least the required role level."""

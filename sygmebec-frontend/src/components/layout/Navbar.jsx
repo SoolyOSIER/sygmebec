@@ -168,20 +168,21 @@ export default function Navbar() {
               </div>
               <button type="button" onClick={markAllRead} className="text-xs font-semibold text-indigo-600 hover:text-indigo-800">{t('notifications.markAllRead')}</button>
             </div>
-            {unreadNotifications.length === 0 ? (
+            {notifications.length === 0 ? (
               <p className="px-4 py-8 text-center text-sm text-secondary-400">{t('notifications.empty')}</p>
-            ) : unreadNotifications.map((item) => {
+            ) : notifications.map((item) => {
               const Icon = item.icon
+              const isRead = readIds.includes(item.id)
               const colors = item.color === 'purple' ? 'bg-violet-50 text-violet-600' : 'bg-indigo-50 text-indigo-600'
               return (
-                <button key={item.id} type="button" onClick={() => { markRead(item.id); navigate(item.path) }} className="flex w-full gap-3 border-b border-gray-50 px-4 py-3 text-left transition hover:bg-gray-50">
+                <button key={item.id} type="button" onClick={() => { markRead(item.id); navigate(item.path) }} className={`flex w-full gap-3 border-b border-gray-50 px-4 py-3 text-left transition hover:bg-gray-50 ${isRead ? 'opacity-60' : ''}`}>
                   <span className={`mt-0.5 rounded-xl p-2 ${colors}`}><Icon size={15} /></span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-medium text-secondary-900">{item.title}</span>
                     <span className="block truncate text-xs text-secondary-500">{item.text}</span>
                     <span className="mt-1 block text-[10px] text-secondary-400">{formatNotificationDate(item.date, locale, t('common.recent'))}</span>
                   </span>
-                  <span className="mt-2 h-2 w-2 rounded-full bg-indigo-500" />
+                  {!isRead && <span className="mt-2 h-2 w-2 rounded-full bg-indigo-500" />}
                 </button>
               )
             })}

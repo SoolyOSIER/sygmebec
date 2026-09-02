@@ -1,16 +1,10 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 from .models import AuditLog
 from .serializers import AuditLogSerializer
-
-
-class IsAdminOrReadOnly(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return request.user and getattr(request.user, 'role_acces', None) and request.user.role_acces.nomRole == 'ADMINISTRATEUR'
+from sygmebec_backend.apps.accounts.permissions import IsAdministrateur
 
 
 class AuditLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = AuditLog.objects.select_related('actor').all()
     serializer_class = AuditLogSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdminOrReadOnly]
+    permission_classes = [IsAdministrateur]

@@ -30,6 +30,7 @@ export const useAuthStore = create((set) => ({
   role: null,
   accessToken: null,
   isAuthenticated: false,
+  isAuthReady: false,
 
   login: (user, accessToken) =>
     set({
@@ -37,10 +38,13 @@ export const useAuthStore = create((set) => ({
       role: getUserRole(user),
       accessToken,
       isAuthenticated: true,
+      isAuthReady: true,
     }),
 
   logout: () =>
-    set({ user: null, role: null, accessToken: null, isAuthenticated: false }),
+    set({ user: null, role: null, accessToken: null, isAuthenticated: false, isAuthReady: true }),
+
+  markAuthReady: () => set({ isAuthReady: true }),
 
   setAccessToken: (accessToken) =>
     set({ accessToken }),

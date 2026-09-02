@@ -1,6 +1,7 @@
 // src/layouts/components/MobileMenu.jsx
 import { Link, NavLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import useT from '../../i18n/useT'
 import { 
   User, 
   LogOut, 
@@ -15,6 +16,7 @@ import {
 import { Button } from '../../components/ui/Button'
 
 const MobileMenu = ({ isOpen, onClose, navLinks, isAuthenticated, user, onLogout }) => {
+  const { t } = useT()
   const containerVariants = {
     hidden: { opacity: 0, height: 0 },
     visible: { 
@@ -91,7 +93,7 @@ const MobileMenu = ({ isOpen, onClose, navLinks, isAuthenticated, user, onLogout
                 className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors text-gray-700 hover:text-primary-700"
               >
                 <User className="w-5 h-5" />
-                Mon profil
+                {t('navigation.profile')}
               </Link>
               <Link
                 to="/mes-inscriptions"
@@ -99,7 +101,7 @@ const MobileMenu = ({ isOpen, onClose, navLinks, isAuthenticated, user, onLogout
                 className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors text-gray-700 hover:text-primary-700"
               >
                 <Calendar className="w-5 h-5" />
-                Mes inscriptions
+                {t('navigation.onlineRegistrations')}
               </Link>
               {user?.role === 'ADMIN' && (
                 <Link
@@ -108,7 +110,7 @@ const MobileMenu = ({ isOpen, onClose, navLinks, isAuthenticated, user, onLogout
                   className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors text-gray-700 hover:text-primary-700"
                 >
                   <Users className="w-5 h-5" />
-                  Administration
+                  {t('navigation.administration')}
                 </Link>
               )}
               <button
@@ -119,19 +121,19 @@ const MobileMenu = ({ isOpen, onClose, navLinks, isAuthenticated, user, onLogout
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-colors text-gray-700 hover:text-red-600"
               >
                 <LogOut className="w-5 h-5" />
-                Déconnexion
+                {t('navigation.logout')}
               </button>
             </>
           ) : (
             <div className="space-y-3">
               <Link to="/connexion" onClick={onClose} className="block">
                 <Button variant="outline" className="w-full justify-center">
-                  Connexion
+                  {t('common.login')}
                 </Button>
               </Link>
               <Link to="/adhesion" onClick={onClose} className="block">
                 <Button variant="gold" className="w-full justify-center">
-                  Adhésion
+                  {t('common.membership')}
                 </Button>
               </Link>
             </div>

@@ -7,15 +7,18 @@ import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import Modal from '../../components/ui/Modal'
 import Select from '../../components/ui/Select'
+import useT from '../../i18n/useT'
+import { useUIStore } from '../../store/uiStore'
 import './lettresReference.css'
 
 const today = new Date().toISOString().slice(0, 10)
 const initialForm = (type = 'ATTESTATION') => ({ type_lettre: type, membre_id: '', destinataire: '', date_emission: today })
 const isAttestation = (letter) => letter.type_lettre !== 'TRANSFERT'
 const memberInitials = (member) => (member?.nom_complet || '').split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'MB'
-const formatDate = (value) => value ? new Date(`${value}T00:00:00`).toLocaleDateString('fr-HT') : '—'
+const formatDate = (value) => value ? new Date(`${value}T00:00:00`).toLocaleDateString({ fr: 'fr-HT', ht: 'ht-HT', en: 'en-US' }[useUIStore.getState().language] || 'fr-HT') : '—'
 
 export default function LettresListPage() {
+  const { t } = useT()
   const [isOpen, setIsOpen] = useState(false)
   const [filter, setFilter] = useState('ALL')
   const [form, setForm] = useState(initialForm)
@@ -50,7 +53,7 @@ export default function LettresListPage() {
 
   return <div className="letters-reference">
     <div className="lr-page-head">
-      <div><div className="lr-eyebrow">Gestion des lettres</div><h1>Lettres</h1><p>Générez les lettres officielles à partir des modèles de l’église.</p></div>
+      <div><div className="lr-eyebrow">{t('navigation.letters')}</div><h1>{t('management.lettersTitle')}</h1><p>{t('management.lettersDescription')}</p></div>
       <button className="lr-create" onClick={() => openCreate()}><FiPlus size={16} />Nouvelle lettre</button>
     </div>
 

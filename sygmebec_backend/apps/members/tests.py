@@ -4,17 +4,15 @@ from zipfile import ZipFile
 
 from rest_framework.test import APITestCase
 
-from sygmebec_backend.apps.accounts.models import RoleAcces, Utilisateur
+from sygmebec_backend.apps.accounts.models import Utilisateur
 from sygmebec_backend.apps.members.models import Fonction, Membre, MembreFonction, Statut
 
 
 class MemberStatisticsTests(APITestCase):
     def setUp(self):
-        self.role, _ = RoleAcces.objects.get_or_create(nomRole='ADMINISTRATEUR')
-        self.user = Utilisateur.objects.create_user(
+        self.user = Utilisateur.objects.create_superuser(
             identifiant='statistiques-admin',
             password='MotDePasseTest123!',
-            role_acces=self.role,
         )
         self.active, _ = Statut.objects.get_or_create(libelle='Actif')
         self.new, _ = Statut.objects.get_or_create(libelle='Nouveau converti')
@@ -88,7 +86,10 @@ class MemberStatisticsTests(APITestCase):
             date_signature=date(2025, 1, 4),
             classe_ecole_dimanche='Adultes',
         )
-        MembreFonction.objects.create(membre=membre, fonction=fonction)
+        membre_fonction = MembreFonction.objects.create(membre=membre, fonction=fonction)
+        MembreFonction.objects.filter(pk=membre_fonction.pk).update(
+            date_assignation=date(2024, 1, 1)
+        )
 
         response = self.client.get(f'/api/v1/membres/exporter/?format=xlsx&membre={membre.id}')
 

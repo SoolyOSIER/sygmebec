@@ -32,16 +32,19 @@ services:
       retries: 5
 
   backend:
-    build: .
+    build:
+      context: ..
+      dockerfile: sygmebec_backend/Dockerfile
     container_name: sygmebec-backend
     environment:
       - ENVIRONMENT=development
       - DATABASE_URL=postgres://sygmebec:sygmebec2024@db:5432/sygmebec
       - REDIS_URL=redis://redis:6379/0
-      - SECRET_KEY=your-secret-key-here
-      - DEBUG=True
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-local-development-only}
+      - DJANGO_DEBUG=True
+      - CELERY_TASK_ALWAYS_EAGER=False
     volumes:
-      - ./:/app
+      - ../:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     ports:
@@ -54,41 +57,47 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
 
   celery-worker:
-    build: .
+    build:
+      context: ..
+      dockerfile: sygmebec_backend/Dockerfile
     container_name: sygmebec-celery
     environment:
       - ENVIRONMENT=development
       - DATABASE_URL=postgres://sygmebec:sygmebec2024@db:5432/sygmebec
       - REDIS_URL=redis://redis:6379/0
-      - SECRET_KEY=your-secret-key-here
-      - DEBUG=True
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-local-development-only}
+      - DJANGO_DEBUG=True
+      - CELERY_TASK_ALWAYS_EAGER=False
     volumes:
-      - ./:/app
+      - ../:/app
       - media_volume:/app/media
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: celery -A config worker -l info
+    command: celery -A sygmebec_backend worker -l info
 
   celery-beat:
-    build: .
+    build:
+      context: ..
+      dockerfile: sygmebec_backend/Dockerfile
     container_name: sygmebec-celery-beat
     environment:
       - ENVIRONMENT=development
       - DATABASE_URL=postgres://sygmebec:sygmebec2024@db:5432/sygmebec
       - REDIS_URL=redis://redis:6379/0
-      - SECRET_KEY=your-secret-key-here
-      - DEBUG=True
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-local-development-only}
+      - DJANGO_DEBUG=True
+      - CELERY_TASK_ALWAYS_EAGER=False
     volumes:
-      - ./:/app
+      - ../:/app
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A sygmebec_backend beat -l info
 
 volumes:
   postgres_data:

@@ -1,7 +1,5 @@
 from django.db import models
 from django.utils import timezone
-
-
 class TimeStampedModel(models.Model):
     """Abstract model with created_at and updated_at timestamps."""
     created_at = models.DateTimeField(auto_now_add=True)

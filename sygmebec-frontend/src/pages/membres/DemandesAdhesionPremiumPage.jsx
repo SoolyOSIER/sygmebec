@@ -7,16 +7,19 @@ import {
 import toast from 'react-hot-toast'
 import api from '../../api/axiosClient'
 import Button from '../../components/ui/Button'
+import useT from '../../i18n/useT'
+import { useUIStore } from '../../store/uiStore'
 import './demandesAdhesionPremium.css'
 
 const statusLabel = { EN_ATTENTE: 'À traiter', VALIDEE: 'Validée', REJETEE: 'Rejetée' }
-const dateFormat = (value) => value ? new Date(value).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' }) : '—'
+const dateFormat = (value, locale) => value ? new Date(value).toLocaleString(locale || ({ fr: 'fr-HT', ht: 'ht-HT', en: 'en-US' }[useUIStore.getState().language] || 'fr-HT'), { dateStyle: 'medium', timeStyle: 'short' }) : '—'
 const initials = (item) => `${item.prenom || ''} ${item.nom || ''}`.trim().split(/\s+/).map((word) => word[0]).join('').slice(0, 2).toUpperCase() || '—'
 const errorText = (error) => error.response?.data?.error?.message || error.response?.data?.detail || error.response?.data?.message || 'Cette demande ne peut pas être traitée.'
 
 function StatusPill({ status }) { return <span className={`registration-pill ${String(status || '').toLowerCase()}`}>{statusLabel[status] || status}</span> }
 
 export default function DemandesAdhesionPremiumPage() {
+  const { locale } = useT()
   const queryClient = useQueryClient()
   const [demandes, setDemandes] = useState([])
   const [loading, setLoading] = useState(true)

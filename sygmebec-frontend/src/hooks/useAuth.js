@@ -20,14 +20,14 @@ export const useLogin = () => {
       navigate('/')
     },
     onError: (error) => {
-      const connectionUnavailable = !error.response
-      toast.error(
-        connectionUnavailable
-          ? 'Impossible de joindre le serveur. Vérifiez que l’API est démarrée, puis réessayez.'
-          : error.response?.data?.detail ||
-            error.response?.data?.error ||
-            'La connexion a échoué. Veuillez réessayer.'
-      )
+      const response = error.response
+      const message = !response
+        ? 'Impossible de joindre le serveur. Vérifiez que l’API est démarrée, puis réessayez.'
+        : response.data?.detail || response.data?.error ||
+          (response.status >= 500
+            ? 'Le serveur a rencontré une erreur. Réessayez dans un instant.'
+            : 'Connexion refusée. Vérifiez vos identifiants puis réessayez.')
+      toast.error(message)
     },
   })
 }

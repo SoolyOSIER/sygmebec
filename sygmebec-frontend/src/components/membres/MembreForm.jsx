@@ -16,7 +16,6 @@ function formatRegistrationDate(value = new Date(), locale = 'fr-HT') {
     hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
   }).format(date)
 }
-
 function Field({ label, optional, required, error, icon: Icon, children, full = false }) {
   return <div className={`reference-field${full ? ' full' : ''}`}><label>{label} {required && <strong>*</strong>}{optional && <em>Optionnel</em>}</label><div className="reference-control">{Icon && <Icon />}{children}</div>{error && <span className="reference-error">{error}</span>}</div>
 }

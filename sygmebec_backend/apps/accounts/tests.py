@@ -16,7 +16,7 @@ from .validators import StrongPasswordValidator
 class PasswordResetSecurityTests(APITestCase):
     def setUp(self):
         self.admin_role, _ = RoleAcces.objects.get_or_create(nomRole='ADMINISTRATEUR')
-        self.administrator = Utilisateur.objects.create_user(
+        self.administrator = Utilisateur.objects.create_superuser(
             identifiant='admin-securise',
             password='AdminMotDePasse123!',
             role_acces=self.admin_role,
@@ -167,6 +167,17 @@ class PasswordResetSecurityTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {old_access}')
         old_access_response = self.client.get('/api/v1/auth/me/')
         self.assertEqual(old_access_response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_logout_revokes_existing_refresh_tokens(self):
+        refresh = RefreshToken.for_user(self.administrator)
+        self.client.force_authenticate(self.administrator)
+
+        response = self.client.post('/api/v1/auth/logout/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(
+            BlacklistedToken.objects.filter(token__jti=refresh['jti']).exists()
+        )
 
     def test_admin_reset_blacklists_refresh_and_logs_only_a_safe_marker(self):
         account = self.create_account()
