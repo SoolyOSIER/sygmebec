@@ -58,7 +58,7 @@ export default function ToastContainer({ toasts, removeToast }) {
                 initial={{ width: '100%' }}
                 animate={{ width: '0%' }}
                 transition={{ duration: 4, ease: "linear" }}
-                className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary-500 to-purple-500"
+                className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary-500 to-primary-700"
               />
 
               <div className={`mt-0.5 ${style.iconColor}`}>

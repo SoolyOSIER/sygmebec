@@ -142,12 +142,12 @@ export default function Navbar() {
       <div className="flex w-full items-center gap-3">
         <form onSubmit={handleSearch} className="relative ml-1 hidden max-w-md flex-1 md:block">
           <FiSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary-400" size={18} />
-          <input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100" placeholder={t('common.searchMember')} />
+          <input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-primary-500 focus:ring-4 focus:ring-primary-100" placeholder={t('common.searchMember')} />
         </form>
 
         <div className="ml-auto flex items-center gap-1.5">
           <LanguageSelect value={language} onChange={setLanguage} className="hidden sm:block" />
-          <button type="button" onClick={toggleTheme} aria-label={t('common.theme')} className="rounded-xl p-2.5 text-secondary-500 transition hover:bg-gray-100 hover:text-indigo-600">
+          <button type="button" onClick={toggleTheme} aria-label={t('common.theme')} className="rounded-xl p-2.5 text-secondary-500 transition hover:bg-gray-100 hover:text-primary-600">
             {theme === 'dark' ? <FiSun size={20} /> : <FiMoon size={20} />}
           </button>
 
@@ -155,7 +155,7 @@ export default function Navbar() {
             align="right"
             className="w-80 overflow-hidden"
             trigger={
-              <button type="button" aria-label={t('notifications.title')} className="relative rounded-xl p-2.5 text-secondary-500 transition hover:bg-gray-100 hover:text-indigo-600">
+              <button type="button" aria-label={t('notifications.title')} className="relative rounded-xl p-2.5 text-secondary-500 transition hover:bg-gray-100 hover:text-primary-600">
                 <FiBell size={20} />
                 {unreadCount > 0 && <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">{unreadCount}</span>}
               </button>
@@ -166,14 +166,14 @@ export default function Navbar() {
                 <p className="text-sm font-semibold text-secondary-900">{t('notifications.title')}</p>
                 <p className="text-xs text-secondary-400">{t('notifications.unread', { count: unreadCount })}</p>
               </div>
-              <button type="button" onClick={markAllRead} className="text-xs font-semibold text-indigo-600 hover:text-indigo-800">{t('notifications.markAllRead')}</button>
+              <button type="button" onClick={markAllRead} className="text-xs font-semibold text-primary-600 hover:text-primary-800">{t('notifications.markAllRead')}</button>
             </div>
             {notifications.length === 0 ? (
               <p className="px-4 py-8 text-center text-sm text-secondary-400">{t('notifications.empty')}</p>
             ) : notifications.map((item) => {
               const Icon = item.icon
               const isRead = readIds.includes(item.id)
-              const colors = item.color === 'purple' ? 'bg-violet-50 text-violet-600' : 'bg-indigo-50 text-indigo-600'
+              const colors = 'bg-primary-50 text-primary-600'
               return (
                 <button key={item.id} type="button" onClick={() => { markRead(item.id); navigate(item.path) }} className={`flex w-full gap-3 border-b border-gray-50 px-4 py-3 text-left transition hover:bg-gray-50 ${isRead ? 'opacity-60' : ''}`}>
                   <span className={`mt-0.5 rounded-xl p-2 ${colors}`}><Icon size={15} /></span>
@@ -182,7 +182,7 @@ export default function Navbar() {
                     <span className="block truncate text-xs text-secondary-500">{item.text}</span>
                     <span className="mt-1 block text-[10px] text-secondary-400">{formatNotificationDate(item.date, locale, t('common.recent'))}</span>
                   </span>
-                  {!isRead && <span className="mt-2 h-2 w-2 rounded-full bg-indigo-500" />}
+                  {!isRead && <span className="mt-2 h-2 w-2 rounded-full bg-primary-500" />}
                 </button>
               )
             })}

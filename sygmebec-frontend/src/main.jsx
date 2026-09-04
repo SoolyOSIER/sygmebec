@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import App from './App'
 import './index.css'
+import './theme/loginPalette.css'
 import I18nProvider from './i18n/I18nProvider'
 import GlobalPageTranslator from './i18n/GlobalPageTranslator'
 

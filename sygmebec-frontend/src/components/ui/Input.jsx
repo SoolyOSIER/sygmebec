@@ -39,7 +39,7 @@ const Input = forwardRef(({
             placeholder:text-secondary-400 outline-none transition-all duration-200
             ${Icon ? 'pl-10' : ''}
             ${isPassword ? 'pr-10' : ''}
-            ${error ? 'border-rose-400 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100'}
+            ${error ? 'border-rose-400 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100'}
             ${className}
           `}
           {...props}

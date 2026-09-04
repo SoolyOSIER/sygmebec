@@ -1,0 +1,297 @@
+/*
+ * Shared visual contract for the administration application.
+ *
+ * LoginPage is the reference: royal blue for actions, white/slate surfaces,
+ * and the same values in light, dark and system modes.  The legacy page
+ * styles use local variables, so they are bridged here instead of letting
+ * every screen grow an unrelated palette.
+ */
+:root {
+  --app-primary-50: #eef2ff;
+  --app-primary-100: #e0e7ff;
+  --app-primary-200: #c7d2fe;
+  --app-primary-300: #a5b4fc;
+  --app-primary-400: #60a5fa;
+  --app-primary-500: #0000ff;
+  --app-primary-600: #0000cc;
+  --app-primary-700: #000099;
+  --app-primary-800: #000066;
+  --app-primary-900: #000033;
+  --app-canvas: #f8fafc;
+  --app-surface: #ffffff;
+  --app-surface-muted: #eef2ff;
+  --app-text: #0f172a;
+  --app-muted: #64748b;
+  --app-faint: #94a3b8;
+  --app-border: #e2e8f0;
+  --app-shadow: 0 18px 40px -28px rgba(0, 0, 51, .22);
+}
+
+.dark {
+  --app-canvas: #020617;
+  --app-surface: #0f172a;
+  --app-surface-muted: #172554;
+  --app-text: #f8fafc;
+  --app-muted: #cbd5e1;
+  --app-faint: #94a3b8;
+  --app-border: #334155;
+  --app-shadow: 0 20px 42px -30px rgba(0, 0, 0, .78);
+}
+
+html,
+body {
+  background: var(--app-canvas);
+  color: var(--app-text);
+}
+
+/* Dashboard and navigation chrome. */
+.sidebar-premium {
+  background: linear-gradient(180deg, var(--app-primary-900), var(--app-primary-800)) !important;
+}
+
+.sidebar-premium .sidebar-link.active {
+  box-shadow: inset 2px 0 0 var(--app-primary-400) !important;
+  background: linear-gradient(90deg, rgba(96, 165, 250, .24), rgba(0, 0, 204, .05)) !important;
+}
+
+.sidebar-premium > div:first-child img {
+  background: var(--app-primary-50) !important;
+  box-shadow: 0 0 0 2px rgba(165, 180, 252, .28);
+}
+
+.dashboard-topbar {
+  background: rgba(248, 250, 252, .92) !important;
+  border-color: var(--app-border) !important;
+}
+
+.dark .dashboard-topbar {
+  background: rgba(15, 23, 42, .92) !important;
+  border-color: var(--app-border) !important;
+}
+
+/* Bridge each page's former local palette to the login palette. */
+.reference-dashboard {
+  --n: var(--app-primary-900) !important;
+  --n2: var(--app-primary-800) !important;
+  --b: var(--app-primary-600) !important;
+  --g: var(--app-primary-600) !important;
+  --gl: var(--app-primary-300) !important;
+  --iv: var(--app-surface-muted) !important;
+  --ink: var(--app-text) !important;
+  --mut: var(--app-muted) !important;
+  --line: var(--app-border) !important;
+}
+
+.programme-page {
+  --p-navy: var(--app-primary-900) !important;
+  --p-border: var(--app-border) !important;
+  --p-text: var(--app-text) !important;
+  --p-muted: var(--app-muted) !important;
+  --p-faint: var(--app-faint) !important;
+  --p-gold: var(--app-primary-600) !important;
+  --p-blue: var(--app-primary-600) !important;
+  --p-purple: var(--app-primary-600) !important;
+}
+
+.members-reference {
+  --m-navy: var(--app-primary-900) !important;
+  --m-bg: var(--app-canvas) !important;
+  --m-card: var(--app-surface) !important;
+  --m-border: var(--app-border) !important;
+  --m-text: var(--app-text) !important;
+  --m-muted: var(--app-muted) !important;
+  --m-faint: var(--app-faint) !important;
+  --m-gold: var(--app-primary-600) !important;
+  --m-blue: var(--app-primary-600) !important;
+  --m-purple: var(--app-primary-600) !important;
+}
+
+.galerie-reference {
+  --gallery-navy: var(--app-primary-900) !important;
+  --gallery-ink: var(--app-text) !important;
+  --gallery-muted: var(--app-muted) !important;
+  --gallery-faint: var(--app-faint) !important;
+  --gallery-border: var(--app-border) !important;
+  --gallery-paper: var(--app-surface) !important;
+  --gallery-gold: var(--app-primary-600) !important;
+  --gallery-gold-light: var(--app-primary-300) !important;
+  --gallery-gold-soft: var(--app-surface-muted) !important;
+  --gallery-blue: var(--app-primary-600) !important;
+  --gallery-blue-soft: var(--app-surface-muted) !important;
+  --gallery-purple: var(--app-primary-600) !important;
+  --gallery-purple-soft: var(--app-surface-muted) !important;
+  --gallery-shadow: var(--app-shadow) !important;
+}
+
+.letters-reference,
+.accounts-reference {
+  --lr-navy: var(--app-primary-900) !important;
+  --lr-cream: var(--app-surface-muted) !important;
+  --lr-bg: var(--app-canvas) !important;
+  --lr-card: var(--app-surface) !important;
+  --lr-border: var(--app-border) !important;
+  --lr-text: var(--app-text) !important;
+  --lr-dim: var(--app-muted) !important;
+  --lr-faint: var(--app-faint) !important;
+  --lr-gold: var(--app-primary-600) !important;
+  --lr-gold-light: var(--app-primary-300) !important;
+  --lr-blue: var(--app-primary-600) !important;
+  --lr-purple: var(--app-primary-600) !important;
+}
+
+.online-registration-premium {
+  --registration-navy: var(--app-primary-900) !important;
+  --registration-cream: var(--app-surface-muted) !important;
+  --registration-paper: var(--app-surface) !important;
+  --registration-border: var(--app-border) !important;
+  --registration-ink: var(--app-text) !important;
+  --registration-muted: var(--app-muted) !important;
+  --registration-faint: var(--app-faint) !important;
+  --registration-gold: var(--app-primary-600) !important;
+  --registration-gold-light: var(--app-primary-300) !important;
+  --registration-gold-soft: var(--app-surface-muted) !important;
+  --r-navy: var(--app-primary-900) !important;
+  --r-paper: var(--app-surface) !important;
+  --r-border: var(--app-border) !important;
+  --r-text: var(--app-text) !important;
+  --r-muted: var(--app-muted) !important;
+  --r-faint: var(--app-faint) !important;
+  --r-gold: var(--app-primary-600) !important;
+  --r-gold-light: var(--app-primary-300) !important;
+  --r-gold-soft: var(--app-surface-muted) !important;
+}
+
+.member-detail-premium {
+  --member-navy: var(--app-primary-900) !important;
+  --member-navy-mid: var(--app-primary-800) !important;
+  --member-cream: var(--app-surface-muted) !important;
+  --member-paper: var(--app-surface) !important;
+  --member-border: var(--app-border) !important;
+  --member-ink: var(--app-text) !important;
+  --member-muted: var(--app-muted) !important;
+  --member-faint: var(--app-faint) !important;
+  --member-gold: var(--app-primary-600) !important;
+  --member-gold-light: var(--app-primary-300) !important;
+  --member-gold-soft: var(--app-surface-muted) !important;
+}
+
+.member-statistics {
+  --ms-navy: var(--app-primary-900) !important;
+  --ms-ink: var(--app-text) !important;
+  --ms-muted: var(--app-muted) !important;
+  --ms-line: var(--app-border) !important;
+  --ms-paper: var(--app-surface) !important;
+  --ms-cream: var(--app-surface-muted) !important;
+  --ms-gold: var(--app-primary-600) !important;
+  --ms-blue: var(--app-primary-600) !important;
+  --ms-burgundy: var(--app-primary-600) !important;
+}
+
+.reference-form-page {
+  --rf-border: var(--app-border) !important;
+  --rf-text: var(--app-text) !important;
+  --rf-muted: var(--app-muted) !important;
+  --rf-faint: var(--app-faint) !important;
+  --rf-gold: var(--app-primary-600) !important;
+}
+
+.report-generate-form {
+  --r-border: var(--app-border) !important;
+  --r-text: var(--app-text) !important;
+  --r-muted: var(--app-muted) !important;
+  --r-faint: var(--app-faint) !important;
+  --r-gold: var(--app-primary-600) !important;
+}
+
+.user-create {
+  --u-navy: var(--app-primary-900) !important;
+  --u-gold: var(--app-primary-600) !important;
+  --u-border: var(--app-border) !important;
+  --u-text: var(--app-text) !important;
+  --u-muted: var(--app-muted) !important;
+  --u-faint: var(--app-faint) !important;
+}
+
+.password-reset-modal {
+  --prm-navy: var(--app-primary-900) !important;
+  --prm-blue: var(--app-primary-600) !important;
+  --prm-blue-soft: var(--app-surface-muted) !important;
+  --prm-gold: var(--app-primary-600) !important;
+  --prm-ink: var(--app-text) !important;
+  --prm-muted: var(--app-muted) !important;
+  --prm-line: var(--app-border) !important;
+  --prm-paper: var(--app-surface) !important;
+}
+
+.profile-reference {
+  --pr-navy: var(--app-primary-900) !important;
+  --pr-navy-2: var(--app-primary-800) !important;
+  --pr-navy-3: var(--app-primary-700) !important;
+  --pr-paper: var(--app-surface) !important;
+  --pr-paper-soft: var(--app-surface-muted) !important;
+  --pr-border: var(--app-border) !important;
+  --pr-text: var(--app-text) !important;
+  --pr-muted: var(--app-muted) !important;
+  --pr-faint: var(--app-faint) !important;
+  --pr-gold: var(--app-primary-600) !important;
+  --pr-gold-light: var(--app-primary-300) !important;
+  --pr-accent: var(--app-primary-600) !important;
+  --pr-shadow: var(--app-shadow) !important;
+}
+
+.settings-page {
+  --st-navy: var(--app-primary-900) !important;
+  --st-ink: var(--app-text) !important;
+  --st-muted: var(--app-muted) !important;
+  --st-line: var(--app-border) !important;
+  --st-paper: var(--app-surface) !important;
+  --st-accent: var(--app-primary-600) !important;
+}
+
+/* Explicit dark surfaces for legacy CSS that used literal white cards. */
+.dark :is(
+  .reference-dashboard .dash-metric,
+  .reference-dashboard .dash-card,
+  .reference-dashboard .dash-pastoral article:not(.featured),
+  .programme-page .programme-stats > article,
+  .programme-page .programme-card,
+  .programme-page .programme-mini,
+  .programme-page .programme-table-card,
+  .members-reference .members-card,
+  .members-reference .members-table-card,
+  .galerie-reference .galerie-reference-card,
+  .letters-reference .lr-panel,
+  .letters-reference .lr-list,
+  .accounts-reference .lr-quick,
+  .member-statistics .ms-card,
+  .reference-form-page .reference-panel,
+  .report-generate-card,
+  .report-generate-layout > aside > article,
+  .user-create,
+  .password-reset-modal
+) {
+  background: var(--app-surface) !important;
+  border-color: var(--app-border) !important;
+  box-shadow: var(--app-shadow);
+}
+
+.dark :is(
+  .reference-dashboard,
+  .programme-page,
+  .members-reference,
+  .galerie-reference,
+  .letters-reference,
+  .online-registration-premium,
+  .member-detail-premium,
+  .member-statistics,
+  .reference-form-page,
+  .report-generate-page,
+  .user-create,
+  .password-reset-modal,
+  .profile-reference,
+  .settings-page
+) :is(input, select, textarea) {
+  background: var(--app-surface) !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text) !important;
+}

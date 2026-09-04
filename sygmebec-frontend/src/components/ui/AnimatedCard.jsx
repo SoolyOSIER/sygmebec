@@ -17,7 +17,7 @@ const AnimatedCard = ({
     default: 'bg-white border border-gray-100/80',
     glass: 'bg-white/80 backdrop-blur-xl border border-white/30',
     dark: 'bg-secondary-900/90 backdrop-blur-xl border border-white/10',
-    gradient: 'bg-gradient-to-br from-indigo-50 to-white border border-indigo-100/50',
+    gradient: 'bg-gradient-to-br from-primary-50 to-white border border-primary-100/50',
   }
 
   return (

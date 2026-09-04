@@ -53,11 +53,11 @@ export default function Sidebar() {
       {/* Header */}
       <div className={`flex items-center h-20 px-4 border-b border-white/10 flex-shrink-0 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
         <div className="flex items-center gap-3 overflow-hidden">
-          <img src={logo} alt="Logo de l’Église Baptiste de l’Espoir" className="h-12 w-12 flex-none rounded-xl bg-[#f8f5ed] p-1 object-contain ring-2 ring-[#c6a15b]/20" />
+          <img src={logo} alt="Logo de l’Église Baptiste de l’Espoir" className="h-12 w-12 flex-none rounded-xl bg-primary-50 p-1 object-contain ring-2 ring-primary-300/30" />
           {sidebarOpen && (
             <div className="min-w-0">
               <span className="block text-base font-extrabold tracking-wide text-white">SYGMEBEC</span>
-              <span className="block text-[10px] uppercase tracking-[0.18em] text-indigo-200">E.B.E.C.</span>
+              <span className="block text-[10px] uppercase tracking-[0.18em] text-primary-200">E.B.E.C.</span>
             </div>
           )}
         </div>

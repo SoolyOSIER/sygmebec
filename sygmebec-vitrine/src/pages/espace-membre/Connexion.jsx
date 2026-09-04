@@ -147,7 +147,7 @@ const Connexion = () => {
 
                   <Button
                     type="submit"
-                    variant="gold"
+                    variant="primary"
                     size="lg"
                     className="w-full"
                     disabled={loading}

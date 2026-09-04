@@ -9,19 +9,19 @@
 
 @layer base {
   :root {
-    --primary-blue: #4F46E5;
-    --secondary-blue: #4338CA;
-    --light-blue: #818CF8;
+    --primary-blue: #0000FF;
+    --secondary-blue: #0000CC;
+    --light-blue: #60A5FA;
     --soft-blue: #A5B4FC;
-    --navy-blue: #1E1B4B;
-    --dark-blue: #1E1B4B;
+    --navy-blue: #000033;
+    --dark-blue: #000033;
     --white: #ffffff;
     --off-white: #F8FAFC;
     --light-gray: #E2E8F0;
     --medium-gray: #94A3B8;
     --dark-gray: #334155;
-    --gold: #FBBF24;
-    --gold-light: #FDE68A;
+    --gold: #0000CC;
+    --gold-light: #A5B4FC;
     --success: #10B981;
     --warning: #F59E0B;
     --error: #EF4444;

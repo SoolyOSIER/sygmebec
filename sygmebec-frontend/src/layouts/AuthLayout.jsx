@@ -10,7 +10,7 @@ export default function AuthLayout() {
   if (isAuthenticated) return <Navigate to="/" replace />
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 relative">
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 relative transition-colors duration-300 dark:bg-slate-950">
       <LanguageSelect value={language} onChange={setLanguage} className="absolute right-4 top-4 z-10" />
       <Outlet />
     </div>

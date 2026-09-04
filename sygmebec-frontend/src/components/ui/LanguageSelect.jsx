@@ -66,12 +66,12 @@ const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
                 onClick={() => handleSelect(lang)}
                 className={`
                   flex w-full items-center gap-3 px-4 py-2.5 text-sm transition-colors
-                  ${selected.code === lang.code ? 'bg-indigo-50 text-indigo-600' : 'text-secondary-700 hover:bg-gray-50'}
+                  ${selected.code === lang.code ? 'bg-primary-50 text-primary-600' : 'text-secondary-700 hover:bg-gray-50'}
                 `}
               >
                 <span>{lang.flag}</span>
                 <span className="flex-1 text-left">{lang.label}</span>
-                {selected.code === lang.code && <FiCheck size={16} className="text-indigo-600" />}
+                {selected.code === lang.code && <FiCheck size={16} className="text-primary-600" />}
               </button>
             ))}
           </motion.div>

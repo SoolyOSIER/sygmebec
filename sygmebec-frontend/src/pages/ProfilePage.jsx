@@ -35,10 +35,10 @@ import './profileReference.css'
 const PREFERENCES_KEY = 'sygmebec-profile-preferences'
 
 const accentColors = {
-  gold: '#b6903f',
-  green: '#1fa060',
-  blue: '#3768d6',
-  purple: '#7c50d1',
+  gold: '#0000cc',
+  green: '#000099',
+  blue: '#0000ff',
+  purple: '#60a5fa',
 }
 
 const roleKeys = {
@@ -65,7 +65,7 @@ const getProfileForm = (user) => {
 const getStoredPreferences = (theme, language) => {
   const defaults = {
     theme: theme || 'system',
-    accent: 'gold',
+    accent: 'blue',
     language: ['fr', 'ht', 'en'].includes(language) ? language : 'fr',
     dailySummary: true,
     pushNotifications: true,
@@ -189,7 +189,7 @@ export default function ProfilePage() {
     return Math.round((values.filter((value) => String(value || '').trim()).length / values.length) * 100)
   }, [form, photo])
   const passwordStrength = getPasswordStrength(passwordForm.new_password)
-  const strengthColors = { weak: '#c94f43', fair: '#d9b876', good: '#3768d6', strong: '#1fa060' }
+  const strengthColors = { weak: '#c94f43', fair: '#0000cc', good: '#0000ff', strong: '#1fa060' }
   const strength = {
     label: t(`accountProfile.passwordSettings.strength.${passwordStrength.score}`),
     color: strengthColors[passwordStrength.tone] || '#a39e91',
@@ -329,7 +329,7 @@ export default function ProfilePage() {
           <div className="pr-rings" aria-label={t('accountProfile.accountSummary')}>
             <HeroRing value={profileCompletion} label={profileCompletionLabel} title={profileCompletionLabel} subtitle={t('accountProfile.profileCompletion')} color="var(--pr-accent)" />
             <HeroRing value={0} label="—" title={t('accountProfile.sessions')} subtitle={t('accountProfile.notAvailable')} color="#1fa060" />
-            <HeroRing value={0} label="API" title={t('accountProfile.password')} subtitle={t('accountProfile.passwordManagedByApi')} color="#7c50d1" />
+            <HeroRing value={0} label="API" title={t('accountProfile.password')} subtitle={t('accountProfile.passwordManagedByApi')} color="#0000cc" />
           </div>
         </div>
       </section>

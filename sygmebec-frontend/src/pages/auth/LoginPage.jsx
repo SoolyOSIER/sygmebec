@@ -26,7 +26,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-5xl overflow-hidden rounded-lg border border-slate-300 bg-white shadow-panel">
+    <div className="w-full max-w-5xl overflow-hidden rounded-lg border border-slate-300 bg-white shadow-panel dark:border-slate-700">
       <div className="grid min-h-[420px] md:grid-cols-[0.95fr_1.35fr]">
         <section className="bg-gradient-to-br from-primary-700 to-primary-900 px-8 py-10 text-white flex flex-col items-center justify-center text-center">
           <div className="relative mb-5 flex h-24 w-24 items-center justify-center">

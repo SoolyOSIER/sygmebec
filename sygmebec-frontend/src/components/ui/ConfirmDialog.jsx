@@ -17,7 +17,7 @@ export default function ConfirmDialog({
         <Button variant="outline" onClick={onClose}>
           Annuler
         </Button>
-        <Button variant="danger" onClick={onConfirm} loading={loading}>
+        <Button variant="danger" onClick={onConfirm} isLoading={loading}>
           Confirmer
         </Button>
       </div>

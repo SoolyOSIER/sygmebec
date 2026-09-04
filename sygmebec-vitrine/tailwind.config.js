@@ -1,21 +1,31 @@
 /** @type {import('tailwindcss').Config} */
+const loginPalette = {
+  50: '#eef2ff',
+  100: '#e0e7ff',
+  200: '#c7d2fe',
+  300: '#a5b4fc',
+  400: '#60a5fa',
+  500: '#0000ff',
+  600: '#0000cc',
+  700: '#000099',
+  800: '#000066',
+  900: '#000033',
+  950: '#00001f',
+}
+
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#e8f2fb',
-          100: '#cfe4f6',
-          200: '#9fc8ec',
-          300: '#69a9df',
-          400: '#347fc8',
-          500: '#0c5aa6',
-          600: '#084b8a',
-          700: '#093d70',
-          800: '#0a335c',
-          900: '#092e50',
-        },
+        // Keep public pages and the administration login on one palette.
+        primary: loginPalette,
+        indigo: loginPalette,
+        blue: loginPalette,
+        violet: loginPalette,
+        purple: loginPalette,
+        navy: loginPalette,
+        gold: loginPalette,
         secondary: {
           50: '#f8fafc',
           100: '#f1f5f9',
@@ -27,22 +37,6 @@ export default {
           700: '#334155',
           800: '#1e293b',
           900: '#172033',
-        },
-        navy: {
-          50: '#eef6ff',
-          100: '#dcecff',
-          500: '#174a7c',
-          700: '#0d3b66',
-          900: '#082b4c',
-        },
-        gold: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          300: '#fcd34d',
-          400: '#f59e0b',
-          500: '#d4a017',
-          600: '#b78500',
-          700: '#9a6e00',
         },
       },
       fontFamily: {

@@ -10,7 +10,7 @@ import { getPasswordStrength, PASSWORD_MIN_LENGTH } from '../utils/passwordPolic
 import './settingsReference.css'
 
 const preferenceKey = 'sygmebec-settings-preferences'
-const defaults = { digest: true, mentions: true, newMembers: false, push: true, product: false, twoFactor: false, reduceMotion: false, density: 'standard', accent: '#c6a15b' }
+const defaults = { digest: true, mentions: true, newMembers: false, push: true, product: false, twoFactor: false, reduceMotion: false, density: 'standard', accent: '#0000cc' }
 
 const navigationItems = [
   ['profil', 'settings.profile.title', FiUser],
@@ -237,7 +237,7 @@ export default function SettingsPage() {
           <article className="settings-card">
             <SectionHeader icon={FiSliders} title={t('settings.appearance.title')} description={t('settings.appearance.description')} />
             <div className="settings-row"><div><b>{t('settings.appearance.theme')}</b><span>{t('settings.appearance.themeDescription')}</span></div><div className="settings-segmented">{themeItems.map(([id, label, Icon]) => <button key={id} type="button" className={themePreference === id ? 'active' : ''} onClick={() => setTheme(id)}><Icon />{label}</button>)}</div></div>
-            <div className="settings-row"><div><b>{t('settings.appearance.accent')}</b><span>{t('settings.appearance.accentDescription')}</span></div><div className="settings-swatches">{['#c6a15b', '#4c7a5e', '#526ba7', '#a9536a'].map((color) => <button key={color} type="button" aria-label={t('settings.appearance.accentAria', { color })} className={preferences.accent === color ? 'active' : ''} style={{ background: color }} onClick={() => updatePreference('accent', color)} />)}</div></div>
+            <div className="settings-row"><div><b>{t('settings.appearance.accent')}</b><span>{t('settings.appearance.accentDescription')}</span></div><div className="settings-swatches">{['#0000cc', '#000099', '#0000ff', '#60a5fa'].map((color) => <button key={color} type="button" aria-label={t('settings.appearance.accentAria', { color })} className={preferences.accent === color ? 'active' : ''} style={{ background: color }} onClick={() => updatePreference('accent', color)} />)}</div></div>
             <div className="settings-row"><div><b>{t('settings.appearance.density')}</b><span>{t('settings.appearance.densityDescription')}</span></div><div className="settings-segmented">{densityItems.map(([id, labelKey]) => <button key={id} type="button" className={preferences.density === id ? 'active' : ''} onClick={() => updatePreference('density', id)}>{t(labelKey)}</button>)}</div></div>
             <div className="settings-row"><div><b>{t('settings.appearance.reduceMotion')}</b><span>{t('settings.appearance.reduceMotionDescription')}</span></div><Toggle checked={preferences.reduceMotion} label={t('settings.appearance.reduceMotion')} onChange={() => updatePreference('reduceMotion')} /></div>
           </article>

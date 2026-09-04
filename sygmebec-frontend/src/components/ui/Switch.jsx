@@ -17,9 +17,9 @@ const Switch = ({ checked, onChange, label, disabled = false, className = '' }) 
         />
         <motion.div
           className={`w-11 h-6 rounded-full transition-colors duration-300 ${
-            checked ? 'bg-indigo-600' : 'bg-gray-300'
+            checked ? 'bg-primary-600' : 'bg-gray-300'
           }`}
-          animate={{ backgroundColor: checked ? '#4F46E5' : '#D1D5DB' }}
+          animate={{ backgroundColor: checked ? '#0000CC' : '#D1D5DB' }}
           whileHover={{ scale: 1.02 }}
         >
           <motion.div

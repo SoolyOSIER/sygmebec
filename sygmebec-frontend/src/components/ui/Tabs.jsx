@@ -25,7 +25,7 @@ const Tabs = ({ tabs, defaultTab, className = '', onTabChange }) => {
               className={`
                 relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium
                 transition-colors duration-200 whitespace-nowrap
-                ${isActive ? 'text-indigo-600' : 'text-secondary-500 hover:text-secondary-700'}
+                ${isActive ? 'text-primary-600' : 'text-secondary-500 hover:text-secondary-700'}
               `}
             >
               {Icon && <Icon size={16} />}
@@ -38,7 +38,7 @@ const Tabs = ({ tabs, defaultTab, className = '', onTabChange }) => {
               {isActive && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600"
                   transition={{ duration: 0.3 }}
                 />
               )}
