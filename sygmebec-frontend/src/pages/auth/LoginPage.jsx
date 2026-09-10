@@ -29,8 +29,8 @@ export default function LoginPage() {
     <div className="w-full max-w-5xl overflow-hidden rounded-lg border border-slate-300 bg-white shadow-panel dark:border-slate-700">
       <div className="grid min-h-[420px] md:grid-cols-[0.95fr_1.35fr]">
         <section className="bg-gradient-to-br from-primary-700 to-primary-900 px-8 py-10 text-white flex flex-col items-center justify-center text-center">
-          <div className="relative mb-5 flex h-24 w-24 items-center justify-center">
-            <img src={logo} alt="Logo" className="h-20 w-20 object-contain" />
+          <div className="brand-logo-surface relative mb-6 flex h-32 w-32 items-center justify-center rounded-2xl p-2 shadow-lg">
+            <img src={logo} alt="Logo de l’Église Baptiste de l’Espoir" className="h-full w-full object-contain" />
           </div>
           <h1 className="text-3xl font-bold tracking-normal">SYGMEBEC</h1>
           <p className="mt-4 max-w-xs text-sm leading-6 text-white/90">
@@ -38,7 +38,7 @@ export default function LoginPage() {
           </p>
         </section>
 
-        <section className="px-8 py-10 md:px-12">
+        <section className="login-form-panel px-8 py-10 md:px-12">
           <div className="mx-auto max-w-md">
             <div className="mb-8 text-center">
               <h2 className="text-2xl font-semibold text-secondary-900">{t('auth.loginTitle')}</h2>

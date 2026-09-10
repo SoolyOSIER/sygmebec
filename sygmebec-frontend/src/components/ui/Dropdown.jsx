@@ -44,7 +44,7 @@ export default function Dropdown({
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.15 }}
             className={clsx(
-              'absolute mt-2 min-w-[200px] bg-white rounded-xl shadow-2xl border border-gray-100 py-1 z-50',
+              'app-dropdown-surface absolute mt-2 min-w-[200px] bg-white rounded-xl shadow-2xl border border-gray-100 py-1 z-50',
               alignClasses[align],
               className
             )}

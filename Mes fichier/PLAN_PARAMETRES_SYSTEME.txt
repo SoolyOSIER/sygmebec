@@ -1,0 +1,278 @@
+PLAN PROFESSIONNEL — MODULE PARAMÈTRES SYGMEBEC
+================================================
+
+1. OBJECTIF
+-----------
+Créer un espace Paramètres centralisé, dynamique et sécurisé. Il doit permettre
+à l'administrateur de configurer le système sans modifier le code, tout en
+gardant les utilisateurs ordinaires limités aux réglages de leur propre compte.
+
+
+2. STRUCTURE DE LA PAGE PARAMÈTRES
+----------------------------------
+La page utilise une navigation latérale interne ou des onglets. Chaque section
+doit avoir : un titre, une description courte, des boutons Annuler / Enregistrer,
+un indicateur de modifications non enregistrées et un message de succès/erreur.
+
+Sections proposées :
+
+  A. Mon compte
+  B. Apparence et accessibilité
+  C. Préférences de l'application
+  D. Gestion des utilisateurs (administrateur)
+  E. Rôles et permissions (administrateur)
+  F. Données et sauvegardes (administrateur)
+  G. Sécurité et sessions (administrateur)
+  H. Notifications et communications (administrateur)
+  I. Configuration générale de l'église (administrateur)
+  J. Journal d'activité et maintenance (administrateur)
+
+
+3. RÈGLES D'ACCÈS
+-----------------
+Administrateur : accès complet à toutes les sections et aux paramètres globaux.
+Pasteur / Secrétaire : accès à Mon compte, Apparence, Accessibilité,
+Préférences personnelles et Notifications personnelles uniquement.
+
+Les actions sensibles exigent une confirmation : suppression, restauration,
+export complet, changement des permissions, fermeture de toutes les sessions.
+
+Les paramètres globaux ne doivent jamais être modifiables côté navigateur seul.
+Le backend doit contrôler le rôle ADMINISTRATEUR pour chaque requête concernée.
+
+
+4. A. MON COMPTE
+----------------
+Accessible à tous les utilisateurs.
+
+- Photo de profil
+- Nom, prénom, e-mail, téléphone
+- Langue préférée : Kreyòl, Français, English
+- Fuseau horaire
+- Changement de mot de passe
+- Authentification à deux facteurs (si activée)
+- Sessions ouvertes et bouton « Déconnecter les autres appareils »
+- Suppression/désactivation de son compte : demande envoyée à l'administrateur
+
+
+5. B. APPARENCE ET ACCESSIBILITÉ
+--------------------------------
+Accessible à tous, mais le thème global est réservé à l'administrateur.
+
+5.1 Thème de couleurs
+- Choix : thème de l'organisation / préférence personnelle.
+- Palette officielle SYGMEBEC issue du fichier sygmebec-sidebar-v2.html :
+    Accent : #3D63F4
+    Bleu royal : #05006B
+    Panneau foncé : #060335
+    Marine profond : #000024
+    Texte clair : #DDE4FF
+    Texte secondaire : #8C9BD9
+- Interface de sélection : aperçu en direct avant enregistrement.
+- L'administrateur peut définir : couleur d'accent, barre supérieure, sidebar,
+  boutons principaux, liens, bordures et fond des cartes.
+- Prévoir un bouton « Restaurer le thème officiel SYGMEBEC ».
+- Ne jamais permettre une combinaison avec texte illisible : contrôle automatique
+  du contraste avant sauvegarde.
+
+5.2 Style de texte
+- Police de l'application : Inter (par défaut), Arial, system-ui.
+- Taille du texte : Petit / Normal / Grand / Très grand.
+- Densité d'interface : Compacte / Confortable / Aérée.
+- Épaisseur des titres : Normal / Semi-gras / Gras.
+- Espacement des lignes : Normal / Confortable.
+- Aperçu immédiat avec un exemple de titre, texte, champ et bouton.
+
+5.3 Luminosité et confort visuel
+- Curseur de luminosité de 70 % à 120 %, valeur par défaut 100 %.
+- La luminosité agit visuellement sur l'interface avec une variable CSS, par
+  exemple : filter: brightness(var(--ui-brightness)).
+- Prévoir aussi des boutons : - , Réinitialiser, +.
+- Afficher la valeur en pourcentage et appliquer le changement immédiatement.
+- Sauvegarder la préférence par utilisateur dans la base de données.
+- Ne pas modifier les images importées ni les documents : uniquement l'interface.
+- Options complémentaires :
+    * Mode clair / sombre / système
+    * Réduire les animations
+    * Contraste renforcé
+    * Réduire la lumière bleue (teinte chaude légère)
+    * Désactiver les ombres décoratives
+
+
+6. C. PRÉFÉRENCES DE L'APPLICATION
+-----------------------------------
+- Page d'accueil après connexion : Tableau de bord, Membres, Événements.
+- Menu latéral ouvert ou réduit au démarrage.
+- Langue de l'interface.
+- Format de date : JJ/MM/AAAA ou autres formats autorisés.
+- Format de l'heure : 12 h / 24 h.
+- Nombre de lignes par tableau : 10, 25, 50, 100.
+- Colonnes visibles dans les listes selon l'utilisateur.
+- Préférences de filtres et de recherche.
+
+
+7. D. GESTION DES UTILISATEURS — ADMINISTRATEUR
+------------------------------------------------
+- Créer un utilisateur.
+- Modifier son profil, son rôle et son statut.
+- Activer, désactiver, verrouiller ou réactiver un compte.
+- Réinitialiser un mot de passe avec confirmation.
+- Envoyer une invitation ou un lien de réinitialisation.
+- Rechercher, filtrer, exporter la liste des comptes.
+- Voir dernière connexion, appareil, adresse IP si la politique le permet.
+- Interdire la suppression du dernier administrateur actif.
+- Toutes les actions sont inscrites dans le journal d'audit.
+
+
+8. E. RÔLES ET PERMISSIONS — ADMINISTRATEUR
+--------------------------------------------
+Rôles initiaux : Administrateur, Pasteur, Secrétaire.
+
+Permissions granulaires par module :
+- Membres : voir, créer, modifier, supprimer, exporter.
+- Demandes d'adhésion : voir, accepter, refuser.
+- Événements : voir, créer, modifier, supprimer, publier.
+- Galerie : voir, ajouter, modifier, supprimer.
+- Rapports et lettres : voir, générer, exporter, supprimer.
+- Comptes : gérer uniquement pour administrateur.
+- Paramètres : personnels, organisation, sécurité, sauvegardes.
+
+Prévoir une matrice lisible : lignes = permissions, colonnes = rôles.
+Un rôle personnalisé pourra être ajouté plus tard, mais les rôles système ne
+doivent pas être supprimés tant qu'ils sont utilisés.
+
+
+9. F. DONNÉES ET SAUVEGARDES — ADMINISTRATEUR
+----------------------------------------------
+- Création manuelle d'une sauvegarde.
+- Planification quotidienne / hebdomadaire / mensuelle.
+- Liste des sauvegardes : date, taille, auteur, état.
+- Téléchargement sécurisé d'une sauvegarde.
+- Restauration : confirmation forte, mot de passe administrateur et avertissement.
+- Export CSV/PDF des membres, événements, inscriptions et rapports.
+- Politique de conservation : ex. garder 30 sauvegardes quotidiennes.
+- Écran de progression et rapport d'erreur en cas d'échec.
+
+
+10. G. SÉCURITÉ ET SESSIONS — ADMINISTRATEUR
+---------------------------------------------
+- Durée de session et expiration automatique.
+- Politique de mots de passe : longueur minimale, chiffres, caractères spéciaux.
+- Verrouillage après plusieurs tentatives de connexion échouées.
+- Activation obligatoire ou facultative de la double authentification.
+- Liste des sessions actives avec révocation individuelle ou globale.
+- Liste des appareils connus (optionnelle).
+- Restrictions d'accès : adresses IP ou plages IP, si nécessaire.
+- Journal des connexions et des changements de sécurité.
+
+
+11. H. NOTIFICATIONS ET COMMUNICATIONS
+---------------------------------------
+- Préférences par utilisateur : e-mail, notification interne, alertes navigateur.
+- Notifications administratives : nouveau membre, demande à traiter, erreur de
+  sauvegarde, compte verrouillé, événement proche.
+- Configuration des modèles de messages : objet, contenu, signature d'église.
+- Adresse e-mail d'expédition et test d'envoi (administrateur).
+- Fréquence des résumés : immédiat, quotidien, hebdomadaire.
+
+
+12. I. CONFIGURATION GÉNÉRALE DE L'ÉGLISE — ADMINISTRATEUR
+-----------------------------------------------------------
+- Nom officiel de l'église.
+- Sigle, logo, adresse, téléphone, e-mail, réseaux sociaux.
+- Ville, pays, fuseau horaire, devise si nécessaire.
+- Informations affichées dans les lettres, rapports et documents.
+- Numérotation des membres et préfixes de documents.
+- Année administrative et paramètres de rapport.
+- Aperçu du logo et validation du format/taille des images.
+
+
+13. J. JOURNAL D'ACTIVITÉ ET MAINTENANCE — ADMINISTRATEUR
+----------------------------------------------------------
+- Journal d'audit immuable : qui, quoi, quand, sur quelle donnée.
+- Filtres par utilisateur, action, module et période.
+- Export du journal d'audit.
+- État du système : version frontend/backend, dernière sauvegarde, espace média,
+  dernier échec technique.
+- Outils contrôlés : nettoyer les fichiers temporaires, recalculer les statistiques,
+  tester les notifications. Chaque outil doit afficher une confirmation.
+
+
+14. MODÈLE DE DONNÉES RECOMMANDÉ
+--------------------------------
+UserPreference
+- user_id
+- language
+- theme_mode
+- ui_brightness
+- text_scale
+- interface_density
+- reduce_motion
+- high_contrast
+- blue_light_reduction
+- sidebar_collapsed
+- landing_page
+- table_page_size
+- updated_at
+
+OrganizationSetting
+- church_name, logo, contact information
+- official_theme (couleurs autorisées)
+- default_language, timezone, date_format
+- session_duration, password_policy
+- backup_policy, notification_settings
+- updated_by, updated_at
+
+AuditLog
+- actor, action, module, target_type, target_id
+- before_data, after_data, ip_address, created_at
+
+
+15. API RECOMMANDÉE
+-------------------
+GET/PATCH  /api/settings/me/                 Préférences personnelles
+GET/PATCH  /api/settings/organization/       Configuration globale (admin)
+GET/POST   /api/settings/users/              Utilisateurs (admin)
+GET/PATCH  /api/settings/roles/              Rôles/permissions (admin)
+GET/POST   /api/settings/backups/            Sauvegardes (admin)
+POST       /api/settings/backups/{id}/restore/ Restauration (admin)
+GET        /api/settings/audit-logs/          Audit (admin)
+GET/PATCH  /api/settings/security/           Sécurité (admin)
+
+
+16. EXPÉRIENCE UTILISATEUR ET QUALITÉ
+-------------------------------------
+- Sauvegarde automatique uniquement pour les préférences visuelles simples ;
+  bouton Enregistrer obligatoire pour sécurité, organisation et sauvegarde.
+- Aperçu instantané des couleurs, typographie et luminosité.
+- Confirmation avant toute action irréversible.
+- Validation claire sous chaque champ.
+- Design responsive : navigation d'onglets transformée en liste sur mobile.
+- Accessibilité : clavier, focus visible, contraste suffisant, libellés explicites.
+- États à prévoir : chargement, vide, erreur, succès, non autorisé.
+
+
+17. ORDRE D'IMPLÉMENTATION
+---------------------------
+Phase 1 : Préférences personnelles
+- Langue, thème, luminosité, taille de texte, densité, animations, page d'accueil.
+
+Phase 2 : Configuration organisationnelle
+- Informations de l'église, logo, formats, thème global officiel.
+
+Phase 3 : Administration et sécurité
+- Utilisateurs, rôles, permissions, sessions, politique des mots de passe.
+
+Phase 4 : Données et exploitation
+- Sauvegardes, restauration, export, notifications, journal d'audit, maintenance.
+
+
+18. CRITÈRES DE VALIDATION
+--------------------------
+- Un utilisateur normal ne peut jamais modifier une donnée globale.
+- Un administrateur peut modifier les réglages globaux avec audit automatique.
+- La luminosité, le texte et le thème sont visibles immédiatement et persistent
+  après déconnexion/reconnexion.
+- Le thème officiel respecte la palette SYGMEBEC et le contraste minimum.
+- Chaque modification sensible est confirmée, contrôlée par le backend et tracée.
+- La page reste fonctionnelle sur mobile, tablette et ordinateur.

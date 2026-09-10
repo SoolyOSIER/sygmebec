@@ -48,7 +48,7 @@ export default function Sidebar() {
       initial={false}
       animate={{ width: sidebarOpen ? 288 : 80 }}
       style={{ height: '100vh', minHeight: '100vh' }}
-      className="sidebar-premium overflow-hidden flex flex-col"
+      className="sidebar-premium sidebar-v2 overflow-hidden flex flex-col"
     >
       {/* Header */}
       <div className={`flex items-center h-20 px-4 border-b border-white/10 flex-shrink-0 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>

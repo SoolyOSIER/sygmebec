@@ -1,3 +1,4 @@
+import { t, useTranslation, localizedDate } from '../../i18n'
 // src/pages/espace-membre/MesInscriptions.jsx
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
@@ -20,6 +21,8 @@ import { evenementService } from '../../services/evenementService'
 import { useMemberAuthStore } from '../../store/memberAuthStore'
 
 const MesInscriptions = () => {
+  useTranslation()
+
   const { accessToken, user } = useMemberAuthStore()
   const isAuthenticated = Boolean(accessToken && user)
   const [inscriptions, setInscriptions] = useState([])
@@ -44,15 +47,9 @@ const MesInscriptions = () => {
     return (
       <div className="min-h-screen flex items-center justify-center py-20">
         <div className="text-center">
-          <h2 className="text-2xl font-playfair font-bold text-navy-900 mb-4">
-            Accès réservé
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Veuillez vous connecter pour voir vos inscriptions.
-          </p>
-          <Button variant="gold" onClick={() => window.location.href = '/connexion'}>
-            Se connecter
-          </Button>
+          <h2 className="text-2xl font-playfair font-bold text-navy-900 mb-4">{t("Accès réservé ")}</h2>
+          <p className="text-gray-600 mb-6">{t("Veuillez vous connecter pour voir vos inscriptions. ")}</p>
+          <Button variant="gold" onClick={() => window.location.href = '/connexion'}>{t("Se connecter ")}</Button>
         </div>
       </div>
     )
@@ -60,22 +57,18 @@ const MesInscriptions = () => {
 
   return (
     <>
-      <SEO title="Mes inscriptions - GESTMEMBRES" />
+      <SEO title={t("Mes inscriptions - GESTMEMBRES")} />
       
       <div className="py-20">
         <div className="container-custom max-w-4xl">
           <AnimatedSection>
             <div className="mb-8">
               <span className="section-subtitle">
-                <Calendar className="w-4 h-4" />
-                Mes Inscriptions
-              </span>
+                <Calendar className="w-4 h-4" />{t("Mes Inscriptions ")}</span>
               <h1 className="section-title mt-4">
-                <span className="gradient-text">Mes événements</span>
+                <span className="gradient-text">{t("Mes événements")}</span>
               </h1>
-              <p className="text-gray-600 mt-2">
-                Retrouvez toutes vos inscriptions aux événements
-              </p>
+              <p className="text-gray-600 mt-2">{t("Retrouvez toutes vos inscriptions aux événements ")}</p>
             </div>
           </AnimatedSection>
 
@@ -96,38 +89,35 @@ const MesInscriptions = () => {
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
                             <Badge variant="default">
-                              {inscription.statut || 'Confirmée'}
+                              {t(inscription.statut || 'Confirmée')}
                             </Badge>
                             <span className="text-sm text-gray-500">
-                              {new Date(inscription.inscrit_le).toLocaleDateString()}
+                              {t(localizedDate(inscription.inscrit_le))}
                             </span>
                           </div>
                           <h3 className="text-xl font-playfair font-bold text-navy-900">
-                            {inscription.evenement?.titre || 'Événement'}
+                            {t(inscription.evenement?.titre || 'Événement')}
                           </h3>
                           <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-500">
                             <span className="flex items-center gap-1">
                               <Calendar className="w-4 h-4" />
-                              {inscription.evenement?.date_ev || 'Date à venir'}
+                              {inscription.evenement?.date_ev ? localizedDate(inscription.evenement.date_ev) : t('Date à venir')}
                             </span>
                             <span className="flex items-center gap-1">
                               <Clock className="w-4 h-4" />
-                              {inscription.evenement?.heure_ev || 'Horaire'}
+                              {t(inscription.evenement?.heure_ev || 'Horaire')}
                             </span>
                             <span className="flex items-center gap-1">
                               <MapPin className="w-4 h-4" />
-                              {inscription.evenement?.lieu || 'Lieu'}
+                              {t(inscription.evenement?.lieu || 'Lieu')}
                             </span>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
                           <Badge variant="gold">
-                            {inscription.nombre_places || 1} place(s)
-                          </Badge>
+                            {t(inscription.nombre_places || 1)}{t(" place(s) ")}</Badge>
                           <Link to={`/evenement/${inscription.evenement?.id}`}>
-                            <Button variant="outline" size="sm" className="group">
-                              Voir
-                              <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                            <Button variant="outline" size="sm" className="group">{t("Voir ")}<ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                             </Button>
                           </Link>
                         </div>
@@ -142,16 +132,10 @@ const MesInscriptions = () => {
               <Card>
                 <CardContent className="p-12 text-center">
                   <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-navy-900 mb-2">
-                    Aucune inscription
-                  </h3>
-                  <p className="text-gray-500 mb-6">
-                    Vous n'êtes inscrit à aucun événement pour le moment.
-                  </p>
+                  <h3 className="text-xl font-semibold text-navy-900 mb-2">{t("Aucune inscription ")}</h3>
+                  <p className="text-gray-500 mb-6">{t("Vous n'êtes inscrit à aucun événement pour le moment. ")}</p>
                   <Link to="/evenements">
-                    <Button variant="gold">
-                      Découvrir les événements
-                    </Button>
+                    <Button variant="gold">{t("Découvrir les événements ")}</Button>
                   </Link>
                 </CardContent>
               </Card>

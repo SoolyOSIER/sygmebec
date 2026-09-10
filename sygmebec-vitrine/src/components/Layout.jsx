@@ -1,3 +1,4 @@
+import { t, useTranslation } from '../i18n'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { Moon, Sun } from 'lucide-react'
@@ -18,6 +19,8 @@ const navigationLinks = [
 ]
 
 export default function Layout() {
+  useTranslation()
+
   const navigate = useNavigate()
   const { user, clearSession } = useMemberAuthStore()
   const { theme, setTheme } = useTheme()
@@ -43,13 +46,13 @@ export default function Layout() {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <Link className="brand" to="/" aria-label="SYGMEBEC, accueil">
-          <span className="brand-mark">S</span>
-          <span>SYGMEBEC</span>
+        <Link className="brand" to="/" aria-label={t("SYGMEBEC, accueil")}>
+          <span className="brand-mark">{t("S")}</span>
+          <span>{t("SYGMEBEC")}</span>
         </Link>
-        <nav aria-label="Navigation principale">
+        <nav aria-label={t("Navigation principale")}>
           {navigationLinks.map(([path, label]) => (
-            <NavLink key={path} to={path} end={path === '/'}>{label}</NavLink>
+            <NavLink key={path} to={path} end={path === '/'}>{t(label)}</NavLink>
           ))}
         </nav>
         <div className="member-actions">
@@ -58,27 +61,27 @@ export default function Layout() {
             className="theme-toggle"
             type="button"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            aria-label={`Basculer vers le thème ${theme === 'dark' ? 'clair' : 'sombre'}`}
+            aria-label={t(`Basculer vers le thème ${theme === 'dark' ? 'clair' : 'sombre'}`)}
           >
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-          <button className="button button-secondary app-switcher" type="button" onClick={openManagementApp}>Espace gestion</button>
+          <button className="button button-secondary app-switcher" type="button" onClick={openManagementApp}>{t("Espace gestion")}</button>
           {user ? (
             <>
-              <NavLink className="text-link" to="/espace-membre/profil">Mon espace</NavLink>
-              <button className="button button-secondary" type="button" onClick={handleLogout}>Déconnexion</button>
+              <NavLink className="text-link" to="/espace-membre/profil">{t("Mon espace")}</NavLink>
+              <button className="button button-secondary" type="button" onClick={handleLogout}>{t("Déconnexion")}</button>
             </>
           ) : (
-            <NavLink className="button button-secondary" to="/espace-membre/connexion">Espace membre</NavLink>
+            <NavLink className="button button-secondary" to="/espace-membre/connexion">{t("Espace membre")}</NavLink>
           )}
         </div>
       </header>
       <main><Outlet /></main>
       <footer className="site-footer">
-        <div><strong>SYGMEBEC</strong><span>Église Baptiste Évangélique de la Cité</span></div>
+        <div><strong>{t("SYGMEBEC")}</strong><span>{t("Église Baptiste Évangélique de la Cité")}</span></div>
         <div className="footer-links">
-          <Link to="/mentions-legales">Mentions légales</Link>
-          <Link to="/confidentialite">Confidentialité</Link>
+          <Link to="/mentions-legales">{t("Mentions légales")}</Link>
+          <Link to="/confidentialite">{t("Confidentialité")}</Link>
         </div>
       </footer>
     </div>

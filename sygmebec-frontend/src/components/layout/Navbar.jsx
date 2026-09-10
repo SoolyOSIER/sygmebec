@@ -137,7 +137,7 @@ export default function Navbar() {
         marginLeft: `${sidebarWidth}px`,
         width: `calc(100% - ${sidebarWidth}px)`,
       }}
-      className={`dashboard-topbar sticky top-0 z-30 flex h-20 items-center px-4 lg:px-6 transition-all duration-300 ${isScrolled ? 'bg-white/95 shadow-lg backdrop-blur-xl' : 'bg-white/80 backdrop-blur-md'} border-b border-gray-200/60`}
+      className={`dashboard-topbar dashboard-v2 sticky top-0 z-30 flex h-20 items-center px-4 lg:px-6 transition-all duration-300 ${isScrolled ? 'bg-white/95 shadow-lg backdrop-blur-xl' : 'bg-white/80 backdrop-blur-md'} border-b border-gray-200/60`}
     >
       <div className="flex w-full items-center gap-3">
         <form onSubmit={handleSearch} className="relative ml-1 hidden max-w-md flex-1 md:block">

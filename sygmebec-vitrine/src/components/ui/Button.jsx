@@ -1,3 +1,4 @@
+import { t, useTranslation } from '../../i18n'
 // ============================================
 // src/components/ui/Button.jsx - Premium
 // ============================================
@@ -56,7 +57,7 @@ const Button = forwardRef(({
       ) : Icon && iconPosition === 'left' ? (
         <Icon size={18} />
       ) : null}
-      {children}
+      {t(children)}
       {Icon && iconPosition === 'right' && !isLoading && <Icon size={18} />}
     </motion.button>
   )

@@ -1,54 +1,8 @@
 Performing system checks...
 
 System check identified no issues (0 silenced).
-September 01, 2026 - 13:48:38
+September 08, 2026 - 13:27:37
 Django version 4.2.7, using settings 'sygmebec_backend.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CTRL-BREAK.
 
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: =?utf-8?q?SYGMEBEC_=E2=80=94_nouvelle_connexion_d=C3=A9tect=C3=A9e?=
-From: noreply@sygmebec.org
-To: storlyosier833@gmail.com
-Date: Wed, 02 Sep 2026 19:28:06 -0000
-Message-ID: <178837728647.16920.2847335940897066037@StorlyOSIER.lan>
-
-Bonjour,
-
-Un autre compte vient de se connecter à la plateforme.
-
-Compte : Edji
-Rôle : SECRETAIRE
-Date : 02/09/2026 à 15:28:06 EDT
-Adresse IP : 127.0.0.1
-Navigateur : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36
-
-Si vous ne reconnaissez pas cette activité, désactivez le compte concerné ou modifiez immédiatement son mot de passe.
-
-— SYGMEBEC
--------------------------------------------------------------------------------
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: =?utf-8?q?SYGMEBEC_=E2=80=94_nouvelle_connexion_d=C3=A9tect=C3=A9e?=
-From: noreply@sygmebec.org
-To: storlyosier833@gmail.com
-Date: Wed, 02 Sep 2026 19:31:50 -0000
-Message-ID: <178837751008.16920.11962535462612030881@StorlyOSIER.lan>
-
-Bonjour,
-
-Un autre compte vient de se connecter à la plateforme.
-
-Compte : Raybene
-Rôle : PASTEUR
-Date : 02/09/2026 à 15:31:50 EDT
-Adresse IP : 127.0.0.1
-Navigateur : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36
-
-Si vous ne reconnaissez pas cette activité, désactivez le compte concerné ou modifiez immédiatement son mot de passe.
-
-— SYGMEBEC
--------------------------------------------------------------------------------

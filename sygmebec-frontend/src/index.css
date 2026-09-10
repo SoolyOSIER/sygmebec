@@ -1,5 +1,6 @@
 /* ============================================
    src/index.css - Styles Premium complets - CORRIGÉ
+   Fond global blanc + palette alignée sur tailwind.config.js
    ============================================ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -9,19 +10,23 @@
 
 @layer base {
   :root {
-    --primary-blue: #0000FF;
-    --secondary-blue: #0000CC;
+    /* Alignées sur loginBlue / gold dans tailwind.config.js */
+    --primary-blue: #0000FF;     /* = primary-500 / focus ring */
+    --secondary-blue: #0000CC;   /* = primary-600 / bouton, lien */
     --light-blue: #60A5FA;
     --soft-blue: #A5B4FC;
-    --navy-blue: #000033;
-    --dark-blue: #000033;
+    --navy-blue: #000034;        /* = primary-900, coin le plus sombre du dégradé */
+    --dark-blue: #000022;        /* = primary-950 */
     --white: #ffffff;
     --off-white: #F8FAFC;
     --light-gray: #E2E8F0;
     --medium-gray: #94A3B8;
     --dark-gray: #334155;
-    --gold: #0000CC;
-    --gold-light: #A5B4FC;
+
+    /* Anciennement --gold: #0000CC (bleu) — corrigé sur le vrai or du logo */
+    --gold: #FFC700;             /* = gold-500 */
+    --gold-light: #FFE070;       /* = gold-300 */
+
     --success: #10B981;
     --warning: #F59E0B;
     --error: #EF4444;
@@ -30,9 +35,12 @@
   * {
     @apply border-border;
   }
-  
+
+  /* Fond global du programme : blanc plein, plus de dégradé bleuté.
+     La sidebar (.sidebar-premium) garde son propre fond bleu marine,
+     c'est un composant à part, pas le fond de la page. */
   body {
-    @apply bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 min-h-screen antialiased;
+    @apply bg-white min-h-screen antialiased;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
@@ -131,15 +139,15 @@
     width: 8px;
     height: 8px;
   }
-  
+
   ::-webkit-scrollbar-track {
     @apply bg-gray-100/50 rounded-full;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     @apply bg-gradient-to-b from-indigo-400 to-indigo-600 rounded-full;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     @apply from-indigo-500 to-indigo-700;
   }
@@ -149,28 +157,28 @@
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
   }
-  
+
   @keyframes pulse-ring {
     0% { transform: scale(0.95); opacity: 0.7; }
     50% { transform: scale(1.05); opacity: 0.3; }
     100% { transform: scale(0.95); opacity: 0.7; }
   }
-  
+
   @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
   }
-  
+
   @keyframes slide-in-right {
     0% { transform: translateX(100%); opacity: 0; }
     100% { transform: translateX(0); opacity: 1; }
   }
-  
+
   @keyframes fade-in-up {
     0% { transform: translateY(20px); opacity: 0; }
     100% { transform: translateY(0); opacity: 1; }
   }
-  
+
   @keyframes scale-in {
     0% { transform: scale(0.9); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
@@ -185,25 +193,25 @@
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
-  
+
   .animate-pulse-ring {
     animation: pulse-ring 2s ease-in-out infinite;
   }
-  
+
   .animate-shimmer {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
   }
-  
+
   .animate-slide-in-right {
     animation: slide-in-right 0.5s ease-out forwards;
   }
-  
+
   .animate-fade-in-up {
     animation: fade-in-up 0.6s ease-out forwards;
   }
-  
+
   .animate-scale-in {
     animation: scale-in 0.4s ease-out forwards;
   }
@@ -212,12 +220,12 @@
     background-size: 200% 200%;
     animation: gradient-shift 3s ease-in-out infinite;
   }
-  
+
   .stagger-children > * {
     opacity: 0;
     animation: fade-in-up 0.6s ease-out forwards;
   }
-  
+
   .stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
   .stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
   .stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
@@ -230,53 +238,53 @@
   .glass-card {
     @apply bg-white/80 backdrop-blur-xl border border-white/30 shadow-xl;
   }
-  
+
   .glass-card-dark {
     @apply bg-secondary-900/90 backdrop-blur-xl border border-white/10 shadow-2xl;
   }
-  
+
   .gradient-primary {
     @apply bg-gradient-to-r from-indigo-600 via-indigo-500 to-blue-400;
   }
-  
+
   .gradient-secondary {
     @apply bg-gradient-to-r from-secondary-700 via-secondary-600 to-secondary-500;
   }
-  
+
   .gradient-success {
     @apply bg-gradient-to-r from-emerald-500 to-teal-400;
   }
-  
+
   .gradient-warning {
     @apply bg-gradient-to-r from-amber-500 to-orange-400;
   }
-  
+
   .gradient-danger {
     @apply bg-gradient-to-r from-rose-500 to-red-400;
   }
-  
+
   .gradient-info {
     @apply bg-gradient-to-r from-blue-500 to-indigo-400;
   }
-  
+
   .gradient-purple {
     @apply bg-gradient-to-r from-purple-500 to-pink-400;
   }
 
   /* Stat Card Premium */
   .stat-card-premium {
-    @apply relative overflow-hidden bg-white rounded-2xl shadow-card 
-           border border-gray-100/80 p-6 transition-all duration-500 
+    @apply relative overflow-hidden bg-white rounded-2xl shadow-card
+           border border-gray-100/80 p-6 transition-all duration-500
            hover:shadow-2xl hover:-translate-y-1 hover:border-indigo-200/50;
   }
-  
+
   .stat-card-premium::before {
     content: '';
-    @apply absolute inset-0 opacity-0 group-hover:opacity-100 
-           transition-opacity duration-500 bg-gradient-to-br 
+    @apply absolute inset-0 opacity-0 group-hover:opacity-100
+           transition-opacity duration-500 bg-gradient-to-br
            from-indigo-500/5 via-purple-500/5 to-transparent;
   }
-  
+
   .stat-card-premium::after {
     content: '';
     @apply absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl
@@ -284,27 +292,28 @@
            opacity-0 group-hover:opacity-100 transition-opacity duration-500
            animate-gradient;
   }
-  
+
   .stat-card-premium .icon-wrapper {
     @apply relative w-14 h-14 rounded-2xl flex items-center justify-center
            transition-all duration-500 group-hover:scale-110 group-hover:rotate-3;
   }
-  
+
   .stat-card-premium .icon-wrapper::before {
     content: '';
     @apply absolute inset-0 rounded-2xl bg-gradient-to-br from-white/50 to-transparent
            opacity-0 group-hover:opacity-100 transition-opacity duration-500;
   }
-  
+
   .stat-card-premium .icon-wrapper::after {
     content: '';
-    @apply absolute inset-0 rounded-2xl bg-indigo-500/20 scale-0 
+    @apply absolute inset-0 rounded-2xl bg-indigo-500/20 scale-0
            group-hover:scale-100 transition-transform duration-500;
   }
 
-  /* Sidebar Premium */
+  /* Sidebar Premium — garde volontairement son fond bleu marine + reflets,
+     c'est le menu latéral, pas le fond de la page. */
   .sidebar-premium {
-    @apply fixed top-0 left-0 z-40 h-full w-72 
+    @apply fixed top-0 left-0 z-40 h-full w-72
            border-r border-white/10 shadow-2xl transition-all duration-300;
     bottom: 0;
     height: 100dvh;
@@ -314,34 +323,34 @@
       radial-gradient(circle at 88% 76%, rgba(37, 99, 235, 0.35), transparent 32%),
       linear-gradient(165deg, #111827 0%, #08142e 48%, #020617 100%);
   }
-  
+
   .sidebar-premium .sidebar-link {
-    @apply flex items-center gap-3 px-4 py-3.5 rounded-xl 
+    @apply flex items-center gap-3 px-4 py-3.5 rounded-xl
            text-slate-400 hover:text-white hover:bg-white/10
            transition-all duration-300 relative overflow-hidden;
   }
-  
+
   .sidebar-premium .sidebar-link::before {
     content: '';
     @apply absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-transparent
            opacity-0 group-hover:opacity-100 transition-opacity duration-500;
   }
-  
+
   .sidebar-premium .sidebar-link.active {
     @apply bg-white/15 text-white shadow-lg shadow-indigo-500/10 border border-white/10;
   }
-  
+
   .sidebar-premium .sidebar-link.active::after {
     content: '';
     @apply absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full
            bg-gradient-to-b from-indigo-400 to-purple-400;
   }
-  
+
   .sidebar-premium .sidebar-link .icon-wrapper {
     @apply w-9 h-9 rounded-xl flex items-center justify-center
            bg-white/5 group-hover:bg-white/10 transition-all duration-300;
   }
-  
+
   .sidebar-premium .sidebar-link.active .icon-wrapper {
     @apply bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-indigo-400;
   }
@@ -356,23 +365,23 @@
   .table-premium {
     @apply w-full text-sm;
   }
-  
+
   .table-premium thead th {
     @apply px-6 py-4 text-left text-xs font-semibold text-secondary-500 uppercase tracking-wider
            bg-secondary-50/50 border-b border-secondary-200/50;
   }
-  
+
   .table-premium tbody tr {
     @apply hover:bg-indigo-50/50 transition-colors duration-200;
   }
-  
+
   .table-premium tbody td {
     @apply px-6 py-4 border-b border-secondary-100/50;
   }
 
   /* Input Premium */
   .input-premium {
-    @apply w-full rounded-xl border bg-white px-4 py-2.5 text-secondary-900 
+    @apply w-full rounded-xl border bg-white px-4 py-2.5 text-secondary-900
            placeholder:text-secondary-400 outline-none transition-all duration-300
            border-gray-200 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-400/10
            hover:border-gray-300;
@@ -530,15 +539,15 @@
   .stat-card-premium {
     @apply p-4;
   }
-  
+
   .stat-card-premium .icon-wrapper {
     @apply w-10 h-10;
   }
-  
+
   .stat-card-premium .icon-wrapper svg {
     @apply w-5 h-5;
   }
-  
+
   .sidebar-premium {
     @apply w-64;
   }

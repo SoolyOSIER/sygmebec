@@ -46,7 +46,7 @@ class LoginView(TokenObtainPairView):
         # peut également se connecter avec l'adresse e-mail enregistrée sur sa fiche.
         compte = Utilisateur.objects.select_related('membre').filter(
             Q(identifiant__iexact=identifiant) | Q(membre__email__iexact=identifiant)
-        ).first()
+        ).order_by('-is_administrateur_principal', 'id').first()
         user = authenticate(identifiant=compte.identifiant, password=password) if compte else None
         
         if not user:

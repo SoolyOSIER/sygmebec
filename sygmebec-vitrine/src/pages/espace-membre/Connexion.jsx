@@ -1,3 +1,4 @@
+import { t, useTranslation } from '../../i18n'
 // src/pages/espace-membre/Connexion.jsx
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -13,6 +14,8 @@ import { useMemberAuthStore } from '../../store/memberAuthStore'
 import { validateLoginForm } from '../../utils/validation'
 
 const Connexion = () => {
+  useTranslation()
+
   const setSession = useMemberAuthStore((state) => state.setSession)
   const setAccessToken = useMemberAuthStore((state) => state.setAccessToken)
   const [loading, setLoading] = useState(false)
@@ -62,8 +65,9 @@ const Connexion = () => {
       const dashboardUrl = import.meta.env.VITE_ADMIN_URL || `${window.location.protocol}//${window.location.hostname}:5173`
       window.setTimeout(() => window.location.assign(dashboardUrl), 500)
     } catch (error) {
-      setErrors({ identifiant: 'Identifiant ou mot de passe incorrect.' })
-      toast.error('Identifiant ou mot de passe incorrect')
+      const message = error.response?.data?.error || 'Impossible de se connecter. Réessayez dans un instant.'
+      setErrors({ identifiant: message })
+      toast.error(message)
     } finally {
       setLoading(false)
     }
@@ -71,18 +75,16 @@ const Connexion = () => {
 
   return (
     <>
-      <SEO title="Connexion - GESTMEMBRES" />
+      <SEO title={t("Connexion - GESTMEMBRES")} />
       
       <div className="min-h-screen flex items-center justify-center py-20">
         <div className="container-custom max-w-md">
           <AnimatedSection>
             <div className="text-center mb-8">
               <h1 className="section-title text-3xl">
-                <span className="gradient-text">Connexion</span>
+                <span className="gradient-text">{t("Connexion")}</span>
               </h1>
-              <p className="text-gray-600 mt-2">
-                Connectez-vous à votre espace personnel
-              </p>
+              <p className="text-gray-600 mt-2">{t("Connectez-vous à votre espace personnel ")}</p>
             </div>
           </AnimatedSection>
 
@@ -91,9 +93,7 @@ const Connexion = () => {
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Identifiant ou Email *
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("Identifiant ou Email * ")}</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input
@@ -103,16 +103,14 @@ const Connexion = () => {
                         value={formData.identifiant}
                         onChange={handleChange}
                         className={`w-full pl-10 pr-4 py-2.5 rounded-xl border transition-colors ${errors.identifiant ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
-                        placeholder="Votre identifiant ou email"
+                        placeholder={t("Votre identifiant ou email")}
                       />
-                      {errors.identifiant && <p className="field-feedback">{errors.identifiant}</p>}
+                      {errors.identifiant && <p className="field-feedback">{t(errors.identifiant)}</p>}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Mot de passe *
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("Mot de passe * ")}</label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input
@@ -122,9 +120,9 @@ const Connexion = () => {
                         value={formData.mot_de_passe}
                         onChange={handleChange}
                         className={`w-full pl-10 pr-12 py-2.5 rounded-xl border transition-colors ${errors.mot_de_passe ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
-                        placeholder="Votre mot de passe"
+                        placeholder={t("Votre mot de passe")}
                       />
-                      {errors.mot_de_passe && <p className="field-feedback">{errors.mot_de_passe}</p>}
+                      {errors.mot_de_passe && <p className="field-feedback">{t(errors.mot_de_passe)}</p>}
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
@@ -137,12 +135,8 @@ const Connexion = () => {
 
                   <div className="flex items-center justify-between text-sm">
                     <label className="flex items-center gap-2 text-gray-600">
-                      <input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
-                      Se souvenir de moi
-                    </label>
-                    <Link to="/mot-de-passe-oublie" className="text-primary-600 hover:text-primary-700 font-medium">
-                      Mot de passe oublié ?
-                    </Link>
+                      <input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-primary-500" />{t("Se souvenir de moi ")}</label>
+                    <Link to="/mot-de-passe-oublie" className="text-primary-600 hover:text-primary-700 font-medium">{t("Mot de passe oublié ? ")}</Link>
                   </div>
 
                   <Button
@@ -156,19 +150,14 @@ const Connexion = () => {
                       'Connexion en cours...'
                     ) : (
                       <>
-                        <LogIn className="w-4 h-4 mr-2" />
-                        Se connecter
-                      </>
+                        <LogIn className="w-4 h-4 mr-2" />{t("Se connecter ")}</>
                     )}
                   </Button>
                 </form>
 
                 <div className="mt-6 text-center">
-                  <p className="text-gray-600">
-                    Pas encore de compte ?{' '}
-                    <Link to="/adhesion" className="text-primary-600 hover:text-primary-700 font-semibold inline-flex items-center">
-                      Créer un compte
-                      <ArrowRight className="w-4 h-4 ml-1" />
+                  <p className="text-gray-600">{t("Pas encore de compte ?")}{t(' ')}
+                    <Link to="/adhesion" className="text-primary-600 hover:text-primary-700 font-semibold inline-flex items-center">{t("Créer un compte ")}<ArrowRight className="w-4 h-4 ml-1" />
                     </Link>
                   </p>
                 </div>

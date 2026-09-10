@@ -1,0 +1,2110 @@
+{
+  "Accueil": {
+    "ht": "Akèy",
+    "en": "Home"
+  },
+  "À propos": {
+    "ht": "Konsènan nou",
+    "en": "About"
+  },
+  "Événements": {
+    "ht": "Evènman",
+    "en": "Events"
+  },
+  "Galerie": {
+    "ht": "Galri",
+    "en": "Gallery"
+  },
+  "Adhésion": {
+    "ht": "Adesyon",
+    "en": "Membership"
+  },
+  "Contact": {
+    "ht": "Kontak",
+    "en": "Contact"
+  },
+  "Vous êtes déconnecté. Retour à la vitrine.": {
+    "ht": "Ou dekonekte. Retounen sou sit la.",
+    "en": "You are signed out. Returning to the website."
+  },
+  "SYGMEBEC, accueil": {
+    "ht": "SYGMEBEC, akèy",
+    "en": "SYGMEBEC, home"
+  },
+  "Navigation principale": {
+    "ht": "Navigasyon prensipal",
+    "en": "Main navigation"
+  },
+  "Espace gestion": {
+    "ht": "Espas jesyon",
+    "en": "Management area"
+  },
+  "Mon espace": {
+    "ht": "Espas mwen",
+    "en": "My account"
+  },
+  "Déconnexion": {
+    "ht": "Dekonekte",
+    "en": "Sign out"
+  },
+  "Espace membre": {
+    "ht": "Espas manm",
+    "en": "Member area"
+  },
+  "Église Baptiste Évangélique de la Cité": {
+    "ht": "Legliz Batis Evanjelik Site a",
+    "en": "Cité Evangelical Baptist Church"
+  },
+  "Mentions légales": {
+    "ht": "Avi legal",
+    "en": "Legal notice"
+  },
+  "Confidentialité": {
+    "ht": "Konfidansyalite",
+    "en": "Privacy"
+  },
+  "Chargement de votre session…": {
+    "ht": "Sesyon ou ap chaje…",
+    "en": "Loading your session…"
+  },
+  "Bienvenue à l’Église Baptiste de l’Espoir du Cap-Haïtien.": {
+    "ht": "Byenveni nan Legliz Batis Lespwa nan Okap.",
+    "en": "Welcome to the Baptist Church of Hope in Cap-Haïtien."
+  },
+  "Foi": {
+    "ht": "Lafwa",
+    "en": "Faith"
+  },
+  "Fidélité": {
+    "ht": "Fidelite",
+    "en": "Faithfulness"
+  },
+  "Communion": {
+    "ht": "Fratènite",
+    "en": "Fellowship"
+  },
+  "Amour": {
+    "ht": "Lanmou",
+    "en": "Love"
+  },
+  "Service": {
+    "ht": "Sèvis",
+    "en": "Service"
+  },
+  "Une confiance vivante en Dieu qui guide chaque décision et chaque pas de la communauté.": {
+    "ht": "Yon konfyans vivan nan Bondye ki gide chak desizyon ak chak pa kominote a.",
+    "en": "A living trust in God that guides every decision and every step of our community."
+  },
+  "Un enseignement fidèle à la Parole de Dieu, transmis avec constance et intégrité.": {
+    "ht": "Yon ansèyman fidèl ak Pawòl Bondye a, nou transmèt avèk regilarite ak entegrite.",
+    "en": "Teaching faithful to the Word of God, shared with consistency and integrity."
+  },
+  "Une fraternité authentique où chacun trouve sa place et grandit avec les autres.": {
+    "ht": "Yon fratènite sensè kote chak moun jwenn plas li epi grandi ansanm ak lòt yo.",
+    "en": "Authentic fellowship where everyone belongs and grows alongside others."
+  },
+  "Une compassion concrète, tournée vers les membres comme vers toute la communauté.": {
+    "ht": "Yon konpasyon ki parèt nan aksyon pou manm yo ak tout kominote a.",
+    "en": "Compassion expressed through practical care for our members and the wider community."
+  },
+  "Une compassion concrète, tournée vers les membres comme vers la communauté.": {
+    "ht": "Yon konpasyon ki parèt nan aksyon pou manm yo ak kominote a.",
+    "en": "Compassion expressed through practical care for our members and the community."
+  },
+  "Mettre nos dons et nos talents au service de Dieu et de notre prochain, avec joie.": {
+    "ht": "Mete don ak talan nou yo nan sèvis Bondye ak pwochen nou, avèk kè kontan.",
+    "en": "Joyfully using our gifts and talents to serve God and our neighbours."
+  },
+  "Conseil des Anciens": {
+    "ht": "Konsèy Ansyen yo",
+    "en": "Council of Elders"
+  },
+  "Corps pastoral": {
+    "ht": "Ekip pastoral",
+    "en": "Pastoral team"
+  },
+  "Éducation chrétienne": {
+    "ht": "Edikasyon kretyen",
+    "en": "Christian education"
+  },
+  "Ministère de la Jeunesse": {
+    "ht": "Ministè Jèn yo",
+    "en": "Youth ministry"
+  },
+  "Direction des Enfants": {
+    "ht": "Direksyon Timoun yo",
+    "en": "Children’s ministry"
+  },
+  "Ministère de la Musique": {
+    "ht": "Ministè Mizik",
+    "en": "Music ministry"
+  },
+  "Évangélisation & Missions": {
+    "ht": "Evanjelizasyon ak Misyon",
+    "en": "Evangelism & Missions"
+  },
+  "Comité administratif": {
+    "ht": "Komite administratif",
+    "en": "Administrative committee"
+  },
+  "Diacres & Diaconesses": {
+    "ht": "Dyak ak Dyakonès",
+    "en": "Deacons & Deaconesses"
+  },
+  "Secrétariat": {
+    "ht": "Sekretarya",
+    "en": "Secretariat"
+  },
+  "Responsable de l'orientation spirituelle et de la supervision administrative.": {
+    "ht": "Responsab direksyon espirityèl ak sipèvizyon administratif.",
+    "en": "Responsible for spiritual direction and administrative oversight."
+  },
+  "Prend soin du peuple de Dieu par la prédication, l'enseignement, la prière et le soutien spirituel.": {
+    "ht": "Pran swen pèp Bondye a atravè predikasyon, ansèyman, lapriyè ak sipò espirityèl.",
+    "en": "Cares for God’s people through preaching, teaching, prayer and spiritual support."
+  },
+  "Promeut l'enseignement biblique, la formation des membres et le développement spirituel.": {
+    "ht": "Ankouraje ansèyman biblik, fòmasyon manm yo ak kwasans espirityèl.",
+    "en": "Promotes Bible teaching, member training and spiritual growth."
+  },
+  "Encadre les jeunes, développe leur leadership chrétien et les prépare à servir Dieu.": {
+    "ht": "Akonpaye jèn yo, devlope kapasite yo pou dirije kòm kretyen epi prepare yo pou sèvi Bondye.",
+    "en": "Guides young people, develops their Christian leadership and prepares them to serve God."
+  },
+  "Assure l'encadrement spirituel, moral et éducatif des enfants à travers des activités adaptées.": {
+    "ht": "Bay timoun yo akonpayman espirityèl, moral ak edikatif atravè aktivite ki adapte pou yo.",
+    "en": "Provides spiritual, moral and educational guidance for children through age-appropriate activities."
+  },
+  "Responsable de l'organisation de la louange, de l'adoration et du développement musical.": {
+    "ht": "Responsab òganizasyon louwanj, adorasyon ak devlopman mizikal.",
+    "en": "Organises praise, worship and musical development."
+  },
+  "Coordonne les activités d'évangélisation locale et les actions missionnaires.": {
+    "ht": "Kowòdone aktivite evanjelizasyon lokal ak aksyon misyonè.",
+    "en": "Coordinates local evangelism and missionary work."
+  },
+  "Assure la gestion des biens, des ressources financières et des affaires administratives.": {
+    "ht": "Jere byen, resous finansye ak zafè administratif yo.",
+    "en": "Manages property, financial resources and administrative affairs."
+  },
+  "Collabore aux services spirituels et à l'assistance des membres.": {
+    "ht": "Kolabore nan sèvis espirityèl yo ak asistans pou manm yo.",
+    "en": "Assists with spiritual services and support for members."
+  },
+  "Assure la gestion administrative, la communication interne et le suivi des membres.": {
+    "ht": "Jere administrasyon, kominikasyon entèn ak swivi manm yo.",
+    "en": "Handles administration, internal communication and member follow-up."
+  },
+  "Année de fondation": {
+    "ht": "Ane fondasyon",
+    "en": "Year founded"
+  },
+  "Années de service": {
+    "ht": "Ane sèvis",
+    "en": "Years of service"
+  },
+  "Ministères & instances": {
+    "ht": "Ministè ak estrikti",
+    "en": "Ministries & bodies"
+  },
+  "Générations réunies": {
+    "ht": "Jenerasyon ansanm",
+    "en": "Generations together"
+  },
+  "Car là où deux ou trois sont assemblés en mon nom, je suis au milieu d’eux.": {
+    "ht": "Paske kote de oswa twa moun reyini nan non mwen, mwen la nan mitan yo.",
+    "en": "For where two or three gather in my name, I am there among them."
+  },
+  "Matthieu 18:20": {
+    "ht": "Matye 18:20",
+    "en": "Matthew 18:20"
+  },
+  "Fondée en 1998 · Vertières, Cap-Haïtien": {
+    "ht": "Fonde an 1998 · Vètyè, Okap",
+    "en": "Founded in 1998 · Vertières, Cap-Haïtien"
+  },
+  "Découvrir l'espérance": {
+    "ht": "Dekouvri lespwa",
+    "en": "Discover"
+  },
+  "véritable": {
+    "ht": "toutbon",
+    "en": "true hope"
+  },
+  "en Jésus-Christ": {
+    "ht": "nan Jezikri",
+    "en": "in Jesus Christ"
+  },
+  "Une communauté chrétienne évangélique qui accueille avec joie toute personne désireuse de connaître Dieu, de grandir dans sa foi et de vivre une réelle communion fraternelle.": {
+    "ht": "Yon kominote kretyen evanjelik ki akeyi avèk kè kontan tout moun ki vle konnen Bondye, grandi nan lafwa epi viv yon vrè fratènite.",
+    "en": "An evangelical Christian community that joyfully welcomes anyone seeking to know God, grow in faith and experience genuine fellowship."
+  },
+  "Découvrir notre église": {
+    "ht": "Dekouvri legliz nou an",
+    "en": "Discover our church"
+  },
+  "Nous rendre visite": {
+    "ht": "Vin vizite nou",
+    "en": "Visit us"
+  },
+  "Explorer": {
+    "ht": "Eksplore",
+    "en": "Explore"
+  },
+  "Quelques chiffres clés": {
+    "ht": "Kèk chif enpòtan",
+    "en": "Key figures"
+  },
+  "À propos de nous": {
+    "ht": "Konsènan nou",
+    "en": "About us"
+  },
+  "Une église enracinée dans la Parole, tournée vers la communauté": {
+    "ht": "Yon legliz ki anrasinen nan Pawòl la, k ap sèvi kominote a",
+    "en": "A church rooted in the Word, serving the community"
+  },
+  "Fondée en juin 1998": {
+    "ht": "Fonde nan mwa jen 1998",
+    "en": "Founded in June 1998"
+  },
+  "L'Église Baptiste de l'Espoir du Cap-Haïtien est une institution chrétienne évangélique fondée dans le but de glorifier Dieu, d'annoncer l'Évangile de Jésus-Christ et de contribuer au développement spirituel, moral et social de la communauté.": {
+    "ht": "Legliz Batis Lespwa nan Okap se yon enstitisyon kretyen evanjelik ki te fonde pou glorifye Bondye, anonse Levanjil Jezikri a epi kontribye nan devlopman espirityèl, moral ak sosyal kominote a.",
+    "en": "The Baptist Church of Hope in Cap-Haïtien is an evangelical Christian institution founded to glorify God, proclaim the Gospel of Jesus Christ and contribute to the community’s spiritual, moral and social development."
+  },
+  "Située à la Ruelle Jean-Jacques Dessalines #4, Village Christophe, Vertières, Cap-Haïtien, elle accueille avec joie toutes les personnes désireuses de connaître Dieu, de grandir dans leur foi et de vivre une véritable communion fraternelle.": {
+    "ht": "Li sitiye nan Ruelle Jean-Jacques Dessalines #4, Village Christophe, Vètyè, Okap. Li akeyi avèk kè kontan tout moun ki vle konnen Bondye, grandi nan lafwa epi viv yon vrè fratènite.",
+    "en": "Located at Ruelle Jean-Jacques Dessalines #4, Village Christophe, Vertières, Cap-Haïtien, the church joyfully welcomes everyone seeking to know God, grow in faith and experience genuine fellowship."
+  },
+  "1998 — Fondation": {
+    "ht": "1998 — Fondasyon",
+    "en": "1998 — Foundation"
+  },
+  "Naissance de l'Église Baptiste de l'Espoir, avec pour objectif de glorifier Dieu et d'annoncer fidèlement l'Évangile à Vertières.": {
+    "ht": "Fondasyon Legliz Batis Lespwa a pou glorifye Bondye epi anonse Levanjil la fidèlman nan Vètyè.",
+    "en": "The Baptist Church of Hope is founded to glorify God and faithfully proclaim the Gospel in Vertières."
+  },
+  "Croissance — Structuration des ministères": {
+    "ht": "Kwasans — Òganizasyon ministè yo",
+    "en": "Growth — Establishing ministries"
+  },
+  "Mise en place progressive des instances et ministères pour servir chaque génération.": {
+    "ht": "Mete estrikti ak ministè yo sou pye ti kras pa ti kras pou sèvi chak jenerasyon.",
+    "en": "Gradually establishing bodies and ministries to serve every generation."
+  },
+  "Aujourd'hui — Une communauté vivante": {
+    "ht": "Jodi a — Yon kominote vivan",
+    "en": "Today — A living community"
+  },
+  "L'Église poursuit sa mission avec foi, amour et engagement, au service de la communauté.": {
+    "ht": "Legliz la kontinye misyon li avèk lafwa, lanmou ak angajman nan sèvis kominote a.",
+    "en": "The church continues its mission with faith, love and commitment to serving the community."
+  },
+  "Notre vision": {
+    "ht": "Vizyon nou",
+    "en": "Our vision"
+  },
+  "Former des disciples de Jésus-Christ capables d'impacter positivement leur famille, leur communauté et leur pays par leur témoignage, leur amour et leur engagement au service de Dieu.": {
+    "ht": "Fòme disip Jezikri ki kapab pote chanjman pozitif nan fanmi yo, kominote yo ak peyi yo atravè temwayaj yo, lanmou yo ak angajman yo nan sèvis Bondye.",
+    "en": "To form disciples of Jesus Christ who positively influence their families, communities and country through their witness, love and commitment to serving God."
+  },
+  "Notre mission": {
+    "ht": "Misyon nou",
+    "en": "Our mission"
+  },
+  "Proclamer fidèlement l'Évangile de Jésus-Christ": {
+    "ht": "Anonse Levanjil Jezikri a fidèlman",
+    "en": "Faithfully proclaim the Gospel of Jesus Christ"
+  },
+  "Former des disciples enracinés dans la Parole de Dieu": {
+    "ht": "Fòme disip ki anrasinen nan Pawòl Bondye a",
+    "en": "Form disciples rooted in the Word of God"
+  },
+  "Favoriser la croissance spirituelle des croyants": {
+    "ht": "Ankouraje kwasans espirityèl kwayan yo",
+    "en": "Encourage believers’ spiritual growth"
+  },
+  "Développer les dons et talents pour le service chrétien": {
+    "ht": "Devlope don ak talan pou sèvis kretyen",
+    "en": "Develop gifts and talents for Christian service"
+  },
+  "Servir la communauté avec amour et intégrité": {
+    "ht": "Sèvi kominote a avèk lanmou ak entegrite",
+    "en": "Serve the community with love and integrity"
+  },
+  "Ce qui nous anime": {
+    "ht": "Sa ki motive nou",
+    "en": "What inspires us"
+  },
+  "Nos valeurs fondamentales": {
+    "ht": "Valè fondamantal nou yo",
+    "en": "Our core values"
+  },
+  "Cinq convictions qui inspirent chaque enseignement, chaque service et chaque relation au sein de notre église.": {
+    "ht": "Senk konviksyon ki enspire chak ansèyman, chak sèvis ak chak relasyon nan legliz nou an.",
+    "en": "Five convictions that inspire every teaching, every service and every relationship in our church."
+  },
+  "Nos instances & ministères": {
+    "ht": "Estrikti ak ministè nou yo",
+    "en": "Our bodies & ministries"
+  },
+  "Organisée pour servir, unie dans la mission": {
+    "ht": "Òganize pou sèvi, ini nan misyon an",
+    "en": "Organised to serve, united in mission"
+  },
+  "Afin d'accomplir efficacement sa mission, l'Église est structurée autour d'instances administratives et de ministères spirituels qui travaillent en harmonie.": {
+    "ht": "Pou akonpli misyon li byen, legliz la gen estrikti administratif ak ministè espirityèl ki travay ansanm nan amoni.",
+    "en": "To fulfil its mission effectively, the church is organised around administrative bodies and spiritual ministries that work in harmony."
+  },
+  "Espérance": {
+    "ht": "Lespwa",
+    "en": "Hope"
+  },
+  "Intégrité": {
+    "ht": "Entegrite",
+    "en": "Integrity"
+  },
+  "Verset du jour": {
+    "ht": "Vèsè jounen an",
+    "en": "Verse of the day"
+  },
+  "« Former des disciples de Jésus-Christ capables d'impacter positivement leur famille, leur communauté et leur pays. »": {
+    "ht": "« Fòme disip Jezikri ki kapab pote chanjman pozitif nan fanmi yo, kominote yo ak peyi yo. »",
+    "en": "“To form disciples of Jesus Christ who positively influence their families, communities and country.”"
+  },
+  "Vision de l'Église Baptiste de l'Espoir": {
+    "ht": "Vizyon Legliz Batis Lespwa a",
+    "en": "Vision of the Baptist Church of Hope"
+  },
+  "Nous rejoindre": {
+    "ht": "Vin jwenn nou",
+    "en": "Join us"
+  },
+  "Venez comme vous êtes": {
+    "ht": "Vini jan ou ye a",
+    "en": "Come as you are"
+  },
+  "Adresse": {
+    "ht": "Adrès",
+    "en": "Address"
+  },
+  "Nos cultes": {
+    "ht": "Sèvis adorasyon nou yo",
+    "en": "Our worship services"
+  },
+  "Dimanche : 7h00 et 10h00": {
+    "ht": "Dimanch: 7:00 ak 10:00 nan maten",
+    "en": "Sunday: 7:00 am and 10:00 am"
+  },
+  "Dimanche soir : 17h00": {
+    "ht": "Dimanch aswè: 5:00",
+    "en": "Sunday evening: 5:00 pm"
+  },
+  "Vendredi : 17h00": {
+    "ht": "Vandredi: 5:00 nan apremidi",
+    "en": "Friday: 5:00 pm"
+  },
+  "Vie d'église": {
+    "ht": "Lavi legliz",
+    "en": "Church life"
+  },
+  "Adoration, prière, étude biblique et activités pour toutes les générations.": {
+    "ht": "Adorasyon, lapriyè, etid biblik ak aktivite pou tout jenerasyon.",
+    "en": "Worship, prayer, Bible study and activities for all generations."
+  },
+  "Une porte toujours ouverte": {
+    "ht": "Yon pòt ki toujou louvri",
+    "en": "An open door"
+  },
+  "Que vous cherchiez une communauté, des réponses ou simplement un lieu de paix, vous êtes le bienvenu. Venez vivre un temps d'adoration, de prière et de communion fraternelle.": {
+    "ht": "Kit w ap chèche yon kominote, repons oswa senpleman yon kote ki gen lapè, ou byenvini. Vini pase yon tan nan adorasyon, lapriyè ak fratènite.",
+    "en": "Whether you are looking for a community, answers or simply a peaceful place, you are welcome. Join us for worship, prayer and fellowship."
+  },
+  "Planifier ma visite": {
+    "ht": "Planifye vizit mwen",
+    "en": "Plan my visit"
+  },
+  "GESTMEMBRES - Gestion de Membres & Événements": {
+    "ht": "GESTMEMBRES - Jesyon Manm ak Evènman",
+    "en": "GESTMEMBRES - Member & Event Management"
+  },
+  "Plateforme complète pour gérer votre communauté, organiser des événements et suivre vos membres.": {
+    "ht": "Yon platfòm konplè pou jere kominote ou, òganize evènman epi suiv manm ou yo.",
+    "en": "A complete platform to manage your community, organise events and support your members."
+  },
+  "gestion membres, événements, association, communauté, plateforme": {
+    "ht": "jesyon manm, evènman, asosyasyon, kominote, platfòm",
+    "en": "member management, events, association, community, platform"
+  },
+  "Notre histoire, notre vision, notre mission et notre confession de foi.": {
+    "ht": "Istwa nou, vizyon nou, misyon nou ak deklarasyon lafwa nou.",
+    "en": "Our history, vision, mission and statement of faith."
+  },
+  "Cultes d’adoration": {
+    "ht": "Sèvis adorasyon",
+    "en": "Worship services"
+  },
+  "Des temps de louange et de prédication pour rencontrer Dieu ensemble.": {
+    "ht": "Moman louwanj ak predikasyon pou rankontre Bondye ansanm.",
+    "en": "Times of praise and preaching to encounter God together."
+  },
+  "Études bibliques": {
+    "ht": "Etid biblik",
+    "en": "Bible studies"
+  },
+  "Un approfondissement régulier de la Parole de Dieu, en groupe.": {
+    "ht": "Etidye Pawòl Bondye a pi fon regilyèman, an gwoup.",
+    "en": "Regular opportunities to explore the Word of God together."
+  },
+  "Réunions de prière": {
+    "ht": "Reyinyon lapriyè",
+    "en": "Prayer meetings"
+  },
+  "Des moments dédiés à l’intercession et à la communion avec Dieu.": {
+    "ht": "Moman pou lapriyè pou lòt moun epi viv nan kominyon avèk Bondye.",
+    "en": "Times devoted to intercession and communion with God."
+  },
+  "Formation & évangélisation": {
+    "ht": "Fòmasyon ak evanjelizasyon",
+    "en": "Training & evangelism"
+  },
+  "Des programmes de formation et des actions tournées vers l’extérieur.": {
+    "ht": "Pwogram fòmasyon ak aksyon pou rive jwenn lòt moun.",
+    "en": "Training programmes and outreach initiatives."
+  },
+  "Orientation spirituelle et supervision administrative.": {
+    "ht": "Direksyon espirityèl ak sipèvizyon administratif.",
+    "en": "Spiritual direction and administrative oversight."
+  },
+  "Prédication, enseignement et accompagnement pastoral.": {
+    "ht": "Predikasyon, ansèyman ak akonpayman pastoral.",
+    "en": "Preaching, teaching and pastoral care."
+  },
+  "Enseignement biblique et formation des membres.": {
+    "ht": "Ansèyman biblik ak fòmasyon manm yo.",
+    "en": "Bible teaching and member training."
+  },
+  "Encadrement et leadership chrétien des jeunes.": {
+    "ht": "Akonpayman ak devlopman lidèchip kretyen pou jèn yo.",
+    "en": "Guidance and Christian leadership for young people."
+  },
+  "Encadrement spirituel et éducatif adapté aux enfants.": {
+    "ht": "Akonpayman espirityèl ak edikatif ki adapte pou timoun yo.",
+    "en": "Spiritual and educational guidance tailored to children."
+  },
+  "Louange, adoration et développement musical.": {
+    "ht": "Louwanj, adorasyon ak devlopman mizikal.",
+    "en": "Praise, worship and musical development."
+  },
+  "Actions locales et missionnaires.": {
+    "ht": "Aksyon lokal ak misyonè.",
+    "en": "Local outreach and missionary work."
+  },
+  "Gestion des biens et des ressources financières.": {
+    "ht": "Jesyon byen ak resous finansye yo.",
+    "en": "Management of property and financial resources."
+  },
+  "Services spirituels et assistance aux membres.": {
+    "ht": "Sèvis espirityèl ak asistans pou manm yo.",
+    "en": "Spiritual services and assistance for members."
+  },
+  "Gestion administrative, archives et suivi des membres.": {
+    "ht": "Jesyon administratif, achiv ak swivi manm yo.",
+    "en": "Administration, archives and member follow-up."
+  },
+  "Notre histoire, notre": {
+    "ht": "Istwa nou,",
+    "en": "Our history, our"
+  },
+  "foi": {
+    "ht": "lafwa nou",
+    "en": "faith"
+  },
+  ", notre appel": {
+    "ht": ", apèl nou",
+    "en": ", our calling"
+  },
+  "Depuis 1998, l’Église Baptiste de l’Espoir du Cap-Haïtien annonce l’Évangile de Jésus-Christ et accompagne chaque génération vers une foi vivante et une communion fraternelle authentique.": {
+    "ht": "Depi 1998, Legliz Batis Lespwa nan Okap anonse Levanjil Jezikri a epi akonpaye chak jenerasyon nan yon lafwa vivan ak yon fratènite sensè.",
+    "en": "Since 1998, the Baptist Church of Hope in Cap-Haïtien has proclaimed the Gospel of Jesus Christ and guided every generation towards a living faith and genuine fellowship."
+  },
+  "Notre histoire": {
+    "ht": "Istwa nou",
+    "en": "Our history"
+  },
+  "Une œuvre bâtie sur la fidélité, année après année": {
+    "ht": "Yon travay ki bati sou fidelite, ane apre ane",
+    "en": "A ministry built on faithfulness, year after year"
+  },
+  "Depuis sa création, elle organise des cultes d’adoration, des études bibliques, des réunions de prière, des formations et des activités d’évangélisation afin que chacun puisse découvrir l’espérance véritable en Jésus-Christ.": {
+    "ht": "Depi fondasyon li, li òganize sèvis adorasyon, etid biblik, reyinyon lapriyè, fòmasyon ak aktivite evanjelizasyon pou chak moun kapab dekouvri vrè lespwa nan Jezikri.",
+    "en": "Since its foundation, the church has held worship services, Bible studies, prayer meetings, training and evangelism activities so that everyone can discover true hope in Jesus Christ."
+  },
+  "Naissance de l’Église à Vertières, avec une vocation claire : glorifier Dieu et annoncer fidèlement l’Évangile.": {
+    "ht": "Fondasyon legliz la nan Vètyè, avèk yon apèl klè: glorifye Bondye epi anonse Levanjil la fidèlman.",
+    "en": "The church is founded in Vertières with a clear calling: to glorify God and faithfully proclaim the Gospel."
+  },
+  "Structuration des ministères": {
+    "ht": "Òganizasyon ministè yo",
+    "en": "Establishing ministries"
+  },
+  "Mise en place des instances et ministères destinés aux enfants, aux jeunes, aux familles et à toute la communauté.": {
+    "ht": "Mete estrikti ak ministè sou pye pou timoun, jèn, fanmi ak tout kominote a.",
+    "en": "Establishing bodies and ministries for children, young people, families and the whole community."
+  },
+  "Vie communautaire": {
+    "ht": "Lavi kominotè",
+    "en": "Community life"
+  },
+  "Une vie d’église rythmée par l’adoration, la prière, l’étude biblique et le service fraternel.": {
+    "ht": "Yon lavi legliz ki chita sou adorasyon, lapriyè, etid biblik ak sèvis fratènèl.",
+    "en": "Church life centred on worship, prayer, Bible study and service to one another."
+  },
+  "Aujourd’hui": {
+    "ht": "Jodi a",
+    "en": "Today"
+  },
+  "Une communauté vivante, enracinée dans la Parole de Dieu, qui continue de servir le Cap-Haïtien avec foi et amour.": {
+    "ht": "Yon kominote vivan ki anrasinen nan Pawòl Bondye a epi ki kontinye sèvi Okap avèk lafwa ak lanmou.",
+    "en": "A living community rooted in the Word of God, continuing to serve Cap-Haïtien with faith and love."
+  },
+  "Notre identité": {
+    "ht": "Idantite nou",
+    "en": "Our identity"
+  },
+  "Une église guidée par la Parole de Dieu": {
+    "ht": "Yon legliz Pawòl Bondye a ap gide",
+    "en": "A church guided by the Word of God"
+  },
+  "Vision & mission": {
+    "ht": "Vizyon ak misyon",
+    "en": "Vision & mission"
+  },
+  "Ce que nous croyons être appelés à accomplir": {
+    "ht": "Sa nou kwè Bondye rele nou pou nou akonpli",
+    "en": "What we believe we are called to accomplish"
+  },
+  "Développer les dons et les talents pour le service chrétien": {
+    "ht": "Devlope don ak talan yo pou sèvis kretyen",
+    "en": "Develop gifts and talents for Christian service"
+  },
+  "Servir la communauté avec amour, compassion et intégrité": {
+    "ht": "Sèvi kominote a avèk lanmou, konpasyon ak entegrite",
+    "en": "Serve the community with love, compassion and integrity"
+  },
+  "Vivre notre foi": {
+    "ht": "Viv lafwa nou",
+    "en": "Living our faith"
+  },
+  "Les piliers de notre vie communautaire": {
+    "ht": "Pilye lavi kominotè nou an",
+    "en": "The pillars of our community life"
+  },
+  "Nous grandissons ensemble par des rendez-vous réguliers qui nourrissent la foi et fortifient les liens.": {
+    "ht": "Nou grandi ansanm atravè rankont regilye ki nouri lafwa epi ranfòse lyen nou yo.",
+    "en": "We grow together through regular gatherings that nurture faith and strengthen our bonds."
+  },
+  "Servir ensemble": {
+    "ht": "Sèvi ansanm",
+    "en": "Serving together"
+  },
+  "Nos instances & ministères, en bref": {
+    "ht": "Estrikti ak ministè nou yo, an brèf",
+    "en": "Our bodies & ministries at a glance"
+  },
+  "Confession de foi": {
+    "ht": "Deklarasyon lafwa",
+    "en": "Statement of faith"
+  },
+  "Ce que nous croyons": {
+    "ht": "Sa nou kwè",
+    "en": "What we believe"
+  },
+  "Retrouvez les fondements de notre foi. Ouvrez une rubrique pour lire son contenu intégral.": {
+    "ht": "Dekouvri fondman lafwa nou. Louvri yon seksyon pou li tout sa li genyen.",
+    "en": "Explore the foundations of our faith. Open a section to read it in full."
+  },
+  "Un lieu pour grandir": {
+    "ht": "Yon kote pou grandi",
+    "en": "A place to grow"
+  },
+  "Vous avez une place ici": {
+    "ht": "Ou gen plas ou isit la",
+    "en": "You belong here"
+  },
+  "Que vous découvriez la foi ou que vous cherchiez une communauté où vous investir, nous serons heureux de vous accueillir.": {
+    "ht": "Kit w ap dekouvri lafwa oswa w ap chèche yon kominote pou angaje ou, n ap kontan akeyi ou.",
+    "en": "Whether you are discovering faith or looking for a community to contribute to, we would be delighted to welcome you."
+  },
+  "Découvrir l’adhésion": {
+    "ht": "Dekouvri kijan pou vin manm",
+    "en": "Explore membership"
+  },
+  "Langue": {
+    "ht": "Lang",
+    "en": "Language"
+  },
+  "Basculer vers le thème clair": {
+    "ht": "Pase nan tèm klè",
+    "en": "Switch to light theme"
+  },
+  "Basculer vers le thème sombre": {
+    "ht": "Pase nan tèm fonse",
+    "en": "Switch to dark theme"
+  },
+  "Identité & contacts": {
+    "ht": "Idantite ak kontak",
+    "en": "Identity & contact details"
+  },
+  "Parcours spirituel": {
+    "ht": "Chemen espirityèl",
+    "en": "Spiritual journey"
+  },
+  "Vie dans l’église": {
+    "ht": "Lavi nan legliz la",
+    "en": "Church life"
+  },
+  "Photo & complément": {
+    "ht": "Foto ak lòt enfòmasyon",
+    "en": "Photo & additional information"
+  },
+  "Votre inscription a été envoyée. Elle sera examinée par l’église.": {
+    "ht": "Nou voye enskripsyon ou. Legliz la ap egzamine li.",
+    "en": "Your registration has been sent. The church will review it."
+  },
+  "Erreur lors de l'envoi de la demande.": {
+    "ht": "Erè pandan n ap voye demann lan.",
+    "en": "Could not send your application."
+  },
+  "Inscription membre": {
+    "ht": "Enskripsyon manm",
+    "en": "Member registration"
+  },
+  "Formulaire complet d’inscription membre en ligne.": {
+    "ht": "Fòm konplè pou enskripsyon manm sou entènèt.",
+    "en": "Complete online member registration form."
+  },
+  "Inscrivez-vous": {
+    "ht": "Enskri ou",
+    "en": "Register"
+  },
+  "en ligne": {
+    "ht": "sou entènèt",
+    "en": "online"
+  },
+  "Votre demande arrive directement dans l’espace réservé aux membres du tableau de bord. Elle sera validée par l’administration avant la création définitive de votre fiche.": {
+    "ht": "Demann ou ale dirèkteman nan espas manm yo sou tablodbò a. Administrasyon an ap valide li anvan yo kreye fich ou nèt.",
+    "en": "Your application goes directly to the member section of the dashboard. The administration will approve it before your member record is created."
+  },
+  "Étapes du formulaire": {
+    "ht": "Etap fòm nan",
+    "en": "Form steps"
+  },
+  "% complété": {
+    "ht": "% ranpli",
+    "en": "% complete"
+  },
+  "Identité et contacts": {
+    "ht": "Idantite ak kontak",
+    "en": "Identity and contact details"
+  },
+  "Nom": {
+    "ht": "Siyati",
+    "en": "Last name"
+  },
+  "Prénom": {
+    "ht": "Prenon",
+    "en": "First name"
+  },
+  "E-mail": {
+    "ht": "Imèl",
+    "en": "Email"
+  },
+  "Email": {
+    "ht": "Imèl",
+    "en": "Email"
+  },
+  "Téléphone": {
+    "ht": "Telefòn",
+    "en": "Phone"
+  },
+  "Téléphone secondaire": {
+    "ht": "Lòt nimewo telefòn",
+    "en": "Secondary phone"
+  },
+  "Zone d’habitation": {
+    "ht": "Zòn kote ou rete",
+    "en": "Residential area"
+  },
+  "Ex. Cap-Haïtien": {
+    "ht": "Egz. Okap",
+    "en": "E.g. Cap-Haïtien"
+  },
+  "Église d’origine": {
+    "ht": "Legliz ou soti",
+    "en": "Previous church"
+  },
+  "Nom de l’église précédente": {
+    "ht": "Non legliz ou te ye anvan an",
+    "en": "Name of your previous church"
+  },
+  "Date de naissance": {
+    "ht": "Dat nesans",
+    "en": "Date of birth"
+  },
+  "Sexe": {
+    "ht": "Sèks",
+    "en": "Sex"
+  },
+  "Sélectionner": {
+    "ht": "Chwazi",
+    "en": "Select"
+  },
+  "Masculin": {
+    "ht": "Gason",
+    "en": "Male"
+  },
+  "Féminin": {
+    "ht": "Fi",
+    "en": "Female"
+  },
+  "État matrimonial": {
+    "ht": "Eta sivil",
+    "en": "Marital status"
+  },
+  "Célibataire": {
+    "ht": "Selibatè",
+    "en": "Single"
+  },
+  "Marié(e)": {
+    "ht": "Marye",
+    "en": "Married"
+  },
+  "Séparé(e)": {
+    "ht": "Separe",
+    "en": "Separated"
+  },
+  "Divorcé(e)": {
+    "ht": "Divòse",
+    "en": "Divorced"
+  },
+  "Veuf(ve)": {
+    "ht": "Vèf/Vèv",
+    "en": "Widowed"
+  },
+  "Niveau d’étude": {
+    "ht": "Nivo etid",
+    "en": "Education level"
+  },
+  "Sélectionner un niveau": {
+    "ht": "Chwazi yon nivo",
+    "en": "Select a level"
+  },
+  "Primaire": {
+    "ht": "Primè",
+    "en": "Primary"
+  },
+  "Secondaire": {
+    "ht": "Segondè",
+    "en": "Secondary"
+  },
+  "Universitaire": {
+    "ht": "Inivèsitè",
+    "en": "University"
+  },
+  "Professionnel": {
+    "ht": "Pwofesyonèl",
+    "en": "Vocational"
+  },
+  "Autre": {
+    "ht": "Lòt",
+    "en": "Other"
+  },
+  "Profession": {
+    "ht": "Pwofesyon",
+    "en": "Occupation"
+  },
+  "Ex. Enseignant(e)": {
+    "ht": "Egz. Pwofesè",
+    "en": "E.g. Teacher"
+  },
+  "Date d’enregistrement (automatique)": {
+    "ht": "Dat anrejistreman (otomatik)",
+    "en": "Registration date (automatic)"
+  },
+  "Date de présentation": {
+    "ht": "Dat prezantasyon",
+    "en": "Introduction date"
+  },
+  "Date de conversion": {
+    "ht": "Dat konvèsyon",
+    "en": "Conversion date"
+  },
+  "Date d'affiliation": {
+    "ht": "Dat afilyasyon",
+    "en": "Affiliation date"
+  },
+  "Date de baptême": {
+    "ht": "Dat batèm",
+    "en": "Baptism date"
+  },
+  "Ancienneté à l’EBEC": {
+    "ht": "Depi konbyen tan ou nan EBEC",
+    "en": "Time at EBEC"
+  },
+  "Ex. 3 ans": {
+    "ht": "Egz. 3 ane",
+    "en": "E.g. 3 years"
+  },
+  "Employé(e)": {
+    "ht": "Anplwaye",
+    "en": "Employed"
+  },
+  "Petit groupe": {
+    "ht": "Ti gwoup",
+    "en": "Small group"
+  },
+  "Classe d’école du dimanche": {
+    "ht": "Klas lekòl dimanch",
+    "en": "Sunday school class"
+  },
+  "Je suis dans une classe d’école du dimanche": {
+    "ht": "Mwen nan yon klas lekòl dimanch",
+    "en": "I attend a Sunday school class"
+  },
+  "Photo et complément": {
+    "ht": "Foto ak lòt enfòmasyon",
+    "en": "Photo and additional information"
+  },
+  "Photo": {
+    "ht": "Foto",
+    "en": "Photo"
+  },
+  "Message (facultatif)": {
+    "ht": "Mesaj (si ou vle)",
+    "en": "Message (optional)"
+  },
+  "Une information complémentaire à transmettre à l’église…": {
+    "ht": "Lòt enfòmasyon ou vle bay legliz la…",
+    "en": "Any additional information for the church…"
+  },
+  "Envoi en cours…": {
+    "ht": "Ap voye…",
+    "en": "Sending…"
+  },
+  "Envoyer mon inscription": {
+    "ht": "Voye enskripsyon mwen",
+    "en": "Submit my registration"
+  },
+  "Vos informations seront traitées de façon confidentielle.": {
+    "ht": "N ap trete enfòmasyon ou yo an konfidansyalite.",
+    "en": "Your information will be treated confidentially."
+  },
+  "Le nom est requis avec au moins 2 caractères.": {
+    "ht": "Siyati a obligatwa epi li dwe gen omwen 2 karaktè.",
+    "en": "Last name is required and must contain at least 2 characters."
+  },
+  "Le prénom est requis avec au moins 2 caractères.": {
+    "ht": "Prenon an obligatwa epi li dwe gen omwen 2 karaktè.",
+    "en": "First name is required and must contain at least 2 characters."
+  },
+  "Une adresse email valide est requise.": {
+    "ht": "Yon adrès imèl ki valid obligatwa.",
+    "en": "A valid email address is required."
+  },
+  "Un numéro de téléphone valide est requis.": {
+    "ht": "Yon nimewo telefòn ki valid obligatwa.",
+    "en": "A valid phone number is required."
+  },
+  "Le message est trop court.": {
+    "ht": "Mesaj la twò kout.",
+    "en": "The message is too short."
+  },
+  "Le nom est requis.": {
+    "ht": "Siyati a obligatwa.",
+    "en": "Last name is required."
+  },
+  "Le prénom est requis.": {
+    "ht": "Prenon an obligatwa.",
+    "en": "First name is required."
+  },
+  "Le téléphone doit être valide.": {
+    "ht": "Nimewo telefòn nan dwe valid.",
+    "en": "Please enter a valid phone number."
+  },
+  "Le sujet est requis.": {
+    "ht": "Sijè a obligatwa.",
+    "en": "Subject is required."
+  },
+  "Le message doit contenir au moins 10 caractères.": {
+    "ht": "Mesaj la dwe gen omwen 10 karaktè.",
+    "en": "The message must contain at least 10 characters."
+  },
+  "L’identifiant ou l’email est requis.": {
+    "ht": "Non itilizatè a oswa imèl la obligatwa.",
+    "en": "Username or email is required."
+  },
+  "Le mot de passe doit contenir au moins 4 caractères.": {
+    "ht": "Modpas la dwe gen omwen 4 karaktè.",
+    "en": "The password must contain at least 4 characters."
+  },
+  "Veuillez corriger les champs indiqués avant l’envoi.": {
+    "ht": "Tanpri korije chan ki make yo anvan ou voye fòm nan.",
+    "en": "Please correct the highlighted fields before submitting."
+  },
+  "Votre message a été envoyé avec succès !": {
+    "ht": "Nou voye mesaj ou avèk siksè!",
+    "en": "Your message has been sent successfully!"
+  },
+  "Erreur lors de l'envoi du message": {
+    "ht": "Erè pandan n ap voye mesaj la",
+    "en": "Could not send your message"
+  },
+  "Horaires": {
+    "ht": "Orè",
+    "en": "Opening hours"
+  },
+  "Lun - Ven: 9h - 18h": {
+    "ht": "Lendi - Vandredi: 9:00 AM - 6:00 PM",
+    "en": "Mon - Fri: 9 am - 6 pm"
+  },
+  "Sam: 10h - 14h": {
+    "ht": "Samdi: 10:00 AM - 2:00 PM",
+    "en": "Sat: 10 am - 2 pm"
+  },
+  "Contactez-nous pour toute question, suggestion ou demande d'information.": {
+    "ht": "Kontakte nou pou nenpòt kesyon, sijesyon oswa demann enfòmasyon.",
+    "en": "Contact us with any questions, suggestions or requests for information."
+  },
+  "Contactez-nous": {
+    "ht": "Kontakte nou",
+    "en": "Contact us"
+  },
+  "Une question ? Une suggestion ? N'hésitez pas à nous contacter, nous vous répondrons dans les plus brefs délais.": {
+    "ht": "Ou gen yon kesyon? Yon sijesyon? Pa ezite kontakte nou; n ap reponn ou pi vit posib.",
+    "en": "Have a question or suggestion? Feel free to contact us; we will reply as soon as possible."
+  },
+  "Suivez-nous": {
+    "ht": "Suiv nou",
+    "en": "Follow us"
+  },
+  "Sujet": {
+    "ht": "Sijè",
+    "en": "Subject"
+  },
+  "Objet de votre message": {
+    "ht": "Sijè mesaj ou",
+    "en": "Subject of your message"
+  },
+  "Message": {
+    "ht": "Mesaj",
+    "en": "Message"
+  },
+  "Décrivez votre demande...": {
+    "ht": "Dekri demann ou an...",
+    "en": "Describe your request..."
+  },
+  "Envoi en cours...": {
+    "ht": "Ap voye...",
+    "en": "Sending..."
+  },
+  "Envoyer le message": {
+    "ht": "Voye mesaj la",
+    "en": "Send message"
+  },
+  "Événement introuvable.": {
+    "ht": "Nou pa jwenn evènman an.",
+    "en": "Event not found."
+  },
+  "Votre inscription est enregistrée.": {
+    "ht": "Nou anrejistre enskripsyon ou.",
+    "en": "Your registration has been saved."
+  },
+  "L'inscription n'a pas pu être enregistrée.": {
+    "ht": "Nou pa t kapab anrejistre enskripsyon an.",
+    "en": "Your registration could not be saved."
+  },
+  "Chargement…": {
+    "ht": "Ap chaje…",
+    "en": "Loading…"
+  },
+  "← Retour aux événements": {
+    "ht": "← Retounen nan evènman yo",
+    "en": "← Back to events"
+  },
+  "Responsable": {
+    "ht": "Responsab",
+    "en": "Coordinator"
+  },
+  "Description": {
+    "ht": "Deskripsyon",
+    "en": "Description"
+  },
+  "Aucune description disponible.": {
+    "ht": "Pa gen deskripsyon disponib.",
+    "en": "No description available."
+  },
+  "Inscription": {
+    "ht": "Enskripsyon",
+    "en": "Registration"
+  },
+  "Places illimitées": {
+    "ht": "Plas san limit",
+    "en": "Unlimited places"
+  },
+  "Inscription confirmée": {
+    "ht": "Enskripsyon konfime",
+    "en": "Registration confirmed"
+  },
+  "Nombre de places": {
+    "ht": "Kantite plas",
+    "en": "Number of places"
+  },
+  "Inscription…": {
+    "ht": "Ap enskri…",
+    "en": "Registering…"
+  },
+  "M’inscrire": {
+    "ht": "Enskri mwen",
+    "en": "Register"
+  },
+  "Tous les événements": {
+    "ht": "Tout evènman yo",
+    "en": "All events"
+  },
+  "Découvrez les rencontres, activités et services publiés par l’Église Baptiste de l’Espoir.": {
+    "ht": "Dekouvri rankont, aktivite ak sèvis Legliz Batis Lespwa a pibliye.",
+    "en": "Discover gatherings, activities and services published by the Baptist Church of Hope."
+  },
+  "Rechercher un événement...": {
+    "ht": "Chèche yon evènman...",
+    "en": "Search for an event..."
+  },
+  "Chargement des événements...": {
+    "ht": "Evènman yo ap chaje...",
+    "en": "Loading events..."
+  },
+  "Aucun événement ne correspond à votre recherche.": {
+    "ht": "Pa gen evènman ki koresponn ak rechèch ou an.",
+    "en": "No events match your search."
+  },
+  "Les événements ne peuvent pas être chargés pour le moment.": {
+    "ht": "Nou pa kapab chaje evènman yo pou kounye a.",
+    "en": "Events cannot be loaded right now."
+  },
+  "Essayez une autre recherche ou revenez bientôt.": {
+    "ht": "Eseye yon lòt rechèch oswa retounen pita.",
+    "en": "Try another search or come back soon."
+  },
+  "Voir les détails": {
+    "ht": "Gade detay yo",
+    "en": "View details"
+  },
+  "À venir": {
+    "ht": "K ap vini",
+    "en": "Upcoming"
+  },
+  "Complet": {
+    "ht": "Tout plas yo pran",
+    "en": "Fully booked"
+  },
+  "places restantes": {
+    "ht": "plas ki rete",
+    "en": "places remaining"
+  },
+  "Date à confirmer": {
+    "ht": "Dat pou konfime",
+    "en": "Date to be confirmed"
+  },
+  "Lieu à confirmer": {
+    "ht": "Kote pou konfime",
+    "en": "Location to be confirmed"
+  },
+  "Les images ajoutées par l’église sur le tableau de bord.": {
+    "ht": "Foto legliz la ajoute sou tablodbò a.",
+    "en": "Images added by the church on the dashboard."
+  },
+  "Nos": {
+    "ht": "Souveni",
+    "en": "Our"
+  },
+  "souvenirs": {
+    "ht": "nou yo",
+    "en": "memories"
+  },
+  "Découvrez les photos publiées par notre communauté.": {
+    "ht": "Dekouvri foto kominote nou an pibliye.",
+    "en": "Discover photos shared by our community."
+  },
+  "Chargement de la galerie…": {
+    "ht": "Galri a ap chaje…",
+    "en": "Loading the gallery…"
+  },
+  "Aucune image publiée pour le moment.": {
+    "ht": "Pa gen foto pibliye pou kounye a.",
+    "en": "No images have been published yet."
+  },
+  "Photo de la communauté": {
+    "ht": "Foto kominote a",
+    "en": "Community photo"
+  },
+  "Moment de communauté": {
+    "ht": "Moman nan kominote a",
+    "en": "Community moment"
+  },
+  "Fermer la galerie": {
+    "ht": "Fèmen galri a",
+    "en": "Close gallery"
+  },
+  "Image précédente": {
+    "ht": "Foto anvan an",
+    "en": "Previous image"
+  },
+  "Image suivante": {
+    "ht": "Foto apre a",
+    "en": "Next image"
+  },
+  "Page non trouvée": {
+    "ht": "Paj la pa jwenn",
+    "en": "Page not found"
+  },
+  "La page que vous recherchez n'existe pas ou a été déplacée.": {
+    "ht": "Paj w ap chèche a pa egziste oswa yo deplase li.",
+    "en": "The page you are looking for does not exist or has been moved."
+  },
+  "Retour": {
+    "ht": "Retounen",
+    "en": "Back"
+  },
+  "Vous cherchez quelque chose en particulier ?": {
+    "ht": "Èske w ap chèche yon bagay an patikilye?",
+    "en": "Looking for something in particular?"
+  },
+  "Veuillez vérifier vos informations de connexion.": {
+    "ht": "Tanpri verifye enfòmasyon koneksyon ou yo.",
+    "en": "Please check your sign-in details."
+  },
+  "La réponse de connexion est incomplète.": {
+    "ht": "Repons koneksyon an pa konplè.",
+    "en": "The sign-in response is incomplete."
+  },
+  "Connexion réussie !": {
+    "ht": "Koneksyon reyisi!",
+    "en": "Signed in successfully!"
+  },
+  "Impossible de se connecter. Réessayez dans un instant.": {
+    "ht": "Nou pa kapab konekte ou. Eseye ankò talè.",
+    "en": "Unable to sign in. Please try again shortly."
+  },
+  "Connexion": {
+    "ht": "Koneksyon",
+    "en": "Sign in"
+  },
+  "Connectez-vous à votre espace personnel": {
+    "ht": "Konekte nan espas pèsonèl ou",
+    "en": "Sign in to your personal account"
+  },
+  "Identifiant ou Email": {
+    "ht": "Non itilizatè oswa imèl",
+    "en": "Username or email"
+  },
+  "Votre identifiant ou email": {
+    "ht": "Non itilizatè ou oswa imèl ou",
+    "en": "Your username or email"
+  },
+  "Mot de passe": {
+    "ht": "Modpas",
+    "en": "Password"
+  },
+  "Votre mot de passe": {
+    "ht": "Modpas ou",
+    "en": "Your password"
+  },
+  "Se souvenir de moi": {
+    "ht": "Sonje mwen",
+    "en": "Remember me"
+  },
+  "Mot de passe oublié ?": {
+    "ht": "Ou bliye modpas ou?",
+    "en": "Forgot your password?"
+  },
+  "Connexion en cours...": {
+    "ht": "Ap konekte...",
+    "en": "Signing in..."
+  },
+  "Se connecter": {
+    "ht": "Konekte",
+    "en": "Sign in"
+  },
+  "Pas encore de compte ?": {
+    "ht": "Ou poko gen kont?",
+    "en": "Don’t have an account yet?"
+  },
+  "Créer un compte": {
+    "ht": "Kreye yon kont",
+    "en": "Create an account"
+  },
+  "Doré": {
+    "ht": "Dore",
+    "en": "Gold"
+  },
+  "Vert": {
+    "ht": "Vèt",
+    "en": "Green"
+  },
+  "Bleu": {
+    "ht": "Ble",
+    "en": "Blue"
+  },
+  "Violet": {
+    "ht": "Vyolèt",
+    "en": "Purple"
+  },
+  "Non renseignée": {
+    "ht": "Pa bay",
+    "en": "Not provided"
+  },
+  "Navigateur actuel": {
+    "ht": "Navigatè aktyèl",
+    "en": "Current browser"
+  },
+  "Masquer le mot de passe": {
+    "ht": "Kache modpas la",
+    "en": "Hide password"
+  },
+  "Afficher le mot de passe": {
+    "ht": "Montre modpas la",
+    "en": "Show password"
+  },
+  "Impossible de charger les informations complètes du profil.": {
+    "ht": "Nou pa kapab chaje tout enfòmasyon pwofil la.",
+    "en": "Could not load the complete profile."
+  },
+  "Veuillez sélectionner une image valide.": {
+    "ht": "Tanpri chwazi yon imaj ki valid.",
+    "en": "Please select a valid image."
+  },
+  "La photo ne doit pas dépasser 20 Mo.": {
+    "ht": "Foto a pa dwe depase 20 Mo.",
+    "en": "The photo must not exceed 20 MB."
+  },
+  "Photo de profil mise à jour.": {
+    "ht": "Foto pwofil la mete ajou.",
+    "en": "Profile photo updated."
+  },
+  "Impossible de mettre à jour la photo.": {
+    "ht": "Nou pa kapab mete foto a ajou.",
+    "en": "Could not update the photo."
+  },
+  "Informations du profil mises à jour.": {
+    "ht": "Enfòmasyon pwofil la mete ajou.",
+    "en": "Profile information updated."
+  },
+  "Impossible de mettre à jour le profil.": {
+    "ht": "Nou pa kapab mete pwofil la ajou.",
+    "en": "Could not update the profile."
+  },
+  "Remplissez les trois champs pour modifier le mot de passe.": {
+    "ht": "Ranpli twa chan yo pou chanje modpas la.",
+    "en": "Fill in all three fields to change your password."
+  },
+  "Les deux nouveaux mots de passe ne correspondent pas.": {
+    "ht": "De nouvo modpas yo pa menm.",
+    "en": "The new passwords do not match."
+  },
+  "Mot de passe modifié avec succès.": {
+    "ht": "Modpas la chanje avèk siksè.",
+    "en": "Password changed successfully."
+  },
+  "Impossible de modifier le mot de passe.": {
+    "ht": "Nou pa kapab chanje modpas la.",
+    "en": "Could not change the password."
+  },
+  "Préférences enregistrées sur cet appareil.": {
+    "ht": "Nou anrejistre preferans yo sou aparèy sa a.",
+    "en": "Preferences saved on this device."
+  },
+  "Chargement de votre profil…": {
+    "ht": "Pwofil ou ap chaje…",
+    "en": "Loading your profile…"
+  },
+  "Profil membre indisponible": {
+    "ht": "Pwofil manm pa disponib",
+    "en": "Member profile unavailable"
+  },
+  "Votre compte n’est pas encore lié à une fiche membre. Contactez un administrateur pour compléter votre profil.": {
+    "ht": "Kont ou poko lye ak yon fich manm. Kontakte yon administratè pou konplete pwofil ou.",
+    "en": "Your account is not linked to a member record yet. Contact an administrator to complete your profile."
+  },
+  "Membre": {
+    "ht": "Manm",
+    "en": "Member"
+  },
+  "date non renseignée": {
+    "ht": "dat pa bay",
+    "en": "date not provided"
+  },
+  "Profil": {
+    "ht": "Pwofil",
+    "en": "Profile"
+  },
+  "Sécurité": {
+    "ht": "Sekirite",
+    "en": "Security"
+  },
+  "Préférences": {
+    "ht": "Preferans",
+    "en": "Preferences"
+  },
+  "Mon profil": {
+    "ht": "Pwofil mwen",
+    "en": "My profile"
+  },
+  "Modifier ma photo": {
+    "ht": "Chanje foto mwen",
+    "en": "Change my photo"
+  },
+  "Paramètres du compte": {
+    "ht": "Paramèt kont lan",
+    "en": "Account settings"
+  },
+  "Membre depuis": {
+    "ht": "Manm depi",
+    "en": "Member since"
+  },
+  "2FA indisponible": {
+    "ht": "2FA pa disponib",
+    "en": "2FA unavailable"
+  },
+  "Profil complété": {
+    "ht": "Pwofil ranpli",
+    "en": "Profile completed"
+  },
+  "1 session": {
+    "ht": "1 sesyon",
+    "en": "1 session"
+  },
+  "Appareil actuel": {
+    "ht": "Aparèy aktyèl",
+    "en": "Current device"
+  },
+  "Dernier accès connu": {
+    "ht": "Dènye aksè nou konnen",
+    "en": "Last known access"
+  },
+  "Paramètres du profil": {
+    "ht": "Paramèt pwofil",
+    "en": "Profile settings"
+  },
+  "Photo de profil": {
+    "ht": "Foto pwofil",
+    "en": "Profile photo"
+  },
+  "Visible par les membres de l’espace de travail.": {
+    "ht": "Manm espas travay la kapab wè li.",
+    "en": "Visible to members of the workspace."
+  },
+  "Téléversement…": {
+    "ht": "Ap voye fichye a…",
+    "en": "Uploading…"
+  },
+  "Ajouter une image": {
+    "ht": "Ajoute yon imaj",
+    "en": "Add an image"
+  },
+  "PNG, JPG, WEBP ou GIF · 20 Mo maximum": {
+    "ht": "PNG, JPG, WEBP oswa GIF · 20 Mo maksimòm",
+    "en": "PNG, JPG, WEBP or GIF · 20 MB maximum"
+  },
+  "Informations personnelles": {
+    "ht": "Enfòmasyon pèsonèl",
+    "en": "Personal information"
+  },
+  "Utilisées pour vous identifier dans l’espace de travail.": {
+    "ht": "Yo sèvi pou idantifye ou nan espas travay la.",
+    "en": "Used to identify you in the workspace."
+  },
+  "Adresse courriel": {
+    "ht": "Adrès imèl",
+    "en": "Email address"
+  },
+  "Utilisée pour vous contacter et identifier votre compte.": {
+    "ht": "Li sèvi pou kontakte ou epi idantifye kont ou.",
+    "en": "Used to contact you and identify your account."
+  },
+  "Aperçu du compte": {
+    "ht": "Apèsi kont lan",
+    "en": "Account overview"
+  },
+  "Rôle": {
+    "ht": "Wòl",
+    "en": "Role"
+  },
+  "Statut": {
+    "ht": "Estati",
+    "en": "Status"
+  },
+  "En attente": {
+    "ht": "Annatant",
+    "en": "Pending"
+  },
+  "Actif": {
+    "ht": "Aktif",
+    "en": "Active"
+  },
+  "Créé le": {
+    "ht": "Kreye nan dat",
+    "en": "Created on"
+  },
+  "Fuseau horaire": {
+    "ht": "Zòn lè",
+    "en": "Time zone"
+  },
+  "Vérification": {
+    "ht": "Verifikasyon",
+    "en": "Verification"
+  },
+  "Le statut de vérification de l’adresse e-mail n’est pas communiqué par le serveur. Aucune action n’est requise ici.": {
+    "ht": "Sèvè a pa bay estati verifikasyon adrès imèl la. Ou pa bezwen fè anyen isit la.",
+    "en": "The server does not provide the email verification status. No action is required here."
+  },
+  "Annuler": {
+    "ht": "Anile",
+    "en": "Cancel"
+  },
+  "Enregistrement…": {
+    "ht": "Ap anrejistre…",
+    "en": "Saving…"
+  },
+  "Enregistrer": {
+    "ht": "Anrejistre",
+    "en": "Save"
+  },
+  "Changer le mot de passe": {
+    "ht": "Chanje modpas la",
+    "en": "Change password"
+  },
+  "Mot de passe actuel": {
+    "ht": "Modpas aktyèl",
+    "en": "Current password"
+  },
+  "Nouveau mot de passe": {
+    "ht": "Nouvo modpas",
+    "en": "New password"
+  },
+  "Confirmer": {
+    "ht": "Konfime",
+    "en": "Confirm"
+  },
+  "Modification…": {
+    "ht": "Ap modifye…",
+    "en": "Updating…"
+  },
+  "Modifier le mot de passe": {
+    "ht": "Modifye modpas la",
+    "en": "Update password"
+  },
+  "Protection du compte": {
+    "ht": "Pwoteksyon kont lan",
+    "en": "Account protection"
+  },
+  "Authentification à deux facteurs": {
+    "ht": "Otantifikasyon ak de faktè",
+    "en": "Two-factor authentication"
+  },
+  "Cette protection sera disponible lorsqu’elle sera reliée au serveur.": {
+    "ht": "Pwoteksyon sa a ap disponib lè li konekte ak sèvè a.",
+    "en": "This protection will be available once connected to the server."
+  },
+  "Alertes de connexion": {
+    "ht": "Alèt koneksyon",
+    "en": "Sign-in alerts"
+  },
+  "Les alertes de connexion ne sont pas encore configurables pour ce compte.": {
+    "ht": "Ou poko kapab konfigire alèt koneksyon pou kont sa a.",
+    "en": "Sign-in alerts cannot be configured for this account yet."
+  },
+  "Sessions actives": {
+    "ht": "Sesyon aktif",
+    "en": "Active sessions"
+  },
+  "Seule la session de cet appareil peut être affichée par le serveur actuel.": {
+    "ht": "Sèvè aktyèl la kapab montre sèlman sesyon aparèy sa a.",
+    "en": "The current server can display only this device’s session."
+  },
+  "Actuelle": {
+    "ht": "Aktyèl",
+    "en": "Current"
+  },
+  "Cette session est active sur l’appareil que vous utilisez.": {
+    "ht": "Sesyon sa a aktif sou aparèy w ap itilize a.",
+    "en": "This session is active on the device you are using."
+  },
+  "Autres appareils": {
+    "ht": "Lòt aparèy",
+    "en": "Other devices"
+  },
+  "La liste et la déconnexion à distance ne sont pas encore disponibles.": {
+    "ht": "Lis la ak dekoneksyon a distans poko disponib.",
+    "en": "The device list and remote sign-out are not available yet."
+  },
+  "Indisponible": {
+    "ht": "Pa disponib",
+    "en": "Unavailable"
+  },
+  "Zone sensible": {
+    "ht": "Zòn sansib",
+    "en": "Sensitive actions"
+  },
+  "La suppression autonome du compte n’est pas activée. Contactez l’administration si cette action est nécessaire.": {
+    "ht": "Ou pa kapab efase kont lan poukont ou. Kontakte administrasyon an si sa nesesè.",
+    "en": "Self-service account deletion is not enabled. Contact the administration if needed."
+  },
+  "Cette action nécessite une fonctionnalité serveur": {
+    "ht": "Aksyon sa a bezwen yon fonksyon sèvè",
+    "en": "This action requires server support"
+  },
+  "Supprimer mon compte": {
+    "ht": "Efase kont mwen",
+    "en": "Delete my account"
+  },
+  "Apparence": {
+    "ht": "Aparans",
+    "en": "Appearance"
+  },
+  "Thème": {
+    "ht": "Tèm",
+    "en": "Theme"
+  },
+  "Appliqué à la vitrine sur cet appareil.": {
+    "ht": "Li aplike sou sit la nan aparèy sa a.",
+    "en": "Applied to the website on this device."
+  },
+  "Clair": {
+    "ht": "Klè",
+    "en": "Light"
+  },
+  "Le thème système n’est pas encore disponible": {
+    "ht": "Tèm sistèm nan poko disponib",
+    "en": "System theme is not available yet"
+  },
+  "Système": {
+    "ht": "Sistèm",
+    "en": "System"
+  },
+  "Sombre": {
+    "ht": "Fonse",
+    "en": "Dark"
+  },
+  "Couleur d’accent": {
+    "ht": "Koulè aksan",
+    "en": "Accent colour"
+  },
+  "Appliquée à cette page sur cet appareil.": {
+    "ht": "Li aplike sou paj sa a nan aparèy sa a.",
+    "en": "Applied to this page on this device."
+  },
+  "Utiliser la couleur": {
+    "ht": "Itilize koulè a",
+    "en": "Use colour"
+  },
+  "La langue s’applique immédiatement à toute la vitrine.": {
+    "ht": "Lang lan aplike touswit sou tout sit la.",
+    "en": "The language applies immediately across the website."
+  },
+  "Notifications rapides": {
+    "ht": "Notifikasyon rapid",
+    "en": "Quick notifications"
+  },
+  "Résumé quotidien": {
+    "ht": "Rezime chak jou",
+    "en": "Daily summary"
+  },
+  "Préférence enregistrée sur cet appareil.": {
+    "ht": "Preferans lan anrejistre sou aparèy sa a.",
+    "en": "Preference saved on this device."
+  },
+  "Notifications push": {
+    "ht": "Notifikasyon pouse",
+    "en": "Push notifications"
+  },
+  "Actualités produit": {
+    "ht": "Nouvèl pwodwi",
+    "en": "Product updates"
+  },
+  "Ces réglages sont locaux à ce navigateur. Ils ne modifient pas encore les notifications envoyées par le serveur.": {
+    "ht": "Paramèt sa yo rete nan navigatè sa a. Yo poko chanje notifikasyon sèvè a voye yo.",
+    "en": "These settings are local to this browser. They do not yet affect notifications sent by the server."
+  },
+  "12 caractères minimum, avec une majuscule, une minuscule, un chiffre et un caractère spécial.": {
+    "ht": "Omwen 12 karaktè, avèk yon lèt majiskil, yon lèt miniskil, yon chif ak yon karaktè espesyal.",
+    "en": "At least 12 characters, with an uppercase letter, a lowercase letter, a number and a special character."
+  },
+  "12 caractères minimum": {
+    "ht": "Omwen 12 karaktè",
+    "en": "At least 12 characters"
+  },
+  "Le mot de passe doit contenir au moins 12 caractères.": {
+    "ht": "Modpas la dwe gen omwen 12 karaktè.",
+    "en": "The password must contain at least 12 characters."
+  },
+  "Une majuscule": {
+    "ht": "Yon lèt majiskil",
+    "en": "An uppercase letter"
+  },
+  "Le mot de passe doit contenir au moins une majuscule.": {
+    "ht": "Modpas la dwe gen omwen yon lèt majiskil.",
+    "en": "The password must contain at least one uppercase letter."
+  },
+  "Une minuscule": {
+    "ht": "Yon lèt miniskil",
+    "en": "A lowercase letter"
+  },
+  "Le mot de passe doit contenir au moins une minuscule.": {
+    "ht": "Modpas la dwe gen omwen yon lèt miniskil.",
+    "en": "The password must contain at least one lowercase letter."
+  },
+  "Un chiffre": {
+    "ht": "Yon chif",
+    "en": "A number"
+  },
+  "Le mot de passe doit contenir au moins un chiffre.": {
+    "ht": "Modpas la dwe gen omwen yon chif.",
+    "en": "The password must contain at least one number."
+  },
+  "Un caractère spécial": {
+    "ht": "Yon karaktè espesyal",
+    "en": "A special character"
+  },
+  "Le mot de passe doit contenir au moins un caractère spécial.": {
+    "ht": "Modpas la dwe gen omwen yon karaktè espesyal.",
+    "en": "The password must contain at least one special character."
+  },
+  "Saisissez un nouveau mot de passe.": {
+    "ht": "Antre yon nouvo modpas.",
+    "en": "Enter a new password."
+  },
+  "À créer": {
+    "ht": "Pou kreye",
+    "en": "Not set"
+  },
+  "Très faible": {
+    "ht": "Trè fèb",
+    "en": "Very weak"
+  },
+  "Faible": {
+    "ht": "Fèb",
+    "en": "Weak"
+  },
+  "À renforcer": {
+    "ht": "Pou ranfòse",
+    "en": "Needs strengthening"
+  },
+  "Presque conforme": {
+    "ht": "Prèske konfòm",
+    "en": "Almost compliant"
+  },
+  "Fort · conforme": {
+    "ht": "Solid · konfòm",
+    "en": "Strong · compliant"
+  },
+  "Accès réservé": {
+    "ht": "Aksè rezève",
+    "en": "Restricted access"
+  },
+  "Veuillez vous connecter pour voir vos inscriptions.": {
+    "ht": "Tanpri konekte pou wè enskripsyon ou yo.",
+    "en": "Please sign in to view your registrations."
+  },
+  "Mes inscriptions": {
+    "ht": "Enskripsyon mwen yo",
+    "en": "My registrations"
+  },
+  "Mes Inscriptions": {
+    "ht": "Enskripsyon mwen yo",
+    "en": "My registrations"
+  },
+  "Mes événements": {
+    "ht": "Evènman mwen yo",
+    "en": "My events"
+  },
+  "Retrouvez toutes vos inscriptions aux événements": {
+    "ht": "Jwenn tout enskripsyon ou pou evènman yo",
+    "en": "View all your event registrations"
+  },
+  "Confirmée": {
+    "ht": "Konfime",
+    "en": "Confirmed"
+  },
+  "Événement": {
+    "ht": "Evènman",
+    "en": "Event"
+  },
+  "Date à venir": {
+    "ht": "Dat k ap vini",
+    "en": "Upcoming date"
+  },
+  "Horaire": {
+    "ht": "Orè",
+    "en": "Time"
+  },
+  "Lieu": {
+    "ht": "Kote",
+    "en": "Location"
+  },
+  "place(s)": {
+    "ht": "plas",
+    "en": "place(s)"
+  },
+  "Voir": {
+    "ht": "Gade",
+    "en": "View"
+  },
+  "Aucune inscription": {
+    "ht": "Pa gen enskripsyon",
+    "en": "No registrations"
+  },
+  "Vous n'êtes inscrit à aucun événement pour le moment.": {
+    "ht": "Ou poko enskri nan okenn evènman.",
+    "en": "You are not registered for any events yet."
+  },
+  "Découvrir les événements": {
+    "ht": "Dekouvri evènman yo",
+    "en": "Explore events"
+  },
+  "{count} événement publié": {
+    "ht": "{count} evènman pibliye",
+    "en": "{count} published event"
+  },
+  "{count} événements publiés": {
+    "ht": "{count} evènman pibliye",
+    "en": "{count} published events"
+  },
+  "{count} place restante": {
+    "ht": "{count} plas ki rete",
+    "en": "{count} place remaining"
+  },
+  "{count} places restantes": {
+    "ht": "{count} plas ki rete",
+    "en": "{count} places remaining"
+  },
+  "1. Informations légales": {
+    "ht": "1. Enfòmasyon legal",
+    "en": "1. Legal information"
+  },
+  "Le site GESTMEMBRES est édité par la société GESTMEMBRES SAS, au capital de 50 000 €, immatriculée au RCS de Paris sous le numéro 123 456 789.": {
+    "ht": "Se konpayi GESTMEMBRES SAS ki pibliye sit GESTMEMBRES la. Li gen yon kapital 50 000 € epi li anrejistre nan RCS Pari sou nimewo 123 456 789.",
+    "en": "The GESTMEMBRES website is published by GESTMEMBRES SAS, with share capital of €50,000, registered with the Paris Trade and Companies Register under number 123 456 789."
+  },
+  "Siège social": {
+    "ht": "Syèj sosyal",
+    "en": "Registered office"
+  },
+  "Directeur de la publication": {
+    "ht": "Direktè piblikasyon",
+    "en": "Publication director"
+  },
+  "Hébergeur": {
+    "ht": "Founisè ebèjman",
+    "en": "Hosting provider"
+  },
+  "2. Propriété intellectuelle": {
+    "ht": "2. Pwopriyete entelektyèl",
+    "en": "2. Intellectual property"
+  },
+  "L'ensemble du contenu du site (textes, images, vidéos, logos) est protégé par le droit d'auteur et appartient à GESTMEMBRES SAS. Toute reproduction est interdite sans autorisation préalable.": {
+    "ht": "Tout kontni sit la (tèks, imaj, videyo, logo) pwoteje pa dwa otè epi li pou GESTMEMBRES SAS. Yo entèdi tout repwodiksyon san otorizasyon davans.",
+    "en": "All website content (text, images, videos and logos) is protected by copyright and belongs to GESTMEMBRES SAS. Reproduction without prior permission is prohibited."
+  },
+  "3. Données personnelles": {
+    "ht": "3. Done pèsonèl",
+    "en": "3. Personal data"
+  },
+  "Conformément à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant.": {
+    "ht": "Dapre lwa franse Informatique et Libertés 6 janvye 1978 la, jan li modifye a, ou gen dwa jwenn aksè, korije epi efase done ki konsène ou.",
+    "en": "Under the amended French Data Protection Act of 6 January 1978, you have the right to access, correct and delete your personal data."
+  },
+  "Pour exercer ce droit, contactez-nous à :": {
+    "ht": "Pou egzèse dwa sa a, kontakte nou nan:",
+    "en": "To exercise this right, contact us at:"
+  },
+  "4. Cookies": {
+    "ht": "4. Bonbon navigasyon",
+    "en": "4. Cookies"
+  },
+  "Le site utilise des cookies pour améliorer l'expérience utilisateur. Vous pouvez paramétrer votre navigateur pour refuser les cookies.": {
+    "ht": "Sit la itilize bonbon navigasyon pou amelyore eksperyans itilizatè a. Ou kapab mete navigatè ou pou refize bonbon yo.",
+    "en": "The website uses cookies to improve the user experience. You can configure your browser to reject cookies."
+  },
+  "5. Droit applicable": {
+    "ht": "5. Lwa ki aplikab",
+    "en": "5. Applicable law"
+  },
+  "Les présentes mentions légales sont régies par le droit français. Tout litige relèvera de la compétence exclusive des tribunaux français.": {
+    "ht": "Avi legal sa a soumèt anba lwa franse. Tout konfli ap anba konpetans eksklizif tribinal franse yo.",
+    "en": "This legal notice is governed by French law. Any dispute falls under the exclusive jurisdiction of the French courts."
+  },
+  "Dernière mise à jour": {
+    "ht": "Dènye mizajou",
+    "en": "Last updated"
+  },
+  "Politique de confidentialité": {
+    "ht": "Politik konfidansyalite",
+    "en": "Privacy policy"
+  },
+  "1. Collecte des données": {
+    "ht": "1. Koleksyon done",
+    "en": "1. Data collection"
+  },
+  "Nous collectons les données suivantes lorsque vous utilisez notre plateforme :": {
+    "ht": "Nou kolekte done sa yo lè ou itilize platfòm nou an:",
+    "en": "We collect the following data when you use our platform:"
+  },
+  "Données d'identification": {
+    "ht": "Done idantifikasyon",
+    "en": "Identification data"
+  },
+  "nom, prénom, email, téléphone": {
+    "ht": "siyati, prenon, imèl, telefòn",
+    "en": "last name, first name, email, phone"
+  },
+  "Données de connexion": {
+    "ht": "Done koneksyon",
+    "en": "Connection data"
+  },
+  "adresse IP, cookies, logs": {
+    "ht": "adrès IP, bonbon navigasyon, jounal aktivite",
+    "en": "IP address, cookies, logs"
+  },
+  "Données d'activité": {
+    "ht": "Done aktivite",
+    "en": "Activity data"
+  },
+  "inscriptions, participations, historique": {
+    "ht": "enskripsyon, patisipasyon, istorik",
+    "en": "registrations, attendance, history"
+  },
+  "2. Utilisation des données": {
+    "ht": "2. Itilizasyon done",
+    "en": "2. Use of data"
+  },
+  "Vos données sont utilisées pour :": {
+    "ht": "Nou itilize done ou yo pou:",
+    "en": "Your data is used to:"
+  },
+  "Gérer votre compte et vos inscriptions": {
+    "ht": "Jere kont ou ak enskripsyon ou yo",
+    "en": "Manage your account and registrations"
+  },
+  "Vous informer des événements à venir": {
+    "ht": "Enfòme ou sou evènman k ap vini yo",
+    "en": "Inform you about upcoming events"
+  },
+  "Améliorer nos services": {
+    "ht": "Amelyore sèvis nou yo",
+    "en": "Improve our services"
+  },
+  "Respecter nos obligations légales": {
+    "ht": "Respekte obligasyon legal nou yo",
+    "en": "Meet our legal obligations"
+  },
+  "3. Protection des données": {
+    "ht": "3. Pwoteksyon done",
+    "en": "3. Data protection"
+  },
+  "Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles pour protéger vos données contre tout accès non autorisé.": {
+    "ht": "Nou mete mezi sekirite teknik ak òganizasyonèl an plas pou pwoteje done ou yo kont aksè ki pa otorize.",
+    "en": "We implement technical and organisational security measures to protect your data against unauthorised access."
+  },
+  "Chiffrement des données": {
+    "ht": "Chifreman done",
+    "en": "Data encryption"
+  },
+  "Accès restreint aux personnels habilités": {
+    "ht": "Aksè limite ak pèsonèl ki otorize",
+    "en": "Access restricted to authorised personnel"
+  },
+  "Audits de sécurité réguliers": {
+    "ht": "Odit sekirite regilye",
+    "en": "Regular security audits"
+  },
+  "4. Vos droits": {
+    "ht": "4. Dwa ou yo",
+    "en": "4. Your rights"
+  },
+  "Conformément au RGPD, vous disposez des droits suivants :": {
+    "ht": "Dapre RGPD a, ou gen dwa sa yo:",
+    "en": "Under the GDPR, you have the following rights:"
+  },
+  "Droit d'accès": {
+    "ht": "Dwa aksè",
+    "en": "Right of access"
+  },
+  "consulter vos données": {
+    "ht": "konsilte done ou yo",
+    "en": "view your data"
+  },
+  "Droit de rectification": {
+    "ht": "Dwa koreksyon",
+    "en": "Right to rectification"
+  },
+  "modifier vos données": {
+    "ht": "modifye done ou yo",
+    "en": "correct your data"
+  },
+  "Droit à l'effacement": {
+    "ht": "Dwa pou efase",
+    "en": "Right to erasure"
+  },
+  "supprimer vos données": {
+    "ht": "efase done ou yo",
+    "en": "delete your data"
+  },
+  "Droit d'opposition": {
+    "ht": "Dwa opozisyon",
+    "en": "Right to object"
+  },
+  "refuser le traitement": {
+    "ht": "refize tretman done yo",
+    "en": "object to processing"
+  },
+  "Droit à la portabilité": {
+    "ht": "Dwa pòtablite",
+    "en": "Right to data portability"
+  },
+  "récupérer vos données": {
+    "ht": "rekipere done ou yo",
+    "en": "retrieve your data"
+  },
+  "5. Contact": {
+    "ht": "5. Kontak",
+    "en": "5. Contact"
+  },
+  "Pour toute question relative à la protection de vos données, contactez-nous :": {
+    "ht": "Pou nenpòt kesyon sou pwoteksyon done ou yo, kontakte nou:",
+    "en": "For any questions about the protection of your data, contact us:"
+  },
+  "Les Saintes Ecritures": {
+    "ht": "Sent Ekriti yo",
+    "en": "The Holy Scriptures"
+  },
+  "La Trinité": {
+    "ht": "Trinite a",
+    "en": "The Trinity"
+  },
+  "Dieu le Père": {
+    "ht": "Bondye Papa a",
+    "en": "God the Father"
+  },
+  "Dieu le Fils": {
+    "ht": "Bondye Pitit la",
+    "en": "God the Son"
+  },
+  "Dieu le Saint-Esprit": {
+    "ht": "Bondye Sentespri a",
+    "en": "God the Holy Spirit"
+  },
+  "L’homme": {
+    "ht": "Lòm",
+    "en": "Humankind"
+  },
+  "Satan": {
+    "ht": "Satan",
+    "en": "Satan"
+  },
+  "Le Salut": {
+    "ht": "Delivrans",
+    "en": "Salvation"
+  },
+  "La vie Chrétienne": {
+    "ht": "Lavi kretyen an",
+    "en": "The Christian life"
+  },
+  "L’Eglise": {
+    "ht": "Legliz la",
+    "en": "The Church"
+  },
+  "Les ordonnances": {
+    "ht": "Òdonans yo",
+    "en": "The ordinances"
+  },
+  "La destinée éternelle des hommes": {
+    "ht": "Desten etènèl lèzòm",
+    "en": "The eternal destiny of humankind"
+  },
+  "Les événements à venir": {
+    "ht": "Evènman k ap vini yo",
+    "en": "Future events"
+  },
+  "L’Eglise Baptiste de l’Espoir du Cap-Haitien est une église indépendante fondamentale, non charismatique qui croit en la Bible (ancien et nouveau testament) comme étant la parole inspirée de Dieu. Face à toute situation, la question la plus importante que l’on s’y pose c’est : « Que dit la Bible ? ». Ainsi, Elle veut divorcer d’avec toute tradition d’hommes contraire à la Parole de Dieu (Matt. 15:5-9). Elle est une Eglise dotée d’un leadership masculin (I Tim. 2:8-15; I Cor. 14:33-34), ayant des leaders loyaux (aux Anciens, aux pasteurs, aux autres leaders, à l’église et au programme de l’église) (I Tim. 3:8), et pratiquant la discipline de l’église (Matt. 18:15-17; I Tim.5:20). Etant une Eglise missionnaire, elle aimerait implanter une église dans chaque ville d’Haïti et dans d’autres pays.": {
+    "ht": "Legliz Batis Lespwa nan Okap se yon legliz endepandan fondamantal, ki pa karismatik, ki kwè Bib la (Ansyen ak Nouvo Testaman) se Pawòl Bondye enspire a. Nan nenpòt sitiyasyon, kesyon ki pi enpòtan nou poze se: « Kisa Bib la di? ». Se poutèt sa li vle separe ak tout tradisyon lèzòm ki kont Pawòl Bondye a (Matt. 15:5-9). Se yon legliz ki gen gason kòm dirijan (I Tim. 2:8-15; I Cor. 14:33-34), ak lidè ki fidèl ak Ansyen yo, pastè yo, lòt lidè yo, legliz la ak pwogram li (I Tim. 3:8), epi ki pratike disiplin legliz (Matt. 18:15-17; I Tim.5:20). Kòm yon legliz misyonè, li ta renmen plante yon legliz nan chak vil ann Ayiti ak nan lòt peyi.",
+    "en": "The Baptist Church of Hope in Cap-Haïtien is an independent, fundamental, non-charismatic church that believes the Bible (Old and New Testaments) is the inspired Word of God. In every situation, its most important question is: “What does the Bible say?”. It therefore seeks to separate from human traditions that contradict God’s Word (Matt. 15:5-9). It has male leadership (I Tim. 2:8-15; I Cor. 14:33-34), leaders loyal to the Elders, pastors, other leaders, the church and its programme (I Tim. 3:8), and practises church discipline (Matt. 18:15-17; I Tim.5:20). As a missionary church, it would like to plant a church in every city in Haiti and in other countries."
+  },
+  "Nous croyons que la Bible entière est inspirée de Dieu et que des hommes de Dieu “ont été poussés par le Saint-Esprit’’ à écrire les mots mêmes de l’Ecriture. La Bible est donc sans erreur (inerrante) dans ses manuscrits originaux. Dieu a préservé surnaturellement la Bible et elle est la seule autorité souveraine en matière de foi et de conduite. Elle offre l’encouragement, la direction, la consolation et l’instruction pour que l’homme de Dieu soit ‘’éduqué dans la justice ‘’ (2 Tim. 3 :16-17 ; 2 Pi.1 :20-21).": {
+    "ht": "Nou kwè tout Bib la se Bondye ki enspire li, epi Sentespri a te pouse moun Bondye yo ekri pawòl Ekriti yo menm. Kidonk, Bib la san erè nan maniskri orijinal li yo. Bondye konsève Bib la yon fason sinatirèl, epi li se sèl otorite siprèm pou lafwa ak konduit. Li bay ankourajman, direksyon, konsolasyon ak ansèyman pou moun Bondye a resevwa fòmasyon nan jistis. (2 Tim. 3 :16-17 ; 2 Pi.1 :20-21).",
+    "en": "We believe the entire Bible is inspired by God and that men of God were moved by the Holy Spirit to write the very words of Scripture. The Bible is therefore without error in its original manuscripts. God has supernaturally preserved the Bible, and it is the sole supreme authority in matters of faith and conduct. It offers encouragement, direction, comfort and instruction so that the person of God may be trained in righteousness. (2 Tim. 3 :16-17 ; 2 Pi.1 :20-21)."
+  },
+  "Nous croyons en un seul vrai Dieu existant éternellement en trois personnes distinctes (le Père, le Fils, et le Saint-Esprit ), chaque personne étant pleinement et également Dieu, possédant toute la nature et les attributs divins, et étant entièrement digne de notre adoration et de notre service (Deut. 6 :4 ; Mt.28 :19 ; Jn. 1 :14 , 10 :30 ; 2 cor.13 :14).": {
+    "ht": "Nou kwè nan yon sèl vrè Bondye ki egziste pou tout tan an twa moun diferan: Papa a, Pitit la ak Sentespri a. Chak moun se Bondye nèt e egalman, li posede tout nati ak atribi diven yo, epi li merite tout adorasyon ak sèvis nou. (Deut. 6 :4 ; Mt.28 :19 ; Jn. 1 :14 , 10 :30 ; 2 cor.13 :14).",
+    "en": "We believe in one true God, eternally existing in three distinct persons: the Father, the Son and the Holy Spirit. Each person is fully and equally God, possesses the whole divine nature and attributes, and is entirely worthy of our worship and service. (Deut. 6 :4 ; Mt.28 :19 ; Jn. 1 :14 , 10 :30 ; 2 cor.13 :14)."
+  },
+  "Nous croyons que Dieu le Père est la première personne de la Trinité. Il est éternel, immuable, omnipotent, omniscient, toute sagesse, tout amour. Il est parfaitement juste et saint. Il soutient l’univers dont il est le souverain maitre. Il est le Père de notre Seigneur et Sauveur Jésus-Christ et le Père de tous les vrais croyants.": {
+    "ht": "Nou kwè Bondye Papa a se premye moun Trinite a. Li etènèl, li pa chanje, li gen tout pouvwa, li konnen tout bagay, li gen tout sajès ak tout lanmou. Li jis ak sen nèt. Li soutni linivè a epi li se Mèt souveren li. Li se Papa Jezikri, Seyè ak Sovè nou an, epi Papa tout vrè kwayan yo.",
+    "en": "We believe God the Father is the first person of the Trinity. He is eternal, unchanging, all-powerful, all-knowing, all-wise and all-loving. He is perfectly just and holy. He sustains the universe and is its sovereign ruler. He is the Father of our Lord and Saviour Jesus Christ and the Father of all true believers."
+  },
+  "Nous croyons que Jésus est la deuxième personne de la Trinité et qu’il est l’éternel Fils Unique de Dieu. Il s’est fait chair pour révéler Dieu aux hommes, pour accomplir les prophéties et devenir le Sauveur de l’humanité perdue. En devenant homme, Jésus n’a cessé aucunement d’être Dieu de sorte qu’il est pleinement homme inséparablement un en une personne pour toujours. Jésus a été conçu miraculeusement par le Saint-Esprit ; Il est né de la vierge Marie, a vécu une vie sans péché ; il est mort sur la croix en tant que substitut, sacrifice d’expiation tout suffisant pour tous les péchés et pour tous les hommes de tous les temps ; il a été enterré ; il est ressuscité corporellement des morts ; il est physiquement monté au ciel dans son corps glorifié ; il est assis à la droite du Père, exerçant son ministère d’intercession ; il reviendra dans les airs pour prendre l’Eglise qui est son épouse ; et il reviendra sur la terre sous forme corporelle, personnellement et visiblement, pour mettre un terme à l’histoire des hommes et accomplir le plan éternel de Dieu en exécutant le jugement et en introduisant le règne par son royaume millénaire qui sera suivi par la condition éternelle. (Jean 1 :1,14, 18 ; 3 :16 ; Luc1 :30-35 ; Phil.2 :5-8 ; col.2 :3,9 ; Marc10 :45 ; Actes 2 :22-24 ; Jean1 : 29 ; Rom.3 :25-26 ; Hé.10 :5-14 ; I Pie.2 :24, 3 :18 ; Jean20 :20 ; Phil.3 :20-21 ; Hé.1 :3 ;Rom.8 :34 ; I Jean2 :1 ; Actes1 :11 ; Hé.9 :28 ; I Thess.4 :13-18 ; 2Thess.2 :7 ; Mt.24 :44 ; Ap.19 :11-21 ; Ap.21-22).": {
+    "ht": "Nou kwè Jezi se dezyèm moun Trinite a epi li se sèl Pitit etènèl Bondye a. Li te vin moun pou revele Bondye bay lèzòm, akonpli pwofesi yo epi vin Sovè limanite ki pèdi a. Lè li te vin moun, Jezi pa t janm sispann Bondye; li se moun nèt, ini yon fason enseparab nan yon sèl moun pou tout tan. Sentespri a te fè konsepsyon Jezi fèt pa mirak. Li te fèt nan vyèj Mari, li te viv san peche, epi li te mouri sou kwa a kòm ranplasan nou, yon sakrifis ekspyasyon ki sifi pou tout peche ak tout moun nan tout tan. Yo te antere li; li te leve soti vivan nan lanmò nan kò li; li te monte fizikman nan syèl la nan kò glorifye li. Li chita adwat Papa a kote li kontinye entèsede. Li pral retounen nan lè a pou pran Legliz la, ki se lamarye li. Li pral retounen sou tè a nan kò li, pèsonèlman e vizibman, pou mete fen nan istwa lèzòm epi akonpli plan etènèl Bondye a: egzekite jijman an epi tabli wayòm milenè li a, apre sa ap vini eta etènèl la. (Jean 1 :1,14, 18 ; 3 :16 ; Luc1 :30-35 ; Phil.2 :5-8 ; col.2 :3,9 ; Marc10 :45 ; Actes 2 :22-24 ; Jean1 : 29 ; Rom.3 :25-26 ; Hé.10 :5-14 ; I Pie.2 :24, 3 :18 ; Jean20 :20 ; Phil.3 :20-21 ; Hé.1 :3 ;Rom.8 :34 ; I Jean2 :1 ; Actes1 :11 ; Hé.9 :28 ; I Thess.4 :13-18 ; 2Thess.2 :7 ; Mt.24 :44 ; Ap.19 :11-21 ; Ap.21-22).",
+    "en": "We believe Jesus is the second person of the Trinity and the eternal, only Son of God. He became flesh to reveal God to humankind, fulfil prophecy and become the Saviour of lost humanity. In becoming human, Jesus never ceased to be God; he is fully human, inseparably united in one person forever. Jesus was miraculously conceived by the Holy Spirit and born of the virgin Mary. He lived a sinless life and died on the cross as our substitute, an atoning sacrifice sufficient for all sins and all people of every age. He was buried, rose bodily from the dead and physically ascended to heaven in his glorified body. He is seated at the Father’s right hand, carrying out his ministry of intercession. He will return in the air to take the Church, his bride, and will return to earth bodily, personally and visibly to bring human history to its conclusion and fulfil God’s eternal plan by executing judgement and establishing his millennial kingdom, followed by the eternal state. (Jean 1 :1,14, 18 ; 3 :16 ; Luc1 :30-35 ; Phil.2 :5-8 ; col.2 :3,9 ; Marc10 :45 ; Actes 2 :22-24 ; Jean1 : 29 ; Rom.3 :25-26 ; Hé.10 :5-14 ; I Pie.2 :24, 3 :18 ; Jean20 :20 ; Phil.3 :20-21 ; Hé.1 :3 ;Rom.8 :34 ; I Jean2 :1 ; Actes1 :11 ; Hé.9 :28 ; I Thess.4 :13-18 ; 2Thess.2 :7 ; Mt.24 :44 ; Ap.19 :11-21 ; Ap.21-22)."
+  },
+  "Nous croyons que le Saint-Esprit est la troisième personne de la Trinité qui est venue spécialement le jour de la pentecôte pour glorifier Christ et pour rendre les hommes capables de s’approprier le salut accompli par Christ. Il est l’Agent principal de la conviction de péché et de la régénération. En même temps que le salut, le Saint-Esprit accorde une vie nouvelle, baptise le croyant dans le corps de Christ (son église). Il habite le croyant de façon permanente et le scelle de façon certaine pour le jour de la rédemption. Le Saint-Esprit remplit (dirige et maitrise) les croyants qui lui sont soumis, rend les croyants capables de porter du fruit, et donne la force aux croyants de vivre une vie libre de la domination du péché.": {
+    "ht": "Nou kwè Sentespri a se twazyèm moun Trinite a. Li te vini espesyalman jou Lapannkòt la pou glorifye Kris epi bay lèzòm kapasite pou resevwa delivrans Kris la akonpli a. Li se prensipal ajan ki konvenk moun sou peche yo epi ki fè yo fèt ankò. Ansanm ak delivrans lan, Sentespri a bay yon lavi nouvo epi li batize kwayan an nan kò Kris la, ki se legliz li. Li rete nan kwayan an pou tout tan epi li sele li avèk asirans pou jou redanmsyon an. Sentespri a ranpli, dirije epi kontwole kwayan ki soumèt devan li yo; li bay yo kapasite pou pote fwi epi fòs pou viv lib anba dominasyon peche.",
+    "en": "We believe the Holy Spirit is the third person of the Trinity, who came especially on the day of Pentecost to glorify Christ and enable people to receive the salvation accomplished by Christ. He is the primary agent of conviction of sin and regeneration. At salvation, the Holy Spirit grants new life and baptises the believer into Christ’s body, his church. He permanently indwells the believer and securely seals them for the day of redemption. The Holy Spirit fills, guides and governs believers who submit to him, enables them to bear fruit and empowers them to live free from the domination of sin."
+  },
+  "Nous croyons également que le Saint-Esprit accorde des dons spirituels aux croyants dans le but d’édifier l’église conformément à l’enseignement de l’Ecriture. (I Cor. 13 :8 ; 14 :22 ; Jean 16 :7-15 ; I cor. 6 :19, 12 :13 ; Eph.1 :13-14 , 4 :30 ; Gal 5 :16-17 , 22-23 ; Rom.8 :5-13 ; I pie.4 :10-11 ; Rom.12 :3-8).": {
+    "ht": "Nou kwè tou Sentespri a bay kwayan yo don espirityèl pou bati legliz la selon ansèyman Ekriti yo. (I Cor. 13 :8 ; 14 :22 ; Jean 16 :7-15 ; I cor. 6 :19, 12 :13 ; Eph.1 :13-14 , 4 :30 ; Gal 5 :16-17 , 22-23 ; Rom.8 :5-13 ; I pie.4 :10-11 ; Rom.12 :3-8).",
+    "en": "We also believe the Holy Spirit gives spiritual gifts to believers to build up the church in accordance with the teaching of Scripture. (I Cor. 13 :8 ; 14 :22 ; Jean 16 :7-15 ; I cor. 6 :19, 12 :13 ; Eph.1 :13-14 , 4 :30 ; Gal 5 :16-17 , 22-23 ; Rom.8 :5-13 ; I pie.4 :10-11 ; Rom.12 :3-8)."
+  },
+  "Nous croyons que l’homme a été créé à l’image de Dieu par un acte direct de Dieu et non par le résultat de l’évolution. L’homme a été créé pour glorifier Dieu, l’adorer et le servir, et être en communion avec lui. L’homme est tombé dans le péché en désobéissant à Dieu, s’attirant ainsi la mort physique et spirituelle qui l’a séparé de Dieu. La nature de l’homme s’étant ainsi corrompue, l’homme est totalement perdu, “mort par ses péchés et ses fautes’’ et totalement incapable de se sauver lui-même et de retrouver une juste relation avec Dieu par son propre mérite et ses propres efforts. (Gen. 1 :26, 2 :6 , 17 :3,17 -24 ; Es.59 :1-2 ; Rom. 3 :9-19, 23,5 :6-8 Luc18 :26 -27 ; Eph.2 :1-3).": {
+    "ht": "Nou kwè Bondye te kreye lòm nan imaj li pa yon aksyon dirèk, se pa t rezilta evolisyon. Li te kreye lòm pou glorifye li, adore li, sèvi li epi viv an kominyon avèk li. Lòm te tonbe nan peche lè li te dezobeyi Bondye, sa ki te pote lanmò fizik ak espirityèl epi separe li ak Bondye. Konsa, nati lòm vin kowonpi. Li pèdi nèt, li mouri nan peche ak fot li yo, epi li pa kapab sove tèt li oswa retabli yon relasyon jis avèk Bondye grasa pwòp merit ak efò li. (Gen. 1 :26, 2 :6 , 17 :3,17 -24 ; Es.59 :1-2 ; Rom. 3 :9-19, 23,5 :6-8 Luc18 :26 -27 ; Eph.2 :1-3).",
+    "en": "We believe humankind was created in God’s image by a direct act of God, not as a result of evolution. People were created to glorify, worship and serve God and to have fellowship with him. Humankind fell into sin by disobeying God, bringing physical and spiritual death and separation from God. Human nature was thus corrupted; people are wholly lost, dead in their sins and trespasses, and completely unable to save themselves or restore a right relationship with God through their own merit or efforts. (Gen. 1 :26, 2 :6 , 17 :3,17 -24 ; Es.59 :1-2 ; Rom. 3 :9-19, 23,5 :6-8 Luc18 :26 -27 ; Eph.2 :1-3)."
+  },
+  "Nous croyons que Satan est l’instigateur du mal, qu’il est un être spirituel véritable, et non simplement la personnification du mal. Il est un ange déchu qui, sous la permission souveraine de Dieu, gouverne temporairement la terre. Il a été totalement vaincu à la croix, mais l’exécution de son jugement a été reportée par Dieu à la fin du royaume millénaire lorsqu’il sera jeté dans l’étang de feu éternel. En attendant, il trompe le monde et cherche à établir son royaume sur la terre, qui est une contrefaçon du royaume de Dieu pour discréditer et blasphémer Dieu et pour tenter, accuser, attaquer et détruire les croyants. Les croyants peuvent lui résister par la foi, en comptant sur la puissance du Saint-Esprit. (Gen.3 :1-5 ;Es.14 :12-17 ; Ez.28 :11-19 ; Job1-2 ; I Jn. 5 :19 ; 2cor.11 :14 ; I Tim.3 :6 ; I Pie 5 :8-9 ; Jacques 4 :7 ; Ap.12:9, 20:1-3,7-10).": {
+    "ht": "Nou kwè Satan se moun ki pouse sa ki mal la, li se yon vrè èt espirityèl, se pa sèlman yon reprezantasyon sa ki mal. Li se yon zanj ki tonbe, ki gouvène tè a pou yon tan avèk pèmisyon souveren Bondye. Li te bat nèt sou kwa a, men Bondye ranvwaye egzekisyon jijman li jouk nan fen wayòm milenè a, lè yo pral jete li nan letan dife etènèl la. Pandanstan, li twonpe mond lan epi li chèche tabli wayòm li sou tè a, yon fo kopi wayòm Bondye a, pou diskredite ak blasfeme Bondye, epi tante, akize, atake ak detwi kwayan yo. Kwayan yo kapab reziste li atravè lafwa, lè yo konte sou pouvwa Sentespri a. (Gen.3 :1-5 ;Es.14 :12-17 ; Ez.28 :11-19 ; Job1-2 ; I Jn. 5 :19 ; 2cor.11 :14 ; I Tim.3 :6 ; I Pie 5 :8-9 ; Jacques 4 :7 ; Ap.12:9, 20:1-3,7-10).",
+    "en": "We believe Satan is the instigator of evil and a real spiritual being, not merely a personification of evil. He is a fallen angel who temporarily rules the earth under God’s sovereign permission. He was completely defeated at the cross, but God has deferred the execution of his judgement until the end of the millennial kingdom, when he will be cast into the eternal lake of fire. Meanwhile, he deceives the world and seeks to establish a counterfeit of God’s kingdom on earth, to discredit and blaspheme God and to tempt, accuse, attack and destroy believers. Believers can resist him through faith, relying on the power of the Holy Spirit. (Gen.3 :1-5 ;Es.14 :12-17 ; Ez.28 :11-19 ; Job1-2 ; I Jn. 5 :19 ; 2cor.11 :14 ; I Tim.3 :6 ; I Pie 5 :8-9 ; Jacques 4 :7 ; Ap.12:9, 20:1-3,7-10)."
+  },
+  "Nous croyons que le sang versé par Jésus-Christ sur la croix constitue la seule base pour le pardon des péchés et le salut, qui est le don gratuit de la grâce de Dieu. Le salut est rendu opérant par l’oeuvre de régénération du Saint-Esprit. Il ne peut être gagné par les oeuvres ou le mérite personnel de l’homme. C’est en plaçant sa foi dans l’œuvre accomplie par Jésus-Christ qu’une personne peut s’approprier le salut. La repentance et la foi sont indispensables pour expérimenter le salut. Se repentir c’est se détourner du péché, et croire c’est se tourner à Christ. « L’Evangile est la puissance de Dieu pour le salut de quiconque croit, » et ceux qui reçoivent Jésus-Christ par la foi sont nés de nouveau, ont leur péchés pardonnés, deviennent enfants de Dieu, sont une nouvelle création en Christ, et sont « scellés du Saint-Esprit jusqu’au jour de la rédemption, » étant gardés par la puissance de Dieu. Ceux qui sont vraiment sauvés sont donc éternellement sauvés (Eph. 1:7,13-14 ; Jn.1:12-13, 3:1-7, 14-16 ; 2cor.5 :17 ; Rom.1 :16,10 :9-10 ; Eph.2 :8-10 ; Rom.8 :14-17, 31-39 ; Jn.10:27-29, 14 :6 ; Actes 2 :20 ; I pie1:3-5).": {
+    "ht": "Nou kwè san Jezikri te vèse sou kwa a se sèl baz padon peche ak delivrans, ki se kado gratis favè Bondye a. Delivrans lan vin efikas atravè travay Sentespri a ki fè moun fèt ankò. Moun pa kapab jwenn li grasa zèv oswa merit pèsonèl yo. Yon moun resevwa delivrans lè li mete lafwa li nan travay Jezikri fin akonpli a. Repantans ak lafwa nesesè pou fè eksperyans delivrans. Repanti se vire do bay peche; kwè se vire jwenn Kris. Levanjil la se pouvwa Bondye pou delivre nenpòt moun ki kwè. Moun ki resevwa Jezikri pa lafwa fèt ankò, yo jwenn padon peche, yo vin pitit Bondye ak yon nouvo kreyasyon nan Kris. Sentespri a sele yo jouk jou redanmsyon an, epi pouvwa Bondye a kenbe yo. Kidonk, moun ki sove toutbon yo sove pou tout tan. (Eph. 1:7,13-14 ; Jn.1:12-13, 3:1-7, 14-16 ; 2cor.5 :17 ; Rom.1 :16,10 :9-10 ; Eph.2 :8-10 ; Rom.8 :14-17, 31-39 ; Jn.10:27-29, 14 :6 ; Actes 2 :20 ; I pie1:3-5).",
+    "en": "We believe the blood Jesus Christ shed on the cross is the sole basis for forgiveness of sins and salvation, the free gift of God’s grace. Salvation takes effect through the regenerating work of the Holy Spirit and cannot be earned through human works or personal merit. A person receives salvation by placing faith in the finished work of Jesus Christ. Repentance and faith are essential to experiencing salvation: repentance means turning away from sin, and faith means turning to Christ. The Gospel is God’s power for the salvation of everyone who believes. Those who receive Jesus Christ by faith are born again, have their sins forgiven, become children of God and a new creation in Christ, and are sealed by the Holy Spirit until the day of redemption, kept by God’s power. Those who are truly saved are therefore eternally saved. (Eph. 1:7,13-14 ; Jn.1:12-13, 3:1-7, 14-16 ; 2cor.5 :17 ; Rom.1 :16,10 :9-10 ; Eph.2 :8-10 ; Rom.8 :14-17, 31-39 ; Jn.10:27-29, 14 :6 ; Actes 2 :20 ; I pie1:3-5)."
+  },
+  "Nous croyons que chaque chrétien devrait vivre pour Christ et non pour lui-même et devrait, par la puissance du Saint-Esprit qui demeure dans les croyants, permettre à Christ de manifester sa vie à travers lui pour la gloire de Dieu. Par une obéissance sans cesse croissante à la parole de Dieu, chaque croyant devrait murir et devenir progressivement plus semblable à Jésus. Par la puissance de l’Esprit, chaque croyant devrait vivre une vie sainte ; ne pas accomplir les désirs de la chair ; exercer ses dons spirituels pour construire le corps de christ ; témoigner pour Christ ; être engagé personnellement à faire des disciples pour accomplir l’ordre missionnaire de christ ; faire de bonnes oeuvres et porter du fruit pour la gloire de Dieu. (Gal.2 :20 ; I pie.1 :15- 16, 2 :11 ; 2 cor.5 :14-15 ; Rom. 6 :11-13 ; Eph.2 :10,4 :11-12,4 :22-24 ; I pie 4 :10-11 ; Actes1 :8 ; Mt.28:18-20; col.1:10; Jn.15:8,16).": {
+    "ht": "Nou kwè chak kretyen ta dwe viv pou Kris olye pou li viv pou tèt li. Pa pouvwa Sentespri ki rete nan kwayan yo, li ta dwe kite Kris manifeste lavi li atravè li pou glwa Bondye. Grasa yon obeyisans k ap grandi anvè Pawòl Bondye a, chak kwayan ta dwe vin gen matirite epi vin sanble ak Jezi pi plis. Pa pouvwa Lespri a, chak kwayan ta dwe viv yon lavi sen, pa satisfè dezi lachè, sèvi ak don espirityèl li yo pou bati kò Kris la, temwaye pou Kris, angaje pèsonèlman nan fè disip pou akonpli lòd misyonè Kris la, fè bon zèv epi pote fwi pou glwa Bondye. (Gal.2 :20 ; I pie.1 :15- 16, 2 :11 ; 2 cor.5 :14-15 ; Rom. 6 :11-13 ; Eph.2 :10,4 :11-12,4 :22-24 ; I pie 4 :10-11 ; Actes1 :8 ; Mt.28:18-20; col.1:10; Jn.15:8,16).",
+    "en": "We believe every Christian should live for Christ rather than for themselves and, through the power of the indwelling Holy Spirit, allow Christ to express his life through them for God’s glory. Through growing obedience to God’s Word, every believer should mature and become increasingly like Jesus. By the Spirit’s power, every believer should live a holy life, resist the desires of the flesh, use their spiritual gifts to build up Christ’s body, witness for Christ, personally commit to making disciples in fulfilment of Christ’s missionary command, do good works and bear fruit for God’s glory. (Gal.2 :20 ; I pie.1 :15- 16, 2 :11 ; 2 cor.5 :14-15 ; Rom. 6 :11-13 ; Eph.2 :10,4 :11-12,4 :22-24 ; I pie 4 :10-11 ; Actes1 :8 ; Mt.28:18-20; col.1:10; Jn.15:8,16)."
+  },
+  "Nous croyons que l’Eglise est le corps de Christ dont Jésus est la tête et dont les membres sont ceux qui ont véritablement reçu Christ par la foi. L’Eglise locale est une expression tangible du corps de Christ dans un endroit particulier. Puisque les membres du corps de Christ sont unis en Christ par le même esprit, ils devraient vivre dans l’amour, en harmonie et dans l’unité. Le but de l’Eglise est de faire connaitre Christ aux hommes perdus, d’édifier les saints et de glorifier Dieu sur la terre (Actes 1: 8 ; I cor. 12:12-27 ; Eph.1:20-23 ,4 :1-6,4:12-16 ; Mat.28 :18-20 ; Jn.17 ; col. 1 :24-29).": {
+    "ht": "Nou kwè Legliz la se kò Kris la; Jezi se tèt li, epi manm li yo se moun ki resevwa Kris toutbon pa lafwa. Legliz lokal la se yon ekspresyon vizib kò Kris la nan yon kote presi. Paske manm kò Kris la ini nan Kris pa menm Lespri a, yo ta dwe viv nan lanmou, amoni ak inite. Objektif Legliz la se fè moun ki pèdi yo konnen Kris, bati moun ki sen yo epi glorifye Bondye sou tè a. (Actes 1: 8 ; I cor. 12:12-27 ; Eph.1:20-23 ,4 :1-6,4:12-16 ; Mat.28 :18-20 ; Jn.17 ; col. 1 :24-29).",
+    "en": "We believe the Church is Christ’s body, with Jesus as its head and those who have truly received Christ by faith as its members. The local church is a tangible expression of Christ’s body in a particular place. Because the members of Christ’s body are united in Christ by the same Spirit, they should live in love, harmony and unity. The Church’s purpose is to make Christ known to the lost, build up the saints and glorify God on earth. (Actes 1: 8 ; I cor. 12:12-27 ; Eph.1:20-23 ,4 :1-6,4:12-16 ; Mat.28 :18-20 ; Jn.17 ; col. 1 :24-29)."
+  },
+  "Nous croyons que les Ecritures prescrivent à l’église deux ordonnances : le baptême et la sainte-cène. Le baptême par immersion est un acte d’obéissance qui suit le salut. Il représente symboliquement la mort du croyant au péché, l’ensevelissement de la vie ancienne et la résurrection à la vie nouvelle. La sainte-cène célèbre l’union et la communion avec Christ, commémore symboliquement sa mort, et anticipe sa seconde venue (Mat.28 :19 ; Actes 10 :47-48 ; Luc22 :19-20 ; I cor.11 :23-28 ; Rom.6 :3-4).": {
+    "ht": "Nou kwè Ekriti yo bay legliz la de òdonans: batèm ak Sent Sèn. Batèm pa imèsyon se yon aksyon obeyisans ki vini apre delivrans. Li reprezante senbolikman lanmò kwayan an parapò ak peche, antèman ansyen lavi a ak rezirèksyon nan yon lavi nouvo. Sent Sèn nan selebre inyon ak kominyon avèk Kris, li raple lanmò li senbolikman epi li anonse dezyèm vini li. (Mat.28 :19 ; Actes 10 :47-48 ; Luc22 :19-20 ; I cor.11 :23-28 ; Rom.6 :3-4).",
+    "en": "We believe Scripture prescribes two ordinances for the church: baptism and the Lord’s Supper. Baptism by immersion is an act of obedience following salvation. It symbolises the believer’s death to sin, the burial of the old life and resurrection to new life. The Lord’s Supper celebrates union and communion with Christ, symbolically commemorates his death and anticipates his second coming. (Mat.28 :19 ; Actes 10 :47-48 ; Luc22 :19-20 ; I cor.11 :23-28 ; Rom.6 :3-4)."
+  },
+  "Nous croyons qu’à la mort chaque croyant entre immédiatement et consciemment dans la présence et la communion du seigneur pour attendre la résurrection et la glorification de son corps lors du retour de Christ. Ainsi, le croyant jouira de la vie éternelle avec Dieu, sera en communion avec lui, le servira, et l’adorera pour toujours. (2cor.5 :6 ; Icor. 15 :12-58 ; Luc 23 :39-43 ; I Thess. 4 :13-18 ; Jn.3 :16 ; Ap. 21-22).": {
+    "ht": "Nou kwè lè yon kwayan mouri, li antre touswit e konsyan nan prezans ak kominyon Seyè a, pandan l ap tann rezirèksyon ak glorifikasyon kò li lè Kris retounen. Konsa, kwayan an ap jwi lavi etènèl avèk Bondye; li ap viv an kominyon avèk li, sèvi li epi adore li pou tout tan. (2cor.5 :6 ; Icor. 15 :12-58 ; Luc 23 :39-43 ; I Thess. 4 :13-18 ; Jn.3 :16 ; Ap. 21-22).",
+    "en": "We believe that at death every believer immediately and consciously enters the Lord’s presence and fellowship, awaiting the resurrection and glorification of their body at Christ’s return. The believer will thus enjoy eternal life with God, share fellowship with him, serve him and worship him forever. (2cor.5 :6 ; Icor. 15 :12-58 ; Luc 23 :39-43 ; I Thess. 4 :13-18 ; Jn.3 :16 ; Ap. 21-22)."
+  },
+  "Nous croyons qu’à la mort chaque incroyant entre immédiatement et consciemment dans la séparation d’avec le seigneur pour attendre la résurrection physique de son corps pour être jugé et condamné à l’enfer éternel. (Luc16 :19-31; Jn.3:18,36; Ap.20:5,11-15; 2 Thess. 1:5-10).": {
+    "ht": "Nou kwè lè yon moun ki pa kwè mouri, li antre touswit e konsyan nan separasyon ak Seyè a, pandan l ap tann rezirèksyon fizik kò li pou yo jije li epi kondane li nan lanfè etènèl. (Luc16 :19-31; Jn.3:18,36; Ap.20:5,11-15; 2 Thess. 1:5-10).",
+    "en": "We believe that at death every unbeliever immediately and consciously enters a state of separation from the Lord, awaiting the physical resurrection of their body to be judged and condemned to eternal hell. (Luc16 :19-31; Jn.3:18,36; Ap.20:5,11-15; 2 Thess. 1:5-10)."
+  },
+  "Nous croyons que le prochain événement prophétique sera l’enlèvement de l’Eglise lorsque le seigneur Jésus-Christ reviendra dans les airs pour prendre avec lui les croyants – (Jn.14 :1-3 ; Tite2 :11-14 ; Icor.15 :51-52 ;1 Thess.4 :13-18 ; Phil.3 :20-21). L’enlèvement de l’Eglise sera suivi par la période de 7 ans de la Grande Tribulation en accomplissement de Dan.9 :24-27 et comme décrit en Ap. 6 :1-19:21. Pendant cette période Israël sera purifié, le monde entier éprouvé, et la colère de Dieu déversée contre le péché (Jer.30:7; Mt. 24; Ap. 3:10; I Thess 5:9-11).": {
+    "ht": "Nou kwè pwochen evènman pwofetik la se anlevman Legliz la, lè Seyè Jezikri ap retounen nan lè a pou pran kwayan yo avèk li (Jn.14 :1-3 ; Tite2 :11-14 ; Icor.15 :51-52 ;1 Thess.4 :13-18 ; Phil.3 :20-21). Apre anlevman Legliz la, ap gen sèt ane Gran Tribilasyon an, pou akonpli Dan.9 :24-27 jan Ap. 6 :1-19:21 dekri sa. Pandan peryòd sa a, Izrayèl ap pirifye, lemonn antye ap pase anba eprèv, epi kòlè Bondye ap vide kont peche. (Jer.30:7; Mt. 24; Ap. 3:10; I Thess 5:9-11).",
+    "en": "We believe the next prophetic event will be the rapture of the Church, when the Lord Jesus Christ returns in the air to take believers with him (Jn.14 :1-3 ; Tite2 :11-14 ; Icor.15 :51-52 ;1 Thess.4 :13-18 ; Phil.3 :20-21). The rapture will be followed by the seven-year Great Tribulation, fulfilling Dan.9 :24-27 as described in Rev. 6:1–19:21. During this period, Israel will be purified, the whole world tested and God’s wrath poured out against sin. (Jer.30:7; Mt. 24; Ap. 3:10; I Thess 5:9-11)."
+  },
+  "Nous croyons qu’au terme de la Grande Tribulation aura lieu la seconde phase de la deuxième venue du seigneur Jésus-Christ. Il reviendra sur la terre personnellement et physiquement comme il est monté, mais cette fois avec grande puissance et gloire pour exécuter le jugement et inaugurer le Royaume Millénaire, durant lequel il règnera sur la terre  pendant 1000 ans avec justice et paix pour accomplir la promesse de l’alliance conclue avec Israël (Actes 1 :8-11 ; Ap.19 :11- 21 ; Ez.37 :21-28 ;Es.11 :9 ; Ap.20 :1-6).": {
+    "ht": "Nou kwè nan fen Gran Tribilasyon an, dezyèm faz dezyèm vini Seyè Jezikri a ap fèt. Li ap retounen sou tè a pèsonèlman e fizikman menm jan li te monte a, men fwa sa a avèk gwo pouvwa ak glwa pou egzekite jijman epi inogire Wayòm Milenè a. Li pral gouvène sou tè a pandan mil ane avèk jistis ak lapè pou akonpli pwomès alyans ki fèt avèk Izrayèl la. (Actes 1 :8-11 ; Ap.19 :11- 21 ; Ez.37 :21-28 ;Es.11 :9 ; Ap.20 :1-6).",
+    "en": "We believe that at the end of the Great Tribulation, the second phase of the Lord Jesus Christ’s second coming will occur. He will return to earth personally and physically as he ascended, but this time with great power and glory to execute judgement and inaugurate the Millennial Kingdom. He will reign on earth for one thousand years in righteousness and peace, fulfilling the promise of the covenant made with Israel. (Actes 1 :8-11 ; Ap.19 :11- 21 ; Ez.37 :21-28 ;Es.11 :9 ; Ap.20 :1-6)."
+  },
+  "Nous croyons que le règne de Christ pour 1000 ans sur la terre sera suivi par : le jugement final de Satan qui sera jeté dans l’étang de feu pour toujours ; la résurrection corporelle des incroyants et le jugement du grand Trône Blanc; la création de nouveaux cieux et d’une nouvelle terre ; et la condition éternelle.": {
+    "ht": "Nou kwè apre mil ane Kris ap gouvène sou tè a, ap gen jijman final Satan, yo pral jete li nan letan dife a pou tout tan; rezirèksyon fizik moun ki pa kwè yo ak jijman gwo Twòn Blan an; kreyasyon nouvo syèl ak yon nouvo tè; epi eta etènèl la.",
+    "en": "We believe Christ’s thousand-year reign on earth will be followed by Satan’s final judgement and his being cast into the lake of fire forever; the bodily resurrection of unbelievers and the judgement of the Great White Throne; the creation of new heavens and a new earth; and the eternal state."
+  }
+}

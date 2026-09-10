@@ -15,7 +15,7 @@ export default function Logo({ size = 'md' }) {
     <motion.div
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
-      className={`${sizes[size]} flex items-center justify-center overflow-hidden rounded-xl bg-white/10 shadow-lg shadow-black/20`}
+      className={`${sizes[size]} brand-logo-surface flex items-center justify-center overflow-hidden rounded-xl shadow-lg shadow-black/20`}
     >
       <img src={logo} alt="Logo SYGMEBEC" className="h-full w-full object-contain p-0.5" />
     </motion.div>

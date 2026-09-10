@@ -1,87 +1,78 @@
+import { t, useTranslation, localizedDate } from '../i18n'
 // src/pages/Confidentialite.jsx
 import { motion } from 'framer-motion'
 import SEO from '../components/common/SEO'
 import AnimatedSection from '../components/ui/AnimatedSection'
 
 const Confidentialite = () => {
+  useTranslation()
+
   return (
     <>
-      <SEO title="Politique de confidentialité - GESTMEMBRES" />
+      <SEO title={t("Politique de confidentialité - GESTMEMBRES")} />
       <div className="py-20">
         <div className="container-custom max-w-4xl">
           <AnimatedSection>
             <h1 className="section-title mb-8">
-              <span className="gradient-text">Politique de confidentialité</span>
+              <span className="gradient-text">{t("Politique de confidentialité")}</span>
             </h1>
           </AnimatedSection>
           
           <div className="prose prose-lg max-w-none">
             <AnimatedSection delay={0.1}>
-              <h2>1. Collecte des données</h2>
-              <p>
-                Nous collectons les données suivantes lorsque vous utilisez notre plateforme :
-              </p>
+              <h2>{t("1. Collecte des données")}</h2>
+              <p>{t("Nous collectons les données suivantes lorsque vous utilisez notre plateforme : ")}</p>
               <ul>
-                <li><strong>Données d'identification :</strong> nom, prénom, email, téléphone</li>
-                <li><strong>Données de connexion :</strong> adresse IP, cookies, logs</li>
-                <li><strong>Données d'activité :</strong> inscriptions, participations, historique</li>
+                <li><strong>{t("Données d'identification :")}</strong>{t(" nom, prénom, email, téléphone")}</li>
+                <li><strong>{t("Données de connexion :")}</strong>{t(" adresse IP, cookies, logs")}</li>
+                <li><strong>{t("Données d'activité :")}</strong>{t(" inscriptions, participations, historique")}</li>
               </ul>
             </AnimatedSection>
 
             <AnimatedSection delay={0.2}>
-              <h2>2. Utilisation des données</h2>
-              <p>
-                Vos données sont utilisées pour :
-              </p>
+              <h2>{t("2. Utilisation des données")}</h2>
+              <p>{t("Vos données sont utilisées pour : ")}</p>
               <ul>
-                <li>Gérer votre compte et vos inscriptions</li>
-                <li>Vous informer des événements à venir</li>
-                <li>Améliorer nos services</li>
-                <li>Respecter nos obligations légales</li>
+                <li>{t("Gérer votre compte et vos inscriptions")}</li>
+                <li>{t("Vous informer des événements à venir")}</li>
+                <li>{t("Améliorer nos services")}</li>
+                <li>{t("Respecter nos obligations légales")}</li>
               </ul>
             </AnimatedSection>
 
             <AnimatedSection delay={0.3}>
-              <h2>3. Protection des données</h2>
-              <p>
-                Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles 
-                pour protéger vos données contre tout accès non autorisé.
-              </p>
+              <h2>{t("3. Protection des données")}</h2>
+              <p>{t("Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles pour protéger vos données contre tout accès non autorisé. ")}</p>
               <ul>
-                <li>Chiffrement des données</li>
-                <li>Accès restreint aux personnels habilités</li>
-                <li>Audits de sécurité réguliers</li>
+                <li>{t("Chiffrement des données")}</li>
+                <li>{t("Accès restreint aux personnels habilités")}</li>
+                <li>{t("Audits de sécurité réguliers")}</li>
               </ul>
             </AnimatedSection>
 
             <AnimatedSection delay={0.4}>
-              <h2>4. Vos droits</h2>
-              <p>
-                Conformément au RGPD, vous disposez des droits suivants :
-              </p>
+              <h2>{t("4. Vos droits")}</h2>
+              <p>{t("Conformément au RGPD, vous disposez des droits suivants : ")}</p>
               <ul>
-                <li><strong>Droit d'accès :</strong> consulter vos données</li>
-                <li><strong>Droit de rectification :</strong> modifier vos données</li>
-                <li><strong>Droit à l'effacement :</strong> supprimer vos données</li>
-                <li><strong>Droit d'opposition :</strong> refuser le traitement</li>
-                <li><strong>Droit à la portabilité :</strong> récupérer vos données</li>
+                <li><strong>{t("Droit d'accès :")}</strong>{t(" consulter vos données")}</li>
+                <li><strong>{t("Droit de rectification :")}</strong>{t(" modifier vos données")}</li>
+                <li><strong>{t("Droit à l'effacement :")}</strong>{t(" supprimer vos données")}</li>
+                <li><strong>{t("Droit d'opposition :")}</strong>{t(" refuser le traitement")}</li>
+                <li><strong>{t("Droit à la portabilité :")}</strong>{t(" récupérer vos données")}</li>
               </ul>
             </AnimatedSection>
 
             <AnimatedSection delay={0.5}>
-              <h2>5. Contact</h2>
-              <p>
-                Pour toute question relative à la protection de vos données, contactez-nous :
-              </p>
+              <h2>{t("5. Contact")}</h2>
+              <p>{t("Pour toute question relative à la protection de vos données, contactez-nous : ")}</p>
               <ul>
-                <li><strong>Email :</strong> dpo@gestmembres.com</li>
-                <li><strong>Adresse :</strong> 123 Avenue des Champs-Élysées, 75008 Paris</li>
+                <li><strong>{t("Email :")}</strong>{t(" dpo@gestmembres.com")}</li>
+                <li><strong>{t("Adresse :")}</strong>{t(" 123 Avenue des Champs-Élysées, 75008 Paris")}</li>
               </ul>
             </AnimatedSection>
 
             <AnimatedSection delay={0.6}>
-              <p className="text-sm text-gray-500 mt-8">
-                Dernière mise à jour : {new Date().toLocaleDateString()}
+              <p className="text-sm text-gray-500 mt-8">{t("Dernière mise à jour : ")}{t(localizedDate(new Date()))}
               </p>
             </AnimatedSection>
           </div>

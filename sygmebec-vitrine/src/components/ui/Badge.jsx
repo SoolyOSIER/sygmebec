@@ -1,3 +1,4 @@
+import { t, useTranslation } from '../../i18n'
 // ============================================
 // src/components/ui/Badge.jsx - Version Ultra Premium
 // ============================================
@@ -15,6 +16,8 @@ const Badge = ({
   glow = false,
   ...props
 }) => {
+  useTranslation()
+
   const variants = {
     default: 'bg-gray-100 text-gray-700',
     primary: 'bg-indigo-100 text-indigo-700',
@@ -71,7 +74,7 @@ const Badge = ({
         )} />
       )}
       {Icon && <Icon size={size === 'sm' ? 12 : size === 'md' ? 14 : 16} />}
-      {children}
+      {t(children)}
     </Wrapper>
   )
 }

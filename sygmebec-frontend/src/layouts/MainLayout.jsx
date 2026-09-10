@@ -10,7 +10,7 @@ export default function MainLayout() {
   const isSettingsPage = location.pathname === '/settings'
 
   return (
-    <div className="min-h-screen bg-slate-50 transition-colors duration-300 dark:bg-slate-950">
+    <div className="app-blue-shell min-h-screen transition-colors duration-300">
       <Navbar />
       <Sidebar />
 

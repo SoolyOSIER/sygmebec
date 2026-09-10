@@ -1,3 +1,4 @@
+import { t, useTranslation } from '../i18n'
 // src/pages/Contact.jsx
 import { useState } from 'react'
 import { motion } from 'framer-motion'
@@ -18,6 +19,8 @@ import { contactService } from '../services/contactService'
 import { validateContactForm } from '../utils/validation'
 
 const Contact = () => {
+  useTranslation()
+
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
   const [formData, setFormData] = useState({
@@ -103,8 +106,8 @@ const Contact = () => {
   return (
     <>
       <SEO 
-        title="Contact - GESTMEMBRES"
-        description="Contactez-nous pour toute question, suggestion ou demande d'information."
+        title={t("Contact - GESTMEMBRES")}
+        description={t("Contactez-nous pour toute question, suggestion ou demande d'information.")}
       />
       
       <div className="py-20">
@@ -113,20 +116,15 @@ const Contact = () => {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <AnimatedSection>
               <span className="section-subtitle">
-                <Mail className="w-4 h-4" />
-                Contact
-              </span>
+                <Mail className="w-4 h-4" />{t("Contact ")}</span>
             </AnimatedSection>
             <AnimatedSection delay={0.1}>
               <h1 className="section-title mt-4">
-                <span className="gradient-text">Contactez-nous</span>
+                <span className="gradient-text">{t("Contactez-nous")}</span>
               </h1>
             </AnimatedSection>
             <AnimatedSection delay={0.2}>
-              <p className="text-gray-600 mt-4 text-lg">
-                Une question ? Une suggestion ? N'hésitez pas à nous contacter, 
-                nous vous répondrons dans les plus brefs délais.
-              </p>
+              <p className="text-gray-600 mt-4 text-lg">{t("Une question ? Une suggestion ? N'hésitez pas à nous contacter, nous vous répondrons dans les plus brefs délais. ")}</p>
             </AnimatedSection>
           </div>
 
@@ -144,9 +142,9 @@ const Contact = () => {
                       <div className={`w-12 h-12 bg-gradient-to-br ${info.color} rounded-xl flex items-center justify-center text-white mb-4`}>
                         <info.icon className="w-5 h-5" />
                       </div>
-                      <h4 className="font-semibold text-navy-900 mb-1">{info.title}</h4>
+                      <h4 className="font-semibold text-navy-900 mb-1">{t(info.title)}</h4>
                       {info.details.map((detail, i) => (
-                        <p key={i} className="text-gray-600 text-sm">{detail}</p>
+                        <p key={i} className="text-gray-600 text-sm">{t(detail)}</p>
                       ))}
                     </motion.div>
                   ))}
@@ -157,7 +155,7 @@ const Contact = () => {
               <AnimatedSection>
                 <Card>
                   <CardContent className="p-6">
-                    <h4 className="font-semibold text-navy-900 mb-4">Suivez-nous</h4>
+                    <h4 className="font-semibold text-navy-900 mb-4">{t("Suivez-nous")}</h4>
                     <div className="flex gap-3">
                       {socialLinks.map((social, index) => (
                         <motion.a
@@ -186,9 +184,7 @@ const Contact = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Nom *
-                          </label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("Nom * ")}</label>
                           <input
                             type="text"
                             name="nom"
@@ -197,12 +193,10 @@ const Contact = () => {
                             onChange={handleChange}
                             className={`w-full px-4 py-2.5 rounded-xl border transition-colors ${errors.nom ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
                           />
-                          {errors.nom && <p className="field-feedback">{errors.nom}</p>}
+                          {errors.nom && <p className="field-feedback">{t(errors.nom)}</p>}
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Prénom *
-                          </label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("Prénom * ")}</label>
                           <input
                             type="text"
                             name="prenom"
@@ -211,15 +205,13 @@ const Contact = () => {
                             onChange={handleChange}
                             className={`w-full px-4 py-2.5 rounded-xl border transition-colors ${errors.prenom ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
                           />
-                          {errors.prenom && <p className="field-feedback">{errors.prenom}</p>}
+                          {errors.prenom && <p className="field-feedback">{t(errors.prenom)}</p>}
                         </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Email *
-                          </label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("Email * ")}</label>
                           <input
                             type="email"
                             name="email"
@@ -228,12 +220,10 @@ const Contact = () => {
                             onChange={handleChange}
                             className={`w-full px-4 py-2.5 rounded-xl border transition-colors ${errors.email ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
                           />
-                          {errors.email && <p className="field-feedback">{errors.email}</p>}
+                          {errors.email && <p className="field-feedback">{t(errors.email)}</p>}
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Téléphone
-                          </label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("Téléphone ")}</label>
                           <input
                             type="tel"
                             name="telephone"
@@ -241,40 +231,36 @@ const Contact = () => {
                             onChange={handleChange}
                             className={`w-full px-4 py-2.5 rounded-xl border transition-colors ${errors.telephone ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
                           />
-                          {errors.telephone && <p className="field-feedback">{errors.telephone}</p>}
+                          {errors.telephone && <p className="field-feedback">{t(errors.telephone)}</p>}
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Sujet *
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">{t("Sujet * ")}</label>
                         <input
                           type="text"
                           name="sujet"
                           required
                           value={formData.sujet}
                           onChange={handleChange}
-                          placeholder="Objet de votre message"
+                          placeholder={t("Objet de votre message")}
                           className={`w-full px-4 py-2.5 rounded-xl border transition-colors ${errors.sujet ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
                         />
-                        {errors.sujet && <p className="field-feedback">{errors.sujet}</p>}
+                        {errors.sujet && <p className="field-feedback">{t(errors.sujet)}</p>}
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Message *
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">{t("Message * ")}</label>
                         <textarea
                           name="message"
                           rows="5"
                           required
                           value={formData.message}
                           onChange={handleChange}
-                          placeholder="Décrivez votre demande..."
+                          placeholder={t("Décrivez votre demande...")}
                           className={`w-full px-4 py-2.5 rounded-xl border transition-colors resize-none ${errors.message ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200' : 'border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200'}`}
                         />
-                        {errors.message && <p className="field-feedback">{errors.message}</p>}
+                        {errors.message && <p className="field-feedback">{t(errors.message)}</p>}
                       </div>
 
                       <Button
@@ -288,9 +274,7 @@ const Contact = () => {
                           'Envoi en cours...'
                         ) : (
                           <>
-                            <Send className="w-4 h-4 mr-2" />
-                            Envoyer le message
-                          </>
+                            <Send className="w-4 h-4 mr-2" />{t("Envoyer le message ")}</>
                         )}
                       </Button>
                     </form>

@@ -43,7 +43,7 @@ const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
         onClick={() => setIsOpen(!isOpen)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-secondary-700 hover:bg-gray-50 transition-colors"
+        className="app-light-control flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-secondary-700 hover:bg-gray-50 transition-colors"
       >
         <span>{selected.flag}</span>
         <span>{selected.label}</span>
@@ -57,7 +57,7 @@ const LanguageSelect = ({ value = 'fr', onChange, className = '' }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-xl border border-gray-100 overflow-hidden z-50"
+            className="app-dropdown-surface absolute right-0 mt-2 w-48 rounded-xl bg-white shadow-xl border border-gray-100 overflow-hidden z-50"
           >
             {languages.map((lang) => (
               <button

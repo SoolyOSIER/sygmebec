@@ -5,6 +5,8 @@ const themeKey = 'sygmebec-theme'
 
 const normaliseTheme = (value) => ['light', 'dark', 'system'].includes(value) ? value : 'system'
 
+const readTheme = () => { try { return normaliseTheme(localStorage.getItem(themeKey)) } catch { return 'system' } }
+
 const resolveTheme = (preference) => {
   if (preference !== 'system') return preference
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
@@ -13,19 +15,17 @@ const resolveTheme = (preference) => {
 export function ThemeProvider({ children }) {
   const [themePreference, setThemePreference] = useState(() => {
     if (typeof window === 'undefined') return 'light'
-    return normaliseTheme(localStorage.getItem(themeKey))
+    return readTheme()
   })
   const [theme, setResolvedTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light'
-    return resolveTheme(normaliseTheme(localStorage.getItem(themeKey)))
+    return resolveTheme(readTheme())
   })
 
   useEffect(() => {
     const resolved = resolveTheme(themePreference)
     setResolvedTheme(resolved)
-    document.documentElement.classList.toggle('dark', resolved === 'dark')
-    document.documentElement.dataset.theme = resolved
-    localStorage.setItem(themeKey, themePreference)
+    try { localStorage.setItem(themeKey, themePreference) } catch { /* Keep theme usable when storage is blocked. */ }
   }, [themePreference])
 
   useEffect(() => {
@@ -35,6 +35,11 @@ export function ThemeProvider({ children }) {
     media.addEventListener?.('change', syncSystemTheme)
     return () => media.removeEventListener?.('change', syncSystemTheme)
   }, [themePreference])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+    document.documentElement.dataset.theme = theme
+  }, [theme])
 
   const setTheme = (nextTheme) => {
     setThemePreference(normaliseTheme(nextTheme))

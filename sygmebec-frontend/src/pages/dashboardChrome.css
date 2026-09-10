@@ -1,1 +1,205 @@
-.sidebar-premium{background:linear-gradient(180deg,#111a30 0%,#152140 100%)!important;box-shadow:none!important}.sidebar-premium .dashboard-seal{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e6d3a3,#c6a15b 60%,#96793c);color:#111a30;font:700 15px Fraunces,serif;box-shadow:0 0 0 3px rgba(198,161,91,.15)}.sidebar-premium .sidebar-link{padding:10px 12px!important;border-radius:10px!important;font-size:14px!important}.sidebar-premium .sidebar-link.active{border:0!important;box-shadow:inset 2px 0 0 #c6a15b!important;background:linear-gradient(90deg,rgba(198,161,91,.18),rgba(198,161,91,.04))!important}.sidebar-premium .sidebar-link.active::after{display:none}.sidebar-premium .sidebar-link .icon-wrapper{width:auto!important;height:auto!important;background:transparent!important}.dashboard-topbar{height:74px!important;background:rgba(246,243,236,.92)!important;border-color:#e7e3d8!important;box-shadow:none!important}.sidebar-premium .user-chip{background:rgba(255,255,255,.04)}
+/* The dashboard uses the same royal-blue visual signature as the login page. */
+.sidebar-premium {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0000cc 0%, #000099 45%, #000033 100%) !important;
+  box-shadow: 10px 0 30px rgba(0, 0, 51, .16) !important;
+}
+
+/* A soft diagonal reflection, matching the light passing across the login panel. */
+.sidebar-premium::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(118deg, rgba(255, 255, 255, .20) 0%, rgba(255, 255, 255, .055) 28%, transparent 55%);
+}
+
+.sidebar-premium > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-premium .dashboard-seal {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 27%, #fff 0%, #c7d2fe 42%, #60a5fa 100%);
+  color: #000066;
+  font: 700 15px Fraunces, serif;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .16), 0 8px 18px rgba(0, 0, 51, .24);
+}
+
+.sidebar-premium .sidebar-link {
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+}
+
+.sidebar-premium .sidebar-link.active {
+  border: 0 !important;
+  box-shadow: inset 2px 0 0 #fff, 0 7px 16px rgba(0, 0, 51, .16) !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .25), rgba(96, 165, 250, .12)) !important;
+}
+
+.sidebar-premium .sidebar-link.active::after {
+  display: none;
+}
+
+.sidebar-premium .sidebar-link .icon-wrapper {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+}
+
+.dashboard-topbar {
+  position: relative;
+  height: 74px !important;
+  background: rgba(255, 255, 255, .94) !important;
+  border-color: #c7d2fe !important;
+  box-shadow: 0 10px 24px -22px rgba(0, 0, 102, .40) !important;
+}
+
+.dashboard-topbar::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(224, 231, 255, .72), transparent 40%);
+}
+
+.dashboard-topbar > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-premium .user-chip {
+  background: rgba(255, 255, 255, .10);
+}
+
+/* Sidebar v2: the supplied visual reference, adapted to the React menu. */
+.sidebar-premium {
+  border-right: 1px solid rgba(90, 120, 255, .25) !important;
+  background: linear-gradient(160deg, #3d63f4 0%, #05006b 34%, #060335 58%, #000024 100%) !important;
+  box-shadow: 14px 0 38px rgba(0, 0, 36, .32) !important;
+}
+
+.sidebar-premium::after {
+  content: '';
+  position: absolute;
+  top: -20%; left: -32%;
+  width: 90%; height: 58%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(120, 150, 255, .28), transparent 67%);
+  animation: sidebar-breathe 7s ease-in-out infinite;
+}
+
+.sidebar-premium > * { position: relative; z-index: 1; }
+
+.sidebar-premium > div:first-child {
+  min-height: 112px;
+  padding: 18px 16px !important;
+  border-color: rgba(90, 120, 255, .25) !important;
+}
+
+.sidebar-premium > div:first-child img {
+  width: 58px !important;
+  height: 58px !important;
+  padding: 4px !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 1px rgba(90, 120, 255, .30), 0 9px 22px rgba(0, 0, 24, .30) !important;
+}
+
+.sidebar-premium .sidebar-link {
+  min-height: 44px;
+  margin: 2px 0;
+  padding: 10px 12px !important;
+  border: 1px solid transparent;
+  border-radius: 12px !important;
+  color: #8c9bd9 !important;
+}
+
+.sidebar-premium .sidebar-link .icon-wrapper {
+  color: #55609e;
+  background: transparent !important;
+}
+
+.sidebar-premium .sidebar-link:hover {
+  color: #dde4ff !important;
+  background: rgba(90, 120, 255, .12) !important;
+}
+
+.sidebar-premium .sidebar-link:hover .icon-wrapper,
+.sidebar-premium .sidebar-link.active .icon-wrapper { color: #8fa4ff !important; }
+
+.sidebar-premium .sidebar-link.active {
+  color: #eef2ff !important;
+  border-color: rgba(90, 120, 255, .25) !important;
+  background: linear-gradient(90deg, rgba(61, 99, 244, .34), rgba(61, 99, 244, .04)) !important;
+  box-shadow: inset 3px 0 0 #8fa4ff, 0 8px 20px rgba(0, 0, 36, .18) !important;
+}
+
+.sidebar-premium button.sidebar-link,
+.sidebar-premium button.sidebar-link .icon-wrapper { color: #8c9bd9 !important; }
+
+.sidebar-premium button.sidebar-link:hover,
+.sidebar-premium button.sidebar-link:hover .icon-wrapper { color: #eef2ff !important; }
+
+@keyframes sidebar-breathe {
+  0%, 100% { opacity: .45; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+
+/* Exact palette and proportions from Mes fichier/sygmebec-sidebar-v2.html.
+   The extra class makes these rules win over legacy sidebar styles. */
+.sidebar-premium.sidebar-v2 {
+  background: linear-gradient(160deg, #05006b 0%, #060335 42%, #000024 100%) !important;
+  border-right: 1px solid rgba(90, 120, 255, .22) !important;
+  box-shadow: 0 40px 80px -24px rgba(0, 0, 10, .75) !important;
+}
+
+.sidebar-premium.sidebar-v2::before {
+  inset: 0 auto auto 0;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, #3d63f4, transparent) !important;
+  opacity: .7;
+}
+
+.sidebar-premium.sidebar-v2::after {
+  top: -40%; left: -20%;
+  width: 70%; height: 70%;
+  background: radial-gradient(circle, rgba(80, 110, 255, .20), transparent 65%);
+}
+
+.sidebar-premium.sidebar-v2 > div:first-child {
+  position: relative;
+  min-height: 144px;
+  padding: 24px 20px 18px !important;
+  justify-content: center !important;
+  border-color: rgba(90, 120, 255, .22) !important;
+}
+
+.sidebar-premium.sidebar-v2 > div:first-child > div:first-child {
+  flex-direction: column;
+  gap: 7px;
+  text-align: center;
+}
+
+.sidebar-premium.sidebar-v2 > div:first-child img {
+  width: 64px !important;
+  height: 64px !important;
+  padding: 3px !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 1px rgba(90, 120, 255, .22) !important;
+}
+
+.sidebar-premium.sidebar-v2 .sidebar-link.active {
+  border: 1px solid rgba(90, 120, 255, .22) !important;
+  background: linear-gradient(90deg, rgba(61, 99, 244, .16), transparent) !important;
+  box-shadow: inset 3px 0 0 #3d63f4 !important;
+}

@@ -16,7 +16,7 @@ export const useLogin = () => {
     onSuccess: (response) => {
       const { access, user } = response.data
       login(user, access)
-      toast.success('Bienvenue dans notre projet!')
+      toast.success('Bienvenue dans SYGMEBEC!')
       navigate('/')
     },
     onError: (error) => {
