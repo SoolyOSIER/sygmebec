@@ -55,14 +55,7 @@ class EvenementViewSet(viewsets.ModelViewSet):
         try:
             actor = getattr(self.request, 'user', None)
             with transaction.atomic():
-                AuditLog.objects.create(
-                    actor=actor if isinstance(actor, get_user_model()) else None,
-                    action='create',
-                    content_type='Evenement',
-                    object_id=str(evenement.pk),
-                    object_repr=str(evenement),
-                    changes=audit_changes(evenement)
-                )
+                pass  # Recorded by the central audit service.
         except Exception:
             pass
 
@@ -71,28 +64,14 @@ class EvenementViewSet(viewsets.ModelViewSet):
         try:
             actor = getattr(self.request, 'user', None)
             with transaction.atomic():
-                AuditLog.objects.create(
-                    actor=actor if isinstance(actor, get_user_model()) else None,
-                    action='update',
-                    content_type='Evenement',
-                    object_id=str(evenement.pk),
-                    object_repr=str(evenement),
-                    changes=audit_changes(evenement)
-                )
+                pass  # Recorded by the central audit service.
         except Exception:
             pass
 
     def perform_destroy(self, instance):
         """L'événement, son image et ses relations restent conservés en corbeille."""
         instance.soft_delete(self.request.user)
-        AuditLog.objects.create(
-            actor=self.request.user,
-            action='delete',
-            content_type='Evenement',
-            object_id=str(instance.pk),
-            object_repr=str(instance),
-            changes=audit_changes(instance),
-        )
+        pass  # Recorded by the central audit service.
 
     @action(detail=False, methods=['get'], url_path='corbeille')
     def corbeille(self, request):
@@ -105,14 +84,7 @@ class EvenementViewSet(viewsets.ModelViewSet):
     def restaurer(self, request, pk=None):
         evenement = get_object_or_404(Evenement.all_objects, pk=pk, deleted_at__isnull=False)
         evenement.restore()
-        AuditLog.objects.create(
-            actor=request.user,
-            action='restore',
-            content_type='Evenement',
-            object_id=str(evenement.pk),
-            object_repr=str(evenement),
-            changes=audit_changes(evenement),
-        )
+        pass  # Recorded by the central audit service.
         return Response({
             'message': 'Événement restauré avec toutes ses informations.',
             'evenement': EvenementDetailSerializer(evenement).data,

@@ -40,6 +40,16 @@ class LoginView(TokenObtainPairView):
         
         identifiant = serializer.validated_data['identifiant'].strip()
         password = serializer.validated_data['password']
+        from datetime import timedelta
+        from sygmebec_backend.apps.core.models import AuditLog
+        from sygmebec_backend.apps.core.audit import log_audit, client_ip
+        from sygmebec_backend.apps.core.settings_schema import organization
+        policy = organization()['security']
+        recent = AuditLog.objects.filter(action='AUTH_LOGIN_FAILURE', timestamp__gte=timezone.now()-timedelta(minutes=policy['lock_minutes']))
+        if recent.filter(Q(actor_identifier=identifiant) | Q(ip_address=client_ip(request))).count() >= policy['login_attempts']:
+            log_audit(action='AUTH_ACCOUNT_LOCKED', module='AUTH', request=request, status='DENIED', severity='SECURITY')
+            request._request._audit_logged = True
+            return Response({'detail': 'Trop de tentatives. R?essayez apr?s le d?lai de verrouillage.'}, status=429)
         
         from django.contrib.auth import authenticate
         # L'identifiant est traité sans tenir compte des majuscules. Un membre
@@ -50,6 +60,9 @@ class LoginView(TokenObtainPairView):
         user = authenticate(identifiant=compte.identifiant, password=password) if compte else None
         
         if not user:
+            entry = log_audit(action='AUTH_LOGIN_FAILURE', module='AUTH', request=request, status='FAILURE', severity='WARNING')
+            # Identifier is captured only from a matched account, never arbitrary credentials.
+            request._request._audit_logged = True
             return Response(
                 {'error': 'Identifiant ou mot de passe incorrect.'},
                 status=status.HTTP_401_UNAUTHORIZED
@@ -71,6 +84,9 @@ class LoginView(TokenObtainPairView):
             )
         
         refresh = RefreshToken.for_user(user)
+        from sygmebec_backend.apps.core.authentication import create_session
+        create_session(user, refresh, request)
+        log_audit(action='AUTH_LOGIN_SUCCESS', module='AUTH', actor=user, request=request)
         
         # Update last access
         user.dernier_acces = timezone.now()
@@ -126,6 +142,10 @@ class LogoutView(APIView):
     
     def post(self, request):
         blacklist_outstanding_refresh_tokens(request.user)
+        from sygmebec_backend.apps.core.models import UserSession
+        from sygmebec_backend.apps.core.audit import log_audit
+        UserSession.objects.filter(user=request.user, revoked_at__isnull=True).update(revoked_at=timezone.now())
+        log_audit(action='AUTH_LOGOUT', module='AUTH', request=request)
         response = Response({'message': 'Déconnexion réussie.'})
         response.delete_cookie('refresh_token')
         return response
@@ -167,6 +187,8 @@ class CookieTokenRefreshView(TokenRefreshView):
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
+            from sygmebec_backend.apps.core.authentication import check_session
+            check_session(refresh, user)
             user.dernier_acces = timezone.now()
             user.save(update_fields=['dernier_acces'])
             

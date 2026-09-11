@@ -35,6 +35,7 @@ router.register(r'demandes-adhesion', DemandeAdhesionViewSet, basename='demande-
 router.register(r'galerie-images', ImageGalerieViewSet, basename='galerie-image')
 
 urlpatterns = [
+    path('settings/', include('sygmebec_backend.apps.core.urls')),
     # Auth
     path('auth/login/', LoginView.as_view(), name='login'),
     path('auth/register/', RegisterView.as_view(), name='register'),

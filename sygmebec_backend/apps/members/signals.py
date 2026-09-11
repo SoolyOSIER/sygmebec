@@ -32,19 +32,3 @@ def check_statut_change(sender, instance, **kwargs):
             pass
 
 
-@receiver(post_save, sender=Membre)
-def membre_audit_log(sender, instance, created, **kwargs):
-    try:
-        actor = getattr(instance, '_modifier', None)
-        # L'audit ne doit jamais annuler la création d'un membre.
-        with transaction.atomic():
-            AuditLog.objects.create(
-                actor=actor if isinstance(actor, get_user_model()) else None,
-                action='create' if created else 'update',
-                content_type=sender.__name__,
-                object_id=str(instance.pk),
-                object_repr=str(instance),
-                changes=audit_changes(instance)
-            )
-    except Exception:
-        pass

@@ -1,253 +1,116 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { FiBell, FiCamera, FiCheck, FiChevronRight, FiCloud, FiCreditCard, FiGrid, FiLock, FiMail, FiMonitor, FiMoon, FiRefreshCw, FiShield, FiSliders, FiSun, FiUser, FiX } from 'react-icons/fi'
-import Avatar from '../components/ui/Avatar'
+import { useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { settingsApi, apiError, downloadFile } from '../api/settingsApi'
 import { authApi } from '../api/authApi'
-import useT from '../i18n/useT'
 import { useAuthStore } from '../store/authStore'
-import { useUIStore } from '../store/uiStore'
-import { getPasswordStrength, PASSWORD_MIN_LENGTH } from '../utils/passwordPolicy'
-import './settingsReference.css'
+import { applyPreferences } from '../components/ui/PreferenceSync'
+import ConfirmAction from '../components/ui/ConfirmAction'
+import './systemConsole.css'
 
-const preferenceKey = 'sygmebec-settings-preferences'
-const defaults = { digest: true, mentions: true, newMembers: false, push: true, product: false, twoFactor: false, reduceMotion: false, density: 'standard', accent: '#0000cc' }
-
-const navigationItems = [
-  ['profil', 'settings.profile.title', FiUser],
-  ['securite', 'settings.security.title', FiShield],
-  ['notifications', 'settings.notifications.title', FiBell],
-  ['apparence', 'settings.appearance.title', FiSliders],
-  ['facturation', 'settings.billing.title', FiCreditCard],
-  ['integrations', 'settings.integrations.title', FiGrid],
-]
-
-const notificationItems = [
-  ['digest', 'settings.notifications.digest', 'settings.notifications.digestDescription'],
-  ['mentions', 'settings.notifications.mentions', 'settings.notifications.mentionsDescription'],
-  ['newMembers', 'settings.notifications.newMembers', 'settings.notifications.newMembersDescription'],
-  ['push', 'settings.notifications.push', 'settings.notifications.pushDescription'],
-  ['product', 'settings.notifications.product', 'settings.notifications.productDescription'],
-]
-
-const densityItems = [
-  ['comfortable', 'settings.appearance.comfortable'],
-  ['standard', 'settings.appearance.standard'],
-  ['compact', 'settings.appearance.compact'],
-]
-
-const normaliseDensity = (value) => ({
-  Confortable: 'comfortable', Standard: 'standard', Compacte: 'compact',
-  comfortable: 'comfortable', standard: 'standard', compact: 'compact',
-}[value] || 'standard')
-
-function readPreferences() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(preferenceKey) || '{}')
-    const saved = parsed && typeof parsed === 'object' ? parsed : {}
-    return { ...defaults, ...saved, density: normaliseDensity(saved.density) }
-  } catch {
-    return defaults
-  }
+const tabs=[['account','Mon compte'],['appearance','Apparence et accessibilit?'],['preferences','Pr?f?rences de l?application'],['personal-notifications','Mes notifications'],['users','Gestion des utilisateurs',true],['roles','R?les et permissions',true],['backups','Donn?es et sauvegardes',true],['security','S?curit? et sessions',true],['notifications','Communications',true],['general','Configuration de l??glise',true],['organization-theme','Th?me de l?organisation',true],['audit','Audit et maintenance',true]]
+const personalKeys={appearance:['theme_mode','use_organization_theme','accent','ui_brightness','font_family','text_scale','heading_weight','line_height','interface_density','reduce_motion','high_contrast','blue_light_reduction','disable_shadows'],preferences:['language','timezone','sidebar_collapsed','landing_page','date_format','hour_format','table_page_size'],'personal-notifications':['email_notifications','internal_notifications','browser_notifications','digest']}
+function Field({name,field,value,onChange}) {
+  if(field.type==='boolean') return <label className="check-field"><input type="checkbox" checked={!!value} onChange={e=>onChange(name,e.target.checked)} />{field.label}</label>
+  return <label>{field.label}{field.type==='select' ? <select value={value ?? ''} onChange={e=>onChange(name,typeof field.default==='number'?Number(e.target.value):e.target.value)}>{field.options.map(v=><option key={v} value={v}>{v}</option>)}</select> : <input type={field.type} min={field.min} max={field.max} value={value ?? ''} onChange={e=>onChange(name,field.type==='number'?Number(e.target.value):e.target.value)} />}</label>
 }
-
-function Toggle({ checked, onChange, label }) {
-  return <button type="button" className={`settings-toggle ${checked ? 'is-on' : ''}`} onClick={onChange} aria-pressed={checked} aria-label={label}><span /></button>
+function DataEditor({title,description,schema,data,onSave,onPreview,extra}) {
+  const [draft,setDraft]=useState(data)
+  const [busy,setBusy]=useState(false)
+  const [message,setMessage]=useState('')
+  const dirty=JSON.stringify(draft)!==JSON.stringify(data)
+  useEffect(()=>{setDraft(data)},[data])
+  useEffect(()=>{if(!dirty)return;const handler=e=>{e.preventDefault();e.returnValue=''};window.addEventListener('beforeunload',handler);return()=>window.removeEventListener('beforeunload',handler)},[dirty])
+  const update=(key,value)=>{const next={...draft,[key]:value};setDraft(next);onPreview?.(next)}
+  return <section className="system-card"><h2>{title}</h2><p>{description}</p>
+    {message && <p className="system-status" role="status">{message}</p>}
+    <form onSubmit={async e=>{e.preventDefault();setBusy(true);setMessage('');try{await onSave(draft);setMessage('Modifications enregistr?es.')}catch(err){setMessage(apiError(err))}finally{setBusy(false)}}}>
+      <div className="system-grid">{Object.entries(schema).map(([key,field])=><Field key={key} name={key} field={field} value={draft[key]} onChange={update} />)}</div>
+      {onPreview && <div className="system-preview"><h3>Aper?u du titre</h3><p>Les membres et les ?v?nements restent faciles ? lire.</p><label>Exemple de champ<input readOnly value="?glise Baptiste de l?Espoir" /></label><button type="button" className="primary">Exemple de bouton</button></div>}
+      {extra}
+      <footer><small>{dirty?'Modifications non enregistr?es':'? jour'}</small><button type="button" disabled={!dirty || busy} onClick={()=>{setDraft(data);onPreview?.(data);setMessage('Modifications annul?es.')}}>Annuler</button><button className="primary" disabled={!dirty || busy}>{busy?'Enregistrement?':'Enregistrer'}</button></footer>
+    </form>
+  </section>
 }
-
-function SectionHeader({ icon: Icon, title, description }) {
-  return <header className="settings-card-head"><span className="settings-card-icon"><Icon /></span><div><h2>{title}</h2><p>{description}</p></div></header>
+function Profile({confirm}) {
+  const user=useAuthStore(s=>s.user)
+  const setUser=useAuthStore(s=>s.setUser)
+  const [profile,setProfile]=useState({prenom:user?.membre?.prenom || '',nom:user?.membre?.nom || '',email:user?.membre?.email || '',telephone:user?.membre?.telephone || user?.telephone || ''})
+  const [pw,setPw]=useState({current_password:'',new_password:'',new_password_confirm:''})
+  const [message,setMessage]=useState('')
+  const schema=Object.fromEntries([['prenom','Pr?nom'],['nom','Nom'],['email','E-mail'],['telephone','T?l?phone']].map(([k,label])=>[k,{label,type:k==='email'?'email':'text'}]))
+  return <>
+    <DataEditor title="Mon compte" description="Vos informations personnelles sont enregistr?es dans votre profil." schema={schema} data={profile} onSave={async data=>{const response=await authApi.updateMyProfile(data);setUser(response.data.user || {...user,membre:response.data.membre});setProfile(data)}} />
+    <section className="system-card"><h2>Photo de profil</h2>{user?.membre?.photo && <img className="system-logo" alt="Votre profil" src={user.membre.photo} />}<label>Importer une image<input type="file" accept="image/png,image/jpeg,image/webp" onChange={async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=new FormData();data.append('photo',file);const r=await authApi.updateMyProfile(data);setUser(r.data.user || {...user,membre:r.data.membre});setMessage('Photo enregistr?e.')}catch(err){setMessage(apiError(err))}}} /></label></section>
+    <section className="system-card"><h2>Changer mon mot de passe</h2><p>Au moins 12 caract?res, avec majuscule, minuscule, chiffre et caract?re sp?cial. La politique de l?organisation peut imposer une longueur sup?rieure.</p><form onSubmit={async e=>{e.preventDefault();try{await authApi.changeMyPassword(pw);setPw({current_password:'',new_password:'',new_password_confirm:''});setMessage('Mot de passe modifi?.')}catch(err){setMessage(apiError(err))}}}><div className="system-grid">{[['current_password','Mot de passe actuel'],['new_password','Nouveau mot de passe'],['new_password_confirm','Confirmer le mot de passe']].map(([key,label])=><label key={key}>{label}<input type="password" required autoComplete={key==='current_password'?'current-password':'new-password'} value={pw[key]} onChange={e=>setPw({...pw,[key]:e.target.value})} /></label>)}</div><footer><button className="primary">Modifier le mot de passe</button></footer></form><p role="status">{message}</p></section>
+    <Sessions confirm={confirm} />
+    <section className="system-card"><h2>D?sactivation du compte</h2><p>Une demande sera envoy?e ? l?administrateur pour examen.</p><button onClick={()=>confirm({title:'Demander la d?sactivation',description:'Votre compte reste actif pendant l?examen de la demande.',run:data=>settingsApi.act('deactivation-request',data)})}>Envoyer une demande</button></section>
+  </>
 }
-
+function Sessions({all=false,confirm}) {
+  const query=useQuery({queryKey:['sessions',all],queryFn:()=>settingsApi.get(all?'sessions/?all=true'.replace('/?','?'):'sessions')})
+  // API helper expects the slash before query parameters; use a dedicated getter below.
+  return <section className="system-card"><h2>Sessions ouvertes</h2>{query.error && <p role="alert">{apiError(query.error)}</p>}
+    <div className="system-table-wrap"><table><thead><tr><th>Utilisateur</th><th>Appareil</th><th>IP</th><th>Expiration</th><th>Action</th></tr></thead><tbody>{query.data?.map(row=><tr key={row.id}><td>{row.user}{row.current?' (cet appareil)':''}</td><td>{row.user_agent || 'Inconnu'}</td><td>{row.ip_address || '?'}</td><td>{new Date(row.expires_at).toLocaleString('fr-FR')}</td><td><button onClick={()=>confirm({title:'R?voquer cette session',description:'L?appareil devra se reconnecter.',run:async data=>{await settingsApi.act('sessions',{...data,id:row.id});query.refetch()}})}>R?voquer</button></td></tr>)}</tbody></table></div>
+    {!query.data?.length && <p>Aucune session active ? afficher.</p>}
+    <footer><button onClick={()=>confirm({title:'D?connecter les autres appareils',description:'Seule votre session actuelle restera ouverte.',run:async data=>{await settingsApi.act('sessions',{...data,scope:'others'});query.refetch()}})}>D?connecter mes autres appareils</button>{all && <button onClick={()=>confirm({title:'Fermer toutes les sessions',description:'Tous les utilisateurs devront se reconnecter, y compris vous.',run:data=>settingsApi.act('sessions',{...data,scope:'all'})})}>Fermer toutes les sessions</button>}</footer>
+  </section>
+}
+function Roles({confirm}) {
+  const query=useQuery({queryKey:['role-policy'],queryFn:()=>settingsApi.get('roles')})
+  const [draft,setDraft]=useState(null)
+  useEffect(()=>{if(query.data)setDraft(query.data.data)},[query.data])
+  if(query.error)return <p role="alert">{apiError(query.error)}</p>
+  if(!draft)return <p>Chargement des permissions?</p>
+  return <section className="system-card"><h2>R?les et permissions</h2><p>Les r?les syst?me sont conserv?s. Cette matrice restreint les acc?s m?tiers d?j? autoris?s ; l?administration reste r?serv?e au compte principal.</p><div className="system-table-wrap"><table><thead><tr><th>Module / permission</th><th>Pasteur</th><th>Secr?taire</th><th>Administrateur principal</th></tr></thead><tbody>{Object.entries(query.data.modules).flatMap(([module,actions])=>actions.map(action=><tr key={`${module}.${action}`}><td>{module} ? {action}</td>{['PASTEUR','SECRETAIRE'].map(role=><td key={role}><input aria-label={`${role} ${module} ${action}`} type="checkbox" checked={draft[role][module][action]} onChange={e=>setDraft({...draft,[role]:{...draft[role],[module]:{...draft[role][module],[action]:e.target.checked}}})} /></td>)}<td>? Autoris?</td></tr>))}</tbody></table></div><footer><button onClick={()=>setDraft(query.data.data)}>Annuler</button><button className="primary" onClick={()=>confirm({title:'Modifier les permissions',description:'Ces restrictions seront appliqu?es par le serveur aux prochaines requ?tes.',run:async data=>{await settingsApi.save('roles',{...data,data:draft});query.refetch()}})}>Enregistrer les permissions</button></footer></section>
+}
+function Backups({confirm}) {
+  const query=useQuery({queryKey:['backups'],queryFn:()=>settingsApi.get('backups'),refetchInterval:10000})
+  const [error,setError]=useState('')
+  return <section className="system-card"><header><div><h2>Sauvegardes chiffr?es</h2><p>Donn?es et m?dias. Le journal d?audit reste ind?pendant des restaurations.</p></div><button className="primary" onClick={()=>confirm({title:'Cr?er une sauvegarde',description:'Une copie chiffr?e des donn?es et m?dias sera cr??e sur le serveur.',run:async data=>{await settingsApi.act('backups',data);query.refetch()}})}>Cr?er une sauvegarde</button></header>{(error || query.error) && <p role="alert">{error || apiError(query.error)}</p>}<div className="system-table-wrap"><table><thead><tr><th>Date</th><th>Auteur</th><th>?tat</th><th>Taille</th><th>Actions</th></tr></thead><tbody>{query.data?.map(row=><tr key={row.id}><td>{new Date(row.created_at).toLocaleString('fr-FR')}</td><td>{row.created_by__identifiant || 'Syst?me'}</td><td>{row.status}{row.error && <p>{row.error}</p>}</td><td>{(row.size/1024/1024).toFixed(2)} Mo</td><td>{row.status==='SUCCESS' && <><button onClick={async()=>{try{await downloadFile(`settings/backups/${row.id}/download/`,`backup-${row.id}.sygmebec`)}catch(e){setError(apiError(e))}}}>T?l?charger</button> <button onClick={()=>confirm({title:'Restaurer par fusion',word:'RESTAURER',passwordRequired:true,description:'Les anciennes valeurs seront restaur?es. Les ajouts post?rieurs et les audits seront conserv?s. Une sauvegarde de s?curit? sera cr??e ; toutes les sessions seront r?voqu?es.',run:data=>settingsApi.act(`backups/${row.id}/restore`,data)})}>Restaurer</button></>}</td></tr>)}</tbody></table></div>{!query.data?.length && <p>Aucune sauvegarde. Cr?ez la premi?re copie.</p>}</section>
+}
+function Maintenance({confirm}) {
+  const query=useQuery({queryKey:['maintenance'],queryFn:()=>settingsApi.get('maintenance')})
+  const alerts=useQuery({queryKey:['admin-alerts'],queryFn:()=>settingsApi.get('notifications'),refetchInterval:30000})
+  return <><section className="system-card"><h2>?tat du syst?me</h2>{query.error ? <p>{apiError(query.error)}</p>:<><p>Frontend {query.data?.frontend} ? Django {query.data?.backend}</p><p>M?dias : {((query.data?.media_bytes || 0)/1024/1024).toFixed(2)} Mo</p><p>Derni?re sauvegarde : {query.data?.last_backup ? new Date(query.data.last_backup.created_at).toLocaleString('fr-FR'):'Aucune'}</p><p>Dernier ?chec : {query.data?.last_failure?.action || 'Aucun'}</p><Link className="system-link" to="/audit-logs">Ouvrir le journal d?activit?</Link></>}
+    <footer>{[['statistics','Recalculer les statistiques'],['cleanup','Nettoyer les fichiers temporaires'],['notification','Tester une notification']].map(([operation,label])=><button key={operation} onClick={()=>confirm({title:label,description:'Cette op?ration sera enregistr?e dans le journal.',run:async data=>{await settingsApi.act('maintenance',{...data,operation});query.refetch();alerts.refetch()}})}>{label}</button>)}</footer></section>
+    <section className="system-card"><h2>Alertes administratives</h2>{alerts.error && <p>{apiError(alerts.error)}</p>}{alerts.data?.map(row=><article key={row.id}><strong>{row.title}</strong><p>{new Date(row.created_at).toLocaleString('fr-FR')} ? {row.read_at?'Lue':'Nouvelle'}</p>{!row.read_at && <button onClick={async()=>{await settingsApi.act('notifications',{id:row.id});alerts.refetch()}}>Marquer comme lue</button>}</article>)}{!alerts.data?.length && <p>Aucune alerte.</p>}</section></>
+}
 export default function SettingsPage() {
-  const { t } = useT()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const { user, setUser } = useAuthStore()
-  const { themePreference, setTheme } = useUIStore()
-  const [profile, setProfile] = useState({ prenom: '', nom: '', email: '', telephone: '' })
-  const [preferences, setPreferences] = useState(readPreferences)
-  const [passwordForm, setPasswordForm] = useState({ current_password: '', new_password: '', new_password_confirm: '' })
-  const [showPassword, setShowPassword] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
-  const [isUploading, setIsUploading] = useState(false)
-  const [isChangingPassword, setIsChangingPassword] = useState(false)
-  const [message, setMessage] = useState(null)
-  const fileInput = useRef(null)
-  const sectionRefs = useRef({})
-  const activeSection = searchParams.get('tab') === 'general' ? 'profil' : (searchParams.get('tab') || 'profil')
-  const fullName = useMemo(() => `${profile.prenom} ${profile.nom}`.trim() || user?.identifiant || t('settings.administratorAccount'), [profile, user, t])
-  const passwordStrength = getPasswordStrength(passwordForm.new_password)
-  const navItems = navigationItems.map(([id, labelKey, Icon]) => [id, t(labelKey), Icon])
-  const notificationRows = notificationItems.map(([key, titleKey, descriptionKey]) => [key, t(titleKey), t(descriptionKey)])
-  const themeItems = [
-    ['light', t('settings.appearance.light'), FiSun],
-    ['dark', t('settings.appearance.dark'), FiMoon],
-    ['system', t('settings.appearance.system'), FiMonitor],
-  ]
-  const plans = [
-    ['essential', t('settings.billing.essential'), t('settings.billing.starter'), [t('settings.billing.memberManagement'), t('settings.billing.eventAnnouncements')]],
-    ['pro', t('settings.billing.pro'), t('settings.billing.recommended'), [t('settings.billing.enhancedReports'), t('settings.billing.prioritySupport'), t('settings.billing.advancedIntegrations')]],
-    ['enterprise', t('settings.billing.enterprise'), t('settings.billing.custom'), [t('settings.billing.multiTeam'), t('settings.billing.dedicatedSupport')]],
-  ]
-  const integrations = [
-    [t('settings.integrations.googleDrive'), t('settings.integrations.googleDriveDescription'), FiCloud],
-    [t('settings.integrations.email'), t('settings.integrations.emailDescription'), FiMail],
-    [t('settings.integrations.automations'), t('settings.integrations.automationsDescription'), FiRefreshCw],
-  ]
-
-  useEffect(() => {
-    setProfile({
-      prenom: user?.membre?.prenom || '',
-      nom: user?.membre?.nom || '',
-      email: user?.membre?.email || user?.email || '',
-      telephone: user?.membre?.telephone || user?.telephone || '',
-    })
-  }, [user])
-
-  useEffect(() => {
-    localStorage.setItem(preferenceKey, JSON.stringify(preferences))
-    document.documentElement.style.setProperty('--settings-accent', preferences.accent)
-    document.documentElement.classList.toggle('settings-compact', preferences.density === 'compact')
-    document.documentElement.classList.toggle('reduce-motion', preferences.reduceMotion)
-  }, [preferences])
-
-  const updateUser = (membre) => setUser({ ...user, membre: { ...user?.membre, ...membre, nom_complet: `${membre?.prenom ?? profile.prenom} ${membre?.nom ?? profile.nom}`.trim() } })
-  const chooseSection = (id) => { setSearchParams({ tab: id }); sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
-  const updatePreference = (key, value) => setPreferences((current) => ({ ...current, [key]: value ?? !current[key] }))
-
-  const saveProfile = async () => {
-    setIsSaving(true)
-    setMessage(null)
-    try {
-      const { data } = await authApi.updateMyProfile(profile)
-      updateUser(data.membre)
-      setMessage({ type: 'success', text: t('settings.profile.saved') })
-    } catch {
-      setMessage({ type: 'error', text: t('settings.profile.saveFailed') })
-    } finally {
-      setIsSaving(false)
-    }
-  }
-
-  const uploadPhoto = async (event) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) return setMessage({ type: 'error', text: t('settings.profile.chooseImage') })
-    if (file.size > 20 * 1024 * 1024) return setMessage({ type: 'error', text: t('settings.profile.imageTooLarge') })
-
-    const formData = new FormData()
-    formData.append('photo', file)
-    setIsUploading(true)
-    setMessage(null)
-    try {
-      const { data } = await authApi.updateMyProfile(formData)
-      updateUser(data.membre)
-      setMessage({ type: 'success', text: t('settings.profile.photoUpdated') })
-    } catch {
-      setMessage({ type: 'error', text: t('settings.profile.photoUpdateFailed') })
-    } finally {
-      setIsUploading(false)
-      event.target.value = ''
-    }
-  }
-
-  const changePassword = async (event) => {
-    event.preventDefault()
-    if (!passwordForm.current_password || !passwordForm.new_password || !passwordForm.new_password_confirm) {
-      return setMessage({ type: 'error', text: t('settings.security.fillAll') })
-    }
-    const invalidCheck = passwordStrength.checks.find((check) => !check.valid)
-    if (invalidCheck) return setMessage({ type: 'error', text: t(`settings.security.validation.${invalidCheck.id}`) })
-    if (passwordForm.new_password !== passwordForm.new_password_confirm) {
-      return setMessage({ type: 'error', text: t('settings.security.passwordMismatch') })
-    }
-
-    setIsChangingPassword(true)
-    setMessage(null)
-    try {
-      await authApi.changeMyPassword(passwordForm)
-      setPasswordForm({ current_password: '', new_password: '', new_password_confirm: '' })
-      setShowPassword(false)
-      setMessage({ type: 'success', text: t('settings.security.passwordUpdated') })
-    } catch {
-      setMessage({ type: 'error', text: t('settings.security.passwordUpdateFailed') })
-    } finally {
-      setIsChangingPassword(false)
-    }
-  }
-
-  return (
-    <div className="settings-page" data-no-translate>
-      <aside className="settings-sidebar">
-        <div className="settings-brand"><span>EB</span><div><b>SYGMEBEC</b><small>{t('settings.administration')}</small></div></div>
-        <p className="settings-nav-label">{t('settings.account')}</p>
-        <nav>{navItems.slice(0, 3).map(([id, label, Icon]) => <button key={id} type="button" className={activeSection === id ? 'active' : ''} onClick={() => chooseSection(id)}><Icon />{label}<FiChevronRight /></button>)}</nav>
-        <p className="settings-nav-label">{t('settings.workspace')}</p>
-        <nav>{navItems.slice(3).map(([id, label, Icon]) => <button key={id} type="button" className={activeSection === id ? 'active' : ''} onClick={() => chooseSection(id)}><Icon />{label}<FiChevronRight /></button>)}</nav>
-        <div className="settings-sidebar-user"><Avatar name={fullName} src={user?.membre?.photo} size="md" /><div><b>{fullName}</b><small>{user?.membre?.email || user?.identifiant || t('settings.administratorAccount')}</small></div></div>
-      </aside>
-
-      <main className="settings-main">
-        <header className="settings-hero"><div><span>{t('settings.pageEyebrow')}</span><h1>{t('settings.title')}</h1><p>{t('settings.description')}</p></div><div className="settings-save-status"><i />{t('settings.saved')}</div></header>
-        {message && <div className={`settings-message ${message.type}`}><span>{message.type === 'success' ? <FiCheck /> : <FiX />}</span>{message.text}<button type="button" onClick={() => setMessage(null)} aria-label={t('settings.close')}><FiX /></button></div>}
-
-        <section ref={(node) => { sectionRefs.current.profil = node }} id="profil" className="settings-section">
-          <article className="settings-card">
-            <SectionHeader icon={FiUser} title={t('settings.profile.title')} description={t('settings.profile.description')} />
-            <div className="settings-profile-row">
-              <Avatar name={fullName} src={user?.membre?.photo} size="2xl" className="settings-avatar" />
-              <div className="settings-profile-meta"><b>{fullName}</b><span>{profile.email || user?.identifiant || t('settings.profile.noEmail')}</span></div>
-              <button type="button" className="settings-button" onClick={() => fileInput.current?.click()} disabled={isUploading}><FiCamera />{isUploading ? t('settings.profile.uploading') : t('settings.profile.changePhoto')}</button>
-              <input ref={fileInput} className="settings-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={uploadPhoto} />
-            </div>
-            <div className="settings-row settings-fields">
-              <div><b>{t('settings.profile.personalInfo')}</b><span>{t('settings.profile.personalInfoDescription')}</span></div>
-              <div className="settings-input-grid"><input value={profile.prenom} onChange={(event) => setProfile((current) => ({ ...current, prenom: event.target.value }))} placeholder={t('settings.profile.firstName')} /><input value={profile.nom} onChange={(event) => setProfile((current) => ({ ...current, nom: event.target.value }))} placeholder={t('settings.profile.lastName')} /></div>
-            </div>
-            <div className="settings-row settings-fields"><div><b>{t('settings.profile.email')}</b><span>{t('settings.profile.emailDescription')}</span></div><input value={profile.email} type="email" onChange={(event) => setProfile((current) => ({ ...current, email: event.target.value }))} placeholder={t('settings.profile.emailPlaceholder')} /></div>
-            <div className="settings-row settings-fields"><div><b>{t('settings.profile.phone')}</b><span>{t('settings.profile.phoneDescription')}</span></div><input value={profile.telephone} onChange={(event) => setProfile((current) => ({ ...current, telephone: event.target.value }))} placeholder={t('settings.profile.phonePlaceholder')} /></div>
-            <footer className="settings-card-footer"><p>{t('settings.profile.imageHint')}</p><button type="button" className="settings-button settings-primary" onClick={saveProfile} disabled={isSaving}>{isSaving ? t('settings.profile.saving') : t('settings.profile.save')}</button></footer>
-          </article>
-        </section>
-
-        <section ref={(node) => { sectionRefs.current.securite = node }} id="securite" className="settings-section">
-          <article className="settings-card">
-            <SectionHeader icon={FiShield} title={t('settings.security.title')} description={t('settings.security.description')} />
-            <div className="settings-row"><div><b>{t('settings.security.password')}</b><span>{t('settings.security.passwordPolicy')}</span></div><button type="button" className="settings-button" onClick={() => setShowPassword((value) => !value)}>{showPassword ? t('settings.close') : t('settings.security.modify')}</button></div>
-            {showPassword && (
-              <form className="settings-password-form" onSubmit={changePassword}>
-                <label>{t('settings.security.currentPassword')}<input type="password" value={passwordForm.current_password} autoComplete="current-password" onChange={(event) => setPasswordForm((current) => ({ ...current, current_password: event.target.value }))} /></label>
-                <label>
-                  {t('settings.security.newPassword')}
-                  <input type="password" value={passwordForm.new_password} autoComplete="new-password" minLength={PASSWORD_MIN_LENGTH} aria-describedby="settings-password-policy" onChange={(event) => setPasswordForm((current) => ({ ...current, new_password: event.target.value }))} />
-                  <small id="settings-password-policy" className={passwordStrength.isCompliant ? 'is-strong' : ''} role="status">{t(`settings.security.strength.${passwordStrength.score}`)}{passwordStrength.isCompliant ? ` · ${t('settings.security.policySatisfied')}` : ` · ${t('settings.security.allCriteriaRequired')}`}</small>
-                </label>
-                <label>{t('settings.security.confirmNewPassword')}<input type="password" value={passwordForm.new_password_confirm} autoComplete="new-password" onChange={(event) => setPasswordForm((current) => ({ ...current, new_password_confirm: event.target.value }))} /></label>
-                <div><button className="settings-button settings-primary" disabled={isChangingPassword || !passwordStrength.isCompliant || passwordForm.new_password !== passwordForm.new_password_confirm}>{isChangingPassword ? t('settings.security.updating') : t('settings.security.updatePassword')}</button></div>
-              </form>
-            )}
-            <div className="settings-row"><div><b>{t('settings.security.twoFactor')}</b><span>{t('settings.security.twoFactorDescription')}</span></div><Toggle checked={preferences.twoFactor} label={t('settings.security.twoFactor')} onChange={() => updatePreference('twoFactor')} /></div>
-            <div className="settings-row"><div className="settings-session"><span><FiMonitor /></span><div><b>{t('settings.security.currentSession')} <em>{t('settings.security.currentSessionLabel')}</em></b><small>{t('settings.security.currentSessionDescription')}</small></div></div><button type="button" className="settings-button is-disabled" disabled>{t('settings.security.active')}</button></div>
-            <div className="settings-row"><div className="settings-session"><span><FiLock /></span><div><b>{t('settings.security.otherSessions')}</b><small>{t('settings.security.otherSessionsDescription')}</small></div></div><button type="button" className="settings-button" disabled>{t('settings.security.manageSoon')}</button></div>
-          </article>
-        </section>
-
-        <section ref={(node) => { sectionRefs.current.notifications = node }} id="notifications" className="settings-section"><article className="settings-card"><SectionHeader icon={FiBell} title={t('settings.notifications.title')} description={t('settings.notifications.description')} />{notificationRows.map(([key, title, description]) => <div className="settings-row" key={key}><div><b>{title}</b><span>{description}</span></div><Toggle checked={preferences[key]} label={title} onChange={() => updatePreference(key)} /></div>)}</article></section>
-
-        <section ref={(node) => { sectionRefs.current.apparence = node }} id="apparence" className="settings-section">
-          <article className="settings-card">
-            <SectionHeader icon={FiSliders} title={t('settings.appearance.title')} description={t('settings.appearance.description')} />
-            <div className="settings-row"><div><b>{t('settings.appearance.theme')}</b><span>{t('settings.appearance.themeDescription')}</span></div><div className="settings-segmented">{themeItems.map(([id, label, Icon]) => <button key={id} type="button" className={themePreference === id ? 'active' : ''} onClick={() => setTheme(id)}><Icon />{label}</button>)}</div></div>
-            <div className="settings-row"><div><b>{t('settings.appearance.accent')}</b><span>{t('settings.appearance.accentDescription')}</span></div><div className="settings-swatches">{['#0000cc', '#000099', '#0000ff', '#60a5fa'].map((color) => <button key={color} type="button" aria-label={t('settings.appearance.accentAria', { color })} className={preferences.accent === color ? 'active' : ''} style={{ background: color }} onClick={() => updatePreference('accent', color)} />)}</div></div>
-            <div className="settings-row"><div><b>{t('settings.appearance.density')}</b><span>{t('settings.appearance.densityDescription')}</span></div><div className="settings-segmented">{densityItems.map(([id, labelKey]) => <button key={id} type="button" className={preferences.density === id ? 'active' : ''} onClick={() => updatePreference('density', id)}>{t(labelKey)}</button>)}</div></div>
-            <div className="settings-row"><div><b>{t('settings.appearance.reduceMotion')}</b><span>{t('settings.appearance.reduceMotionDescription')}</span></div><Toggle checked={preferences.reduceMotion} label={t('settings.appearance.reduceMotion')} onChange={() => updatePreference('reduceMotion')} /></div>
-          </article>
-        </section>
-
-        <section ref={(node) => { sectionRefs.current.facturation = node }} id="facturation" className="settings-section"><article className="settings-card"><SectionHeader icon={FiCreditCard} title={t('settings.billing.title')} description={t('settings.billing.description')} /><div className="settings-plan-grid">{plans.map(([id, name, price, features]) => <div key={id} className={`settings-plan ${id === 'pro' ? 'selected' : ''}`}><h3>{name}</h3><strong>{price}</strong><ul>{features.map((feature) => <li key={feature}><FiCheck />{feature}</li>)}</ul></div>)}</div><div className="settings-row"><div><b>{t('settings.billing.churchOffer')}</b><span>{t('settings.billing.churchOfferDescription')}</span></div><button type="button" className="settings-button" disabled>{t('settings.billing.managed')}</button></div></article></section>
-
-        <section ref={(node) => { sectionRefs.current.integrations = node }} id="integrations" className="settings-section"><article className="settings-card"><SectionHeader icon={FiGrid} title={t('settings.integrations.title')} description={t('settings.integrations.description')} />{integrations.map(([name, description, Icon]) => <div className="settings-row settings-integration" key={name}><div><span className="settings-integration-icon"><Icon /></span><div><b>{name}</b><span>{description}</span></div></div><button type="button" className="settings-button" disabled>{t('settings.integrations.comingSoon')}</button></div>)}</article></section>
-        <p className="settings-footnote">{t('settings.footnote')}</p>
-      </main>
-    </div>
-  )
+  const user=useAuthStore(s=>s.user)
+  const admin=!!(user?.is_administrateur_principal || user?.est_administrateur_principal)
+  const [params,setParams]=useSearchParams()
+  const selected=params.get('tab') || 'account'
+  const tab=tabs.some(([id,,restricted])=>id===selected && (!restricted || admin))?selected:'account'
+  const queryClient=useQueryClient()
+  const personal=useQuery({queryKey:['preferences',user?.id],queryFn:()=>settingsApi.get('me')})
+  const org=useQuery({queryKey:['organization'],queryFn:()=>settingsApi.get('organization'),enabled:admin})
+  const [confirmation,setConfirmation]=useState(null)
+  const [message,setMessage]=useState('')
+  const [recipient,setRecipient]=useState('')
+  const orgSection=tab==='organization-theme'?'appearance':tab
+  const refresh=()=>{personal.refetch();if(admin)org.refetch()}
+  const schema=personal.data?.schema || {}
+  const pdata=personal.data?.data || {}
+  const personalSection=!!personalKeys[tab]
+  return <div className="system-console system-settings"><header><div><small>SYGMEBEC ? CONFIGURATION</small><h1>Param?tres</h1><p>Vos pr?f?rences et les r?glages de votre organisation.</p></div><button onClick={refresh}>Actualiser</button></header>
+    {message && <p className="system-status" role="status">{message}</p>}
+    <div className="system-layout"><nav aria-label="Sections des param?tres">{tabs.filter(([, ,restricted])=>!restricted || admin).map(([id,label])=><button key={id} aria-current={tab===id} onClick={()=>setParams({tab:id})}>{label}</button>)}</nav><main>
+      {personal.isLoading ? <div aria-busy="true" className="system-skeleton"/>:personal.error ? <p role="alert">{apiError(personal.error)} <button onClick={refresh}>R?essayer</button></p>:<>
+        {tab==='account' && <Profile confirm={setConfirmation} />}
+        {personalSection && <DataEditor key={tab} title={tabs.find(t=>t[0]===tab)?.[1]} description="Pr?f?rences personnelles enregistr?es dans votre compte. L?aper?u est imm?diat ; Enregistrer conserve vos choix." schema={Object.fromEntries(personalKeys[tab].filter(k=>schema[k]).map(k=>[k,schema[k]]))} data={Object.fromEntries(personalKeys[tab].map(k=>[k,pdata[k]]))} onPreview={tab==='appearance'?data=>applyPreferences({...pdata,...data},personal.data.organization_theme):undefined} onSave={async data=>{if(data.browser_notifications && 'Notification' in window)await Notification.requestPermission();const saved=await settingsApi.save('me',data);queryClient.setQueryData(['preferences',user?.id],saved);applyPreferences(saved.data,saved.organization_theme)}} />}
+        {admin && tab==='users' && <section className="system-card"><h2>Gestion des utilisateurs</h2><p>Cr?er des comptes, modifier les profils et les r?les, activer ou d?sactiver un utilisateur et r?initialiser un mot de passe.</p><Link className="system-link" to="/comptes">Ouvrir la gestion des comptes</Link></section>}
+        {admin && tab==='roles' && <Roles confirm={setConfirmation} />}
+        {admin && org.isLoading && !personalSection && <p>Chargement de la configuration?</p>}
+        {admin && org.error && <p role="alert">{apiError(org.error)}</p>}
+        {admin && org.data?.schema?.[orgSection] && <DataEditor key={orgSection} title={tabs.find(t=>t[0]===tab)?.[1]} description="Ces r?glages sont partag?s par l?organisation et contr?l?s par le serveur." schema={org.data.schema[orgSection]} data={org.data.data[orgSection]} onSave={async data=>{if(orgSection==='security'){setConfirmation({title:'Modifier la politique de s?curit?',description:'Les nouveaux param?tres seront appliqu?s aux prochaines connexions.',run:async payload=>{await settingsApi.save('organization',{[orgSection]:data,...payload});org.refetch()}});return}await settingsApi.save('organization',{[orgSection]:data});await org.refetch();await personal.refetch()}} extra={orgSection==='appearance' && <button type="button" onClick={async()=>{try{const official=Object.fromEntries(Object.entries(org.data.schema.appearance).map(([k,v])=>[k,v.default]));await settingsApi.save('organization',{appearance:official});refresh()}catch(e){setMessage(apiError(e))}}}>Restaurer le th?me officiel SYGMEBEC</button>} />}
+        {admin && tab==='general' && <section className="system-card"><h2>Logo officiel</h2>{org.data?.logo && <img className="system-logo" src={org.data.logo} alt="Logo officiel" />}<label>Image PNG, JPEG ou WebP (5 Mo maximum)<input type="file" accept="image/png,image/jpeg,image/webp" onChange={async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=new FormData();data.append('logo',file);await settingsApi.save('organization',data);org.refetch();setMessage('Logo enregistr?.')}catch(err){setMessage(apiError(err))}}}/></label></section>}
+        {admin && tab==='security' && <Sessions all confirm={setConfirmation} />}
+        {admin && tab==='backups' && <Backups confirm={setConfirmation} />}
+        {admin && tab==='notifications' && <section className="system-card"><h2>Test d?envoi</h2><label>Destinataire<input type="email" value={recipient} onChange={e=>setRecipient(e.target.value)} /></label><footer><button onClick={()=>setConfirmation({title:'Envoyer un e-mail de test',description:`Un message sera envoy? ? ${recipient}.`,run:data=>settingsApi.act('maintenance',{...data,operation:'email',recipient})})}>Tester l?envoi</button></footer></section>}
+        {admin && tab==='audit' && <Maintenance confirm={setConfirmation} />}
+      </>}
+    </main></div>
+    {confirmation && <ConfirmAction {...confirmation} onClose={()=>setConfirmation(null)} onConfirm={async data=>{try{const result=await confirmation.run(data);setMessage(result?.detail || 'Op?ration termin?e.')}catch(e){throw new Error(apiError(e))}}} />}
+  </div>
 }

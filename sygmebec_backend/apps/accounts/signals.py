@@ -64,31 +64,3 @@ def send_welcome_email(sender, instance, created, **kwargs):
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [instance.identifiant], fail_silently=True)
 
 
-@receiver(post_save, sender=Utilisateur)
-def utilisateur_audit_log(sender, instance, created, raw=False, **kwargs):
-    if raw:
-        return
-
-    try:
-        # actor not available in this signal; leave null
-        with transaction.atomic():
-            changed_fields = getattr(instance, '_account_audit_changed_fields', set())
-            password_changed = 'password' in changed_fields
-
-            if not created and changed_fields == {'password'}:
-                changes = {'password_reset': True}
-            else:
-                changes = account_audit_snapshot(instance)
-                if password_changed:
-                    changes['password_reset'] = True
-
-            AuditLog.objects.create(
-                actor=None,
-                action='create' if created else 'update',
-                content_type=sender.__name__,
-                object_id=str(instance.pk),
-                object_repr=str(instance),
-                changes=changes
-            )
-    except Exception:
-        pass

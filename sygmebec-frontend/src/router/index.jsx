@@ -77,10 +77,11 @@ export default function AppRouter() {
           <Route path="/lettres" element={<LettresListPage />} />
 
           <Route path="/statistiques" element={<StatistiquesPage />} />
-          <Route path="/audit-logs" element={<AuditLogsPage />} />
+
 
           {/* Comptes - Administrateur uniquement */}
           <Route element={<RoleRoute requiredRole="ADMINISTRATEUR" />}>
+            <Route path="/audit-logs" element={<AuditLogsPage />} />
             <Route path="/comptes" element={<ComptesListPage />} />
             <Route path="/corbeille" element={<CorbeillePage />} />
           </Route>

@@ -21,7 +21,7 @@ class IsSecretaireOrPlus(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user or not request.user.is_authenticated:
             return False
-        return role_priority_for_access(request.user) >= HIERARCHIE['SECRETAIRE']
+        return role_priority_for_access(request.user) >= HIERARCHIE['SECRETAIRE'] and module_permission(request.user,view,request)
     
     def has_object_permission(self, request, view, obj):
         return self.has_permission(request, view)
@@ -33,7 +33,7 @@ class IsPasteurOrPlus(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user or not request.user.is_authenticated:
             return False
-        return role_priority_for_access(request.user) >= HIERARCHIE['PASTEUR']
+        return role_priority_for_access(request.user) >= HIERARCHIE['PASTEUR'] and module_permission(request.user,view,request)
     
     def has_object_permission(self, request, view, obj):
         return self.has_permission(request, view)
@@ -67,3 +67,15 @@ class IsOwnerOrAdmin(permissions.BasePermission):
             return obj.utilisateur == request.user
         
         return False
+
+
+def module_permission(user,view,request):
+    if getattr(user,'est_administrateur_principal',False): return True
+    from sygmebec_backend.apps.core.settings_schema import organization
+    modules={'membre':'members','evenement':'events','demande-adhesion':'registration','galerie-image':'gallery','rapport':'reports','lettre':'letters'}
+    module=modules.get(getattr(view,'basename',''))
+    if not module: return True
+    action=getattr(view,'action','list')
+    action={'list':'view','retrieve':'view','statistiques':'view','partial_update':'update','destroy':'delete','exporter':'export','telecharger':'export','download':'export','generer':'create','valider':'approve','accepter':'approve','refuser':'reject','rejeter':'reject','publier':'publish'}.get(action,action)
+    role=getattr(user.role_acces,'nomRole','')
+    return organization()['roles'].get(role,{}).get(module,{}).get(action,True)

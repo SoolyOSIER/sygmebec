@@ -15,6 +15,12 @@ class StrongPasswordValidator:
     min_length = 12
 
     def validate(self, password, user=None):
+        from sygmebec_backend.apps.core.settings_schema import organization
+        from django.db.utils import OperationalError, ProgrammingError
+        try:
+            self.min_length = organization()['security']['password_min_length']
+        except (OperationalError, ProgrammingError):
+            self.min_length = 12
         errors = []
 
         if len(password) < self.min_length:

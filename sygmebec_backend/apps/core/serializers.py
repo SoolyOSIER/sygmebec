@@ -54,11 +54,15 @@ def redact_audit_changes(value):
 
 
 class AuditLogSerializer(serializers.ModelSerializer):
+    before_data = serializers.SerializerMethodField()
+    after_data = serializers.SerializerMethodField()
+    metadata = serializers.SerializerMethodField()
     actor = serializers.SerializerMethodField()
     changes = serializers.SerializerMethodField()
     class Meta:
         model = AuditLog
-        fields = ['id', 'actor', 'action', 'content_type', 'object_id', 'object_repr', 'changes', 'timestamp']
+        fields = ['id', 'actor', 'action', 'content_type', 'object_id', 'object_repr', 'changes', 'timestamp', 'actor_identifier', 'actor_role', 'action_label', 'module', 'severity', 'status', 'before_data', 'after_data', 'changed_fields', 'summary', 'request_id', 'ip_address', 'user_agent', 'source', 'metadata']
+        read_only_fields = fields
     def get_actor(self, obj):
         if obj.actor:
             return {'id': obj.actor.id, 'identifiant': obj.actor.identifiant}
@@ -66,3 +70,13 @@ class AuditLogSerializer(serializers.ModelSerializer):
 
     def get_changes(self, obj):
         return redact_audit_changes(obj.changes)
+
+    def get_before_data(self,obj):
+        from .audit import sanitize
+        return sanitize(obj.before_data)
+    def get_after_data(self,obj):
+        from .audit import sanitize
+        return sanitize(obj.after_data)
+    def get_metadata(self,obj):
+        from .audit import sanitize
+        return sanitize(obj.metadata)

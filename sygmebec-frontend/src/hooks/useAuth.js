@@ -4,6 +4,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { settingsApi } from '../api/settingsApi'
+import { applyPreferences } from '../components/ui/PreferenceSync'
 import { authApi } from '../api/authApi'
 import { useAuthStore } from '../store/authStore'
 
@@ -13,11 +15,15 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: authApi.login,
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       const { access, user } = response.data
       login(user, access)
       toast.success('Bienvenue dans SYGMEBEC!')
-      navigate('/')
+      try {
+        const prefs = await settingsApi.get('me')
+        applyPreferences(prefs.data, prefs.organization_theme)
+        navigate(prefs.data.landing_page || '/')
+      } catch { navigate('/') }
     },
     onError: (error) => {
       const response = error.response

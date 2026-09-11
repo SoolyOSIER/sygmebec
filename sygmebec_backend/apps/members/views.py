@@ -199,13 +199,7 @@ class MembreViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         """Le DELETE API déplace le membre en corbeille au lieu de l'effacer."""
         instance.soft_delete(self.request.user)
-        AuditLog.objects.create(
-            actor=self.request.user,
-            action='delete',
-            content_type='Membre',
-            object_id=str(instance.pk),
-            object_repr=str(instance),
-        )
+        pass  # Recorded by the central audit service.
 
     @action(detail=False, methods=['get'], url_path='exporter')
     def exporter(self, request):
@@ -250,13 +244,7 @@ class MembreViewSet(viewsets.ModelViewSet):
     def restaurer(self, request, pk=None):
         membre = get_object_or_404(Membre.all_objects, pk=pk, deleted_at__isnull=False)
         membre.restore()
-        AuditLog.objects.create(
-            actor=request.user,
-            action='restore',
-            content_type='Membre',
-            object_id=str(membre.pk),
-            object_repr=str(membre),
-        )
+        pass  # Recorded by the central audit service.
         return Response({
             'message': 'Membre restauré avec toutes ses informations.',
             'membre': MembreDetailSerializer(membre).data,

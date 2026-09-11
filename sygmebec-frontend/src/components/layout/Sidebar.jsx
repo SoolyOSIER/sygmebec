@@ -26,6 +26,7 @@ const menuItems = [
   { path: '/rapports', labelKey: 'navigation.reports', icon: FiFileText, roles: ['SECRETAIRE', 'PASTEUR', 'ADMINISTRATEUR'] },
   { path: '/lettres', labelKey: 'navigation.letters', icon: FiSend, roles: ['SECRETAIRE', 'PASTEUR', 'ADMINISTRATEUR'] },
   { path: '/comptes', labelKey: 'navigation.accounts', icon: FiUserCheck, roles: ['ADMINISTRATEUR'] },
+  { path: '/audit-logs', label: 'Journal d?activit?', icon: FiBarChart2, roles: ['ADMINISTRATEUR'] },
   { path: '/statistiques', labelKey: 'navigation.statistics', icon: FiBarChart2, roles: ['ADMINISTRATEUR'] },
   { path: '/corbeille', labelKey: 'navigation.trash', icon: FiTrash2, roles: ['ADMINISTRATEUR'] },
 ]
@@ -82,7 +83,7 @@ export default function Sidebar() {
                 sidebar-link group ${isActive ? 'active' : ''}
                 ${!sidebarOpen ? 'justify-center px-3' : ''}
               `}
-              title={!sidebarOpen ? t(item.labelKey) : ''}
+              title={!sidebarOpen ? item.label || t(item.labelKey) : ''}
             >
               <div className="icon-wrapper flex-shrink-0">
                 <Icon size={18} />
@@ -92,7 +93,7 @@ export default function Sidebar() {
                 transition={{ duration: 0.3 }}
                 className="truncate"
               >
-                {t(item.labelKey)}
+                {item.label || t(item.labelKey)}
               </motion.span>
             </NavLink>
           )
@@ -111,7 +112,7 @@ export default function Sidebar() {
                 sidebar-link group ${isActive ? 'active' : ''}
                 ${!sidebarOpen ? 'justify-center px-3' : ''}
               `}
-              title={!sidebarOpen ? t(item.labelKey) : ''}
+              title={!sidebarOpen ? item.label || t(item.labelKey) : ''}
             >
               <div className="icon-wrapper flex-shrink-0">
                 <Icon size={18} />
@@ -120,7 +121,7 @@ export default function Sidebar() {
                 animate={{ opacity: sidebarOpen ? 1 : 0, width: sidebarOpen ? 'auto' : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                {t(item.labelKey)}
+                {item.label || t(item.labelKey)}
               </motion.span>
             </NavLink>
           )
