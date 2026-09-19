@@ -28,7 +28,7 @@ class AuditLogViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends=[]
 
     def get_queryset(self):
-        qs=AuditLog.objects.select_related('actor').order_by('-timestamp','-pk')
+        qs=AuditLog.objects.select_related('actor').prefetch_related('archives').order_by('-timestamp','-pk')
         p=self.request.query_params
         for key,field in [('module','module'),('action','action'),('severity','severity'),('status','status'),('actor','actor_id'),('target_type','content_type')]:
             if p.get(key):
@@ -59,9 +59,9 @@ class AuditLogViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False,methods=['get'])
     def export(self,request):
         qs=self.get_queryset()
-        if qs.count()>50000: raise ValidationError('R?duisez la p?riode : maximum 50 000 lignes par export.')
+        if qs.count()>50000: raise ValidationError('Réduisez la période : maximum 50 000 lignes par export.')
         out=io.StringIO(); writer=csv.writer(out)
-        writer.writerow(['Date UTC','Utilisateur','R?le','Action','Module','Cible','R?sultat','Gravit?','R?sum?','Requ?te'])
+        writer.writerow(['Date UTC','Utilisateur','Rôle','Action','Module','Cible','Résultat','Gravité','Résumé','Requête'])
         for row in qs.iterator():
             writer.writerow([csv_cell(x) for x in [row.timestamp.isoformat(),row.actor_identifier,row.actor_role,row.action,row.module,row.object_id,row.status,row.severity,row.summary,row.request_id]])
         log_audit(action='AUDIT_EXPORTED',module='SYSTEM',request=request,metadata={'count':qs.count()})

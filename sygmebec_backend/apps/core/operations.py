@@ -39,7 +39,7 @@ def cipher():
 
 
 def backup_models():
-    return [m for m in apps.get_models() if m._meta.app_label in ('accounts','members','events','reports','letters','vitrine','chat','core') and m.__name__ not in ('AuditLog','AuditArchive','Backup','AdminNotification','UserSession')]
+    return [m for m in apps.get_models() if m._meta.app_label in ('accounts','members','events','reports','letters','vitrine','chat','core','sports') and m.__name__ not in ('AuditLog','AuditArchive','Backup','AdminNotification','UserSession')]
 
 
 def create_backup(actor=None):
@@ -66,7 +66,9 @@ def create_backup(actor=None):
         log_audit(action='BACKUP_CREATED',module='SYSTEM',actor=actor,target=row)
         return row
     except Exception:
-        row.status='FAILURE'; row.error='Sauvegarde ?chou?e. Consulter les journaux serveur.'; row.save()
+        # Do not expose a filesystem, encryption or database exception in the
+        # UI; the correlated audit event is the operator-facing record.
+        row.status='FAILURE'; row.error='Sauvegarde échouée. Consultez le journal système.'; row.save()
         log_audit(action='BACKUP_FAILED',module='SYSTEM',actor=actor,target=row,severity='CRITICAL',status='FAILURE')
         raise
 
@@ -74,7 +76,7 @@ def create_backup(actor=None):
 def backup_path(row):
     path=(storage()/row.filename).resolve()
     if path.parent!=storage().resolve() or not path.is_file(): raise ValueError('Fichier indisponible.')
-    if hashlib.sha256(path.read_bytes()).hexdigest()!=row.checksum: raise ValueError('Int?grit? de la sauvegarde invalide.')
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=row.checksum: raise ValueError('Intégrité de la sauvegarde invalide.')
     return path
 
 
@@ -88,7 +90,7 @@ def restore_backup(row,actor):
             if json.loads(z.read('manifest.json'))['version']!=1: raise ValueError('Version incompatible.')
             payload=z.read('data.json').decode()
             allowed={m._meta.label_lower for m in backup_models()}
-            if any(obj['model'] not in allowed for obj in json.loads(payload)): raise ValueError('Mod?le interdit.')
+            if any(obj['model'] not in allowed for obj in json.loads(payload)): raise ValueError('Modèle interdit.')
             media=Path(settings.MEDIA_ROOT).resolve()
             files=[]
             for name in z.namelist():
@@ -134,10 +136,27 @@ def scheduled_maintenance():
     periods={'daily':1,'weekly':7,'monthly':30}
     days=periods.get(policy['schedule'])
     last=Backup.objects.filter(status='SUCCESS').order_by('-created_at').first()
+    result={'created_backup':None,'expired_backups':0,'retention_errors':0}
     if days and (not last or last.created_at<timezone.now()-timedelta(days=days)):
-        create_backup()
+        result['created_backup']=create_backup().pk
     for row in Backup.objects.filter(status='SUCCESS').order_by('-created_at')[policy['retain_count']:]:
-        backup_path(row).unlink()
-        row.status='EXPIRED'; row.save(update_fields=['status'])
+        try:
+            backup_path(row).unlink()
+        except (OSError, ValueError):
+            # Keep a suspect file for a manual forensic check, but do not let a
+            # single damaged snapshot block later retention or log archival.
+            row.status='ERROR'
+            row.error='Fichier de sauvegarde indisponible ou invalide.'
+            row.save(update_fields=['status','error'])
+            log_audit(
+                action='BACKUP_RETENTION_FAILED', module='SYSTEM', target=row,
+                status='FAILURE', severity='WARNING',
+                summary='Application de la rétention impossible pour une sauvegarde',
+            )
+            result['retention_errors']+=1
+            continue
+        row.status='EXPIRED'; row.error=''; row.save(update_fields=['status','error'])
         log_audit(action='BACKUP_RETENTION_APPLIED',module='SYSTEM',target=row)
-    return archive_logs()
+        result['expired_backups']+=1
+    result['archive']=archive_logs()
+    return result

@@ -1,6 +1,9 @@
 import json
+import tempfile
 
 from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import override_settings
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.exceptions import TokenError
@@ -11,6 +14,36 @@ from sygmebec_backend.apps.core.models import AuditLog
 
 from .models import RoleAcces, Utilisateur
 from .validators import StrongPasswordValidator
+
+
+class ProfilePhotoPersistenceTests(APITestCase):
+    """A profile photo must remain attached after a new API request."""
+
+    def setUp(self):
+        self.user = Utilisateur.objects.create_user(
+            identifiant='photo-persistante',
+            password='MotDePassePhoto123!',
+        )
+        self.client.force_authenticate(self.user)
+
+    def test_uploaded_profile_photo_is_saved_and_returned_by_profile_endpoint(self):
+        image = SimpleUploadedFile(
+            'profil.gif',
+            b'GIF87a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;',
+            content_type='image/gif',
+        )
+
+        with tempfile.TemporaryDirectory() as media_root, override_settings(MEDIA_ROOT=media_root):
+            response = self.client.patch('/api/v1/auth/me/profile/', {'photo': image}, format='multipart')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertIn('/media/membres/photos/', response.data['membre']['photo'])
+
+            self.user.refresh_from_db()
+            self.assertTrue(self.user.membre.photo.storage.exists(self.user.membre.photo.name))
+
+            reloaded = self.client.get('/api/v1/auth/me/profile/')
+            self.assertEqual(reloaded.status_code, status.HTTP_200_OK)
+            self.assertEqual(reloaded.data['membre']['photo'], response.data['membre']['photo'])
 
 
 class PasswordResetSecurityTests(APITestCase):

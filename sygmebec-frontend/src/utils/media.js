@@ -4,7 +4,7 @@
  */
 export const getMediaUrl = (value) => {
   if (!value) return undefined
-  if (/^https?:\/\//i.test(value) || value.startsWith('data:')) return value
+  if (/^(?:https?:|data:|blob:)/i.test(value)) return value
 
   const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1'
   const origin = apiUrl.replace(/\/api\/v1\/?$/, '')

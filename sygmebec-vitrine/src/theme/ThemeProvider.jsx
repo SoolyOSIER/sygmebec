@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 const ThemeContext = createContext()
-const themeKey = 'sygmebec-theme'
+const themeKey = 'globe-info-sport-theme'
 
 const normaliseTheme = (value) => ['light', 'dark', 'system'].includes(value) ? value : 'system'
 

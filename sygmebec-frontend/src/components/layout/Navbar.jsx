@@ -99,7 +99,7 @@ export default function Navbar() {
       return {
         ...item,
         icon: isMember ? FiUsers : isEvent ? FiCalendar : FiBell,
-        color: isEvent ? 'purple' : 'indigo',
+        color: item.category === 'profile' ? 'emerald' : isEvent ? 'purple' : 'indigo',
         path: isMember ? `/membres/${item.objectId}` : isEvent ? `/evenements/${item.objectId}` : '/',
       }
     })
@@ -173,7 +173,11 @@ export default function Navbar() {
             ) : notifications.map((item) => {
               const Icon = item.icon
               const isRead = readIds.includes(item.id)
-              const colors = 'bg-primary-50 text-primary-600'
+              const colors = item.color === 'emerald'
+                ? 'bg-emerald-50 text-emerald-600'
+                : item.color === 'purple'
+                  ? 'bg-purple-50 text-purple-600'
+                  : 'bg-primary-50 text-primary-600'
               return (
                 <button key={item.id} type="button" onClick={() => { markRead(item.id); navigate(item.path) }} className={`flex w-full gap-3 border-b border-gray-50 px-4 py-3 text-left transition hover:bg-gray-50 ${isRead ? 'opacity-60' : ''}`}>
                   <span className={`mt-0.5 rounded-xl p-2 ${colors}`}><Icon size={15} /></span>

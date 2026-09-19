@@ -56,6 +56,11 @@ class OrganizationView(APIView):
             except Exception: raise ValidationError({'logo':'Image PNG, JPEG ou WebP valide requise.'})
             row,_=OrganizationSetting.objects.get_or_create(pk=1)
             row.logo=image;row.updated_by=request.user;row.save()
+            log_audit(
+                action='SETTINGS_THEME_UPDATED', module='SETTINGS', request=request,
+                target=row, summary='Logo de l’organisation mis à jour',
+                metadata={'setting': 'logo'},
+            )
             return self.get(request)
         incoming={k:v for k,v in request.data.items() if k!='confirmation'}
         if not incoming or set(incoming)-set(ORGANIZATION): raise ValidationError('Section inconnue.')
@@ -67,6 +72,12 @@ class OrganizationView(APIView):
                 data[section].update(validate(values,ORGANIZATION[section]))
             validate_appearance(data['appearance'])
             row.data=data;row.updated_by=request.user;row.save()
+            if 'appearance' in incoming:
+                log_audit(
+                    action='SETTINGS_THEME_UPDATED', module='SETTINGS', request=request,
+                    target=row, summary='Thème de l’organisation mis à jour',
+                    metadata={'setting': 'appearance'},
+                )
             if 'security' in incoming:
                 log_audit(action='SETTINGS_SECURITY_UPDATED',module='SETTINGS',request=request,severity='SECURITY')
         return self.get(request)
@@ -77,11 +88,11 @@ class RolePolicyView(APIView):
     def get(self,request):
         saved=organization()['roles']
         matrix={role:{module:{action:saved.get(role,{}).get(module,{}).get(action,True) for action in actions} for module,actions in MODULE_ACTIONS.items()} for role in ('PASTEUR','SECRETAIRE')}
-        return Response({'data':matrix,'modules':MODULE_ACTIONS,'administrator':'Acc?s complet r?serv? ? l?administrateur principal.'})
+        return Response({'data':matrix,'modules':MODULE_ACTIONS,'administrator':'Accès complet réservé à l’administrateur principal.'})
     def patch(self,request):
         confirmed(request)
         matrix=request.data.get('data')
-        if not isinstance(matrix,dict) or set(matrix)-{'PASTEUR','SECRETAIRE'}: raise ValidationError('R?le syst?me non modifiable.')
+        if not isinstance(matrix,dict) or set(matrix)-{'PASTEUR','SECRETAIRE'}: raise ValidationError('Rôle système non modifiable.')
         for role,modules in matrix.items():
             if not isinstance(modules,dict) or set(modules)-set(MODULE_ACTIONS): raise ValidationError('Module inconnu.')
             for module,actions in modules.items():
@@ -105,11 +116,15 @@ class SessionView(APIView):
         confirmed(request)
         rows=UserSession.objects.filter(revoked_at__isnull=True)
         if not getattr(request.user,'est_administrateur_principal',False): rows=rows.filter(user=request.user)
-        if request.data.get('id'): rows=rows.filter(pk=request.data['id'])
+        session_id=request.data.get('id')
+        if session_id is not None:
+            if type(session_id) is not int:
+                raise ValidationError({'id':'Identifiant de session invalide.'})
+            rows=rows.filter(pk=session_id)
         elif request.data.get('scope')=='others':
             rows=rows.filter(user=request.user)
             if request.auth: rows=rows.exclude(key_hash=session_hash(request.auth.get('sid','')))
-        elif request.data.get('scope')!='all': raise ValidationError('Choisissez une session ou une port?e.')
+        elif request.data.get('scope')!='all': raise ValidationError('Choisissez une session ou une portée.')
         count=rows.update(revoked_at=timezone.now())
         log_audit(action='AUTH_SESSIONS_REVOKED',module='AUTH',request=request,severity='SECURITY',metadata={'count':count})
         return Response({'count':count})
@@ -123,7 +138,7 @@ class BackupView(APIView):
         confirmed(request)
         from .operations import create_backup
         try: row=create_backup(request.user)
-        except Exception: return Response({'detail':'?chec de sauvegarde. L?incident est enregistr?.'},status=500)
+        except Exception: return Response({'detail':'Échec de sauvegarde. L’incident est enregistré.'},status=500)
         return Response({'id':row.pk,'status':row.status},status=201)
 
 
@@ -133,7 +148,13 @@ class BackupDownload(APIView):
         from .operations import backup_path
         row=get_object_or_404(Backup,pk=pk,status='SUCCESS')
         try: path=backup_path(row)
-        except ValueError as exc: raise ValidationError(str(exc))
+        except ValueError:
+            log_audit(
+                action='BACKUP_DOWNLOAD_FAILED', module='SYSTEM', request=request,
+                target=row, status='FAILURE', severity='SECURITY',
+                summary='Téléchargement d’une sauvegarde indisponible ou invalide',
+            )
+            raise ValidationError('La sauvegarde est indisponible ou invalide.')
         log_audit(action='BACKUP_DOWNLOADED',module='SYSTEM',request=request,target=row,severity='WARNING')
         return FileResponse(path.open('rb'),as_attachment=True,filename=row.filename)
 
@@ -145,8 +166,8 @@ class BackupRestore(APIView):
         from .operations import restore_backup
         row=get_object_or_404(Backup,pk=pk,status='SUCCESS')
         try: restore_backup(row,request.user)
-        except Exception: return Response({'detail':'Restauration ?chou?e. Consultez le journal d?audit et la sauvegarde de s?curit?.'},status=500)
-        return Response({'detail':'Donn?es restaur?es par fusion. Les ajouts post?rieurs et le journal sont conserv?s. Reconnectez-vous.'})
+        except Exception: return Response({'detail':'Restauration échouée. Consultez le journal d’audit et la sauvegarde de sécurité.'},status=500)
+        return Response({'detail':'Données restaurées par fusion. Les ajouts postérieurs et le journal sont conservés. Reconnectez-vous.'})
 
 
 class MaintenanceView(APIView):
@@ -158,7 +179,7 @@ class MaintenanceView(APIView):
         return Response({'backend':django.get_version(),'frontend':'2.0.0','media_bytes':size,
             'last_backup':Backup.objects.filter(status='SUCCESS').order_by('-created_at').values('id','created_at').first(),
             'last_failure':AuditLog.objects.filter(status='FAILURE').order_by('-timestamp').values('action','timestamp','request_id').first(),
-            'scheduler':'python manage.py system_maintenance (? planifier chaque jour)'})
+            'scheduler':'Maintenance quotidienne configurée ; lancez Celery Beat pour l’exécuter.'})
     def post(self,request):
         confirmed(request)
         operation=request.data.get('operation')
@@ -168,7 +189,7 @@ class MaintenanceView(APIView):
             result={'members':Membre.objects.count(),'events':Evenement.objects.count()}
         elif operation=='notification':
             AdminNotification.objects.create(title='Test des notifications administratives')
-            result={'detail':'Notification interne cr??e.'}
+            result={'detail':'Notification interne créée.'}
         elif operation=='email':
             # Address is explicit; sending happens only on a user-triggered request.
             from django.core.validators import validate_email
@@ -179,8 +200,8 @@ class MaintenanceView(APIView):
             try: send_mail(config['subject'],config['body_template'],config['sender_email'] or settings.DEFAULT_FROM_EMAIL,[recipient],fail_silently=False)
             except Exception:
                 log_audit(action='NOTIFICATION_FAILED',module='SYSTEM',request=request,status='FAILURE',severity='WARNING')
-                return Response({'detail':'Envoi impossible. V?rifiez la configuration SMTP du serveur.'},status=502)
-            result={'detail':'Message transmis au service d?envoi configur?.'}
+                return Response({'detail':'Envoi impossible. Vérifiez la configuration SMTP du serveur.'},status=502)
+            result={'detail':'Message transmis au service d’envoi configuré.'}
         elif operation=='cleanup':
             root=Path(settings.BASE_DIR)/'private_backups'/'tmp'
             count=0
@@ -188,7 +209,7 @@ class MaintenanceView(APIView):
                 for path in root.iterdir():
                     if path.is_file() and not path.is_symlink(): path.unlink();count+=1
             result={'count':count}
-        else: raise ValidationError('Op?ration inconnue.')
+        else: raise ValidationError('Opération inconnue.')
         log_audit(action='SYSTEM_'+operation.upper(),module='SYSTEM',request=request)
         return Response(result)
 
@@ -208,4 +229,4 @@ class DeactivationRequestView(APIView):
     def post(self,request):
         confirmed(request)
         entry=log_audit(action='USER_DEACTIVATION_REQUESTED',module='USERS',request=request,severity='SECURITY')
-        return Response({'detail':'Demande transmise ? l?administrateur.','id':entry.pk})
+        return Response({'detail':'Demande transmise à l’administrateur.','id':entry.pk})

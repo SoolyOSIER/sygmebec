@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'sygmebec_backend.apps.chat.apps.ChatConfig',
     'sygmebec_backend.apps.core.apps.CoreConfig',  # Si core existe
     'sygmebec_backend.apps.vitrine.apps.VitrineConfig',
+    'sygmebec_backend.apps.sports.apps.SportsConfig',
 ]
 
 MIDDLEWARE = [
@@ -284,6 +285,14 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_ALWAYS_EAGER = environment_flag('CELERY_TASK_ALWAYS_EAGER', default=DEBUG)
 CELERY_TASK_EAGER_PROPAGATES = environment_flag('CELERY_TASK_EAGER_PROPAGATES', default=DEBUG)
+CELERY_BEAT_SCHEDULE = {
+    'sygmebec-system-maintenance': {
+        'task': 'sygmebec_backend.apps.core.tasks.run_system_maintenance',
+        # The task itself applies the selected daily, weekly or monthly backup
+        # interval, and archives audit entries when the retention period ends.
+        'schedule': 24 * 60 * 60,
+    },
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'noreply@sygmebec.org'

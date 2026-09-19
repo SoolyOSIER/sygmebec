@@ -12,7 +12,7 @@ export default function ConfirmAction({ title, description, word = 'CONFIRMER', 
       <label>Saisissez {word}<input autoFocus value={confirmation} onChange={e => setConfirmation(e.target.value)} required /></label>
       {passwordRequired && <label>Mot de passe administrateur<input type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} required /></label>}
       {error && <p role="alert">{error}</p>}
-      <footer><button type="button" disabled={busy} onClick={onClose}>Annuler</button><button className="primary" disabled={busy || confirmation !== word}>{busy ? 'Op?ration en cours?' : 'Confirmer'}</button></footer>
+      <footer><button type="button" disabled={busy} onClick={onClose}>Annuler</button><button className="primary" disabled={busy || confirmation !== word}>{busy ? 'Opération en cours…' : 'Confirmer'}</button></footer>
     </form>
   </dialog>
 }

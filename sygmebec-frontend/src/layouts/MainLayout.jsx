@@ -10,12 +10,12 @@ export default function MainLayout() {
   const isSettingsPage = location.pathname === '/settings'
 
   return (
-    <div className="app-blue-shell min-h-screen transition-colors duration-300">
+    <div className="app-blue-shell min-h-screen overflow-visible transition-colors duration-300">
       <Navbar />
       <Sidebar />
 
       <main
-        className="transition-all duration-300"
+        className="min-h-screen transition-all duration-300"
         style={{ marginLeft: sidebarOpen ? '288px' : '80px' }}
       >
         <div className={isSettingsPage ? 'w-full' : 'px-6 py-8 max-w-7xl mx-auto'}>

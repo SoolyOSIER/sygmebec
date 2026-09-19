@@ -26,8 +26,10 @@ def create_session(user, refresh, request):
 
 def check_session(token, user):
     key=token.get('sid')
-    if key and not UserSession.objects.filter(user=user,key_hash=session_hash(key),revoked_at__isnull=True,expires_at__gt=timezone.now()).exists():
-        raise AuthenticationFailed('Session expir?e ou r?voqu?e.')
+    if not key:
+        raise AuthenticationFailed('Session invalide.')
+    if not UserSession.objects.filter(user=user,key_hash=session_hash(key),revoked_at__isnull=True,expires_at__gt=timezone.now()).exists():
+        raise AuthenticationFailed('Session expirée ou révoquée.')
 
 
 class SessionJWTAuthentication(JWTAuthentication):

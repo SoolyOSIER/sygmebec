@@ -2,6 +2,7 @@
 // src/components/layout/Sidebar.jsx - Premium
 // ============================================
 import { NavLink } from 'react-router-dom'
+import { createPortal } from 'react-dom'
 import { 
   FiHome, FiUsers, FiCalendar, FiFileText, FiSettings,
   FiUserCheck, FiChevronLeft, FiChevronRight, FiBarChart2,
@@ -26,7 +27,7 @@ const menuItems = [
   { path: '/rapports', labelKey: 'navigation.reports', icon: FiFileText, roles: ['SECRETAIRE', 'PASTEUR', 'ADMINISTRATEUR'] },
   { path: '/lettres', labelKey: 'navigation.letters', icon: FiSend, roles: ['SECRETAIRE', 'PASTEUR', 'ADMINISTRATEUR'] },
   { path: '/comptes', labelKey: 'navigation.accounts', icon: FiUserCheck, roles: ['ADMINISTRATEUR'] },
-  { path: '/audit-logs', label: 'Journal d?activit?', icon: FiBarChart2, roles: ['ADMINISTRATEUR'] },
+  { path: '/audit-logs', label: 'Journal d’activité', icon: FiBarChart2, roles: ['ADMINISTRATEUR'] },
   { path: '/statistiques', labelKey: 'navigation.statistics', icon: FiBarChart2, roles: ['ADMINISTRATEUR'] },
   { path: '/corbeille', labelKey: 'navigation.trash', icon: FiTrash2, roles: ['ADMINISTRATEUR'] },
 ]
@@ -44,12 +45,20 @@ export default function Sidebar() {
   const visibleItems = menuItems.filter(item => item.roles.includes(role))
   const visibleBottom = bottomItems.filter(item => item.roles.includes(role))
 
-  return (
-    <motion.aside 
-      initial={false}
-      animate={{ width: sidebarOpen ? 288 : 80 }}
-      style={{ height: '100vh', minHeight: '100vh' }}
-      className="sidebar-premium sidebar-v2 overflow-hidden flex flex-col"
+  const sidebar = (
+    <aside
+      style={{
+        position: 'fixed',
+        inset: '0 auto 0 0',
+        zIndex: 50,
+        width: sidebarOpen ? '288px' : '80px',
+        height: '100dvh',
+        minHeight: '100vh',
+        maxHeight: '100dvh',
+        overscrollBehavior: 'contain',
+        background: 'linear-gradient(160deg, #05006b 0%, #060335 42%, #000024 100%)',
+      }}
+      className="sidebar-premium sidebar-v2 overflow-hidden flex flex-col transition-[width] duration-300"
     >
       {/* Header */}
       <div className={`flex items-center h-20 px-4 border-b border-white/10 flex-shrink-0 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
@@ -144,6 +153,10 @@ export default function Sidebar() {
           </motion.span>
         </button>
       </div>
-    </motion.aside>
+    </aside>
   )
+
+  // Render outside the dashboard container so scrolling/transform rules from
+  // a page can never move or clip the navigation.
+  return createPortal(sidebar, document.body)
 }

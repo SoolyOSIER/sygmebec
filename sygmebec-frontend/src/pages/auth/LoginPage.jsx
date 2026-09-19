@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Eye, EyeOff, Lock, User } from 'lucide-react'
 import logo from '../../../../Logo.png'
 import Button from '../../components/ui/Button'
@@ -26,26 +25,26 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-5xl overflow-hidden rounded-lg border border-slate-300 bg-white shadow-panel dark:border-slate-700">
-      <div className="grid min-h-[420px] md:grid-cols-[0.95fr_1.35fr]">
-        <section className="bg-gradient-to-br from-primary-700 to-primary-900 px-8 py-10 text-white flex flex-col items-center justify-center text-center">
-          <div className="brand-logo-surface relative mb-6 flex h-32 w-32 items-center justify-center rounded-2xl p-2 shadow-lg">
+    <div className="w-full max-w-6xl overflow-hidden rounded-xl border border-slate-300 bg-white shadow-2xl shadow-slate-900/10 dark:border-slate-700">
+      <div className="grid min-h-[570px] md:grid-cols-[42%_58%]">
+        <section className="flex flex-col items-center justify-center bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 px-8 py-12 text-center text-white">
+          <div className="brand-logo-surface relative mb-10 flex h-20 w-20 items-center justify-center rounded-xl p-1">
             <img src={logo} alt="Logo de l’Église Baptiste de l’Espoir" className="h-full w-full object-contain" />
           </div>
-          <h1 className="text-3xl font-bold tracking-normal">SYGMEBEC</h1>
-          <p className="mt-4 max-w-xs text-sm leading-6 text-white/90">
+          <h1 className="text-4xl font-bold tracking-normal">SYGMEBEC</h1>
+          <p className="mt-5 max-w-sm text-base leading-7 text-white">
             {t('auth.loginSubtitle')}
           </p>
         </section>
 
-        <section className="login-form-panel px-8 py-10 md:px-12">
-          <div className="mx-auto max-w-md">
-            <div className="mb-8 text-center">
-              <h2 className="text-2xl font-semibold text-secondary-900">{t('auth.loginTitle')}</h2>
-              <div className="mx-auto mt-3 h-0.5 w-12 bg-primary-600" />
+        <section className="login-form-panel flex items-center px-8 py-12 md:px-16">
+          <div className="mx-auto w-full max-w-lg">
+            <div className="mb-10 text-center">
+              <h2 className="text-3xl font-semibold text-secondary-900">{t('auth.loginTitle')}</h2>
+              <div className="mx-auto mt-4 h-0.5 w-14 bg-primary-600" />
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900">
               <div>
                 <label className="mb-2 block text-sm font-semibold text-secondary-800">
                   {t('common.username')}
@@ -55,7 +54,7 @@ export default function LoginPage() {
                   <input
                     value={identifiant}
                     onChange={(e) => setIdentifiant(e.target.value)}
-                    className="h-11 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-3 text-sm text-secondary-900 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+                    className="h-[3.25rem] w-full rounded-lg border border-slate-300 bg-white pl-12 pr-3 text-base text-secondary-900 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
                     placeholder={t('auth.usernamePlaceholder')}
                     autoComplete="username"
                     required
@@ -73,7 +72,7 @@ export default function LoginPage() {
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-10 text-sm text-secondary-900 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+                    className="h-[3.25rem] w-full rounded-lg border border-slate-300 bg-white pl-12 pr-10 text-base text-secondary-900 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
                     placeholder={t('auth.passwordPlaceholder')}
                     autoComplete="current-password"
                     required
@@ -99,19 +98,13 @@ export default function LoginPage() {
                 {t('common.rememberMe')}
               </label>
 
-              <div className="grid grid-cols-2 gap-4 pt-2">
-                <Button type="submit" isLoading={isPending} className="h-11" icon={User}>
+              <div className="grid grid-cols-2 gap-5 pt-3">
+                <Button type="submit" isLoading={isPending} className="h-[3.25rem] rounded-xl text-base" icon={User}>
                   {t('common.login')}
                 </Button>
-                <Button type="button" variant="outline" onClick={handleCancel} className="h-11">
+                <Button type="button" variant="outline" onClick={handleCancel} className="h-[3.25rem] rounded-xl text-base">
                   {t('common.cancel')}
                 </Button>
-              </div>
-              <div className="mt-4 text-center">
-                <p className="text-sm text-secondary-600">
-                  {t('auth.noAccount')}{' '}
-                  <Link to="/register" className="text-primary-600 font-medium hover:underline">{t('auth.signUp')}</Link>
-                </p>
               </div>
             </form>
           </div>

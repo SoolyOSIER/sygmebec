@@ -65,7 +65,7 @@ class ImmutableAuditQuerySet(models.QuerySet):
         raise ValueError("Les journaux sont immuables.")
 
     def delete(self):
-        raise ValueError("Les journaux ne peuvent pas ?tre supprim?s.")
+        raise ValueError("Les journaux ne peuvent pas être supprimés.")
 
     def bulk_update(self, *args, **kwargs):
         raise ValueError("Les journaux sont immuables.")
@@ -127,7 +127,7 @@ class AuditLog(models.Model):
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        raise ValueError("Les journaux ne peuvent pas ?tre supprim?s.")
+        raise ValueError("Les journaux ne peuvent pas être supprimés.")
 
     class Meta:
         indexes = [models.Index(fields=fields) for fields in (

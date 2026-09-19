@@ -168,7 +168,8 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('profil')
   const [form, setForm] = useState(() => getProfileForm(user))
   const [isSaving, setIsSaving] = useState(false)
-  const [isUploading, setIsUploading] = useState(false)
+  const [pendingPhoto, setPendingPhoto] = useState(null)
+  const [photoPreview, setPhotoPreview] = useState('')
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [message, setMessage] = useState(null)
   const [passwordForm, setPasswordForm] = useState({ current_password: '', new_password: '', new_password_confirm: '' })
@@ -182,7 +183,7 @@ export default function ProfilePage() {
   const membre = user?.membre || {}
   const isAdministrator = role === 'ADMINISTRATEUR'
   const displayName = `${form.prenom} ${form.nom}`.trim() || membre.nom_complet || membre.nom || user?.identifiant || t('accountProfile.unnamedAccount')
-  const photo = membre.photo
+  const photo = photoPreview || membre.photo
   const createdAt = user?.date_creation_compte || user?.date_joined || user?.created_at
   const profileCompletion = useMemo(() => {
     const values = [form.prenom, form.nom, form.email, form.telephone, form.adresse, form.date_naissance, photo]
@@ -219,20 +220,11 @@ export default function ProfilePage() {
       return
     }
 
-    const formData = new FormData()
-    formData.append('photo', file)
-    setIsUploading(true)
+    if (photoPreview) URL.revokeObjectURL(photoPreview)
+    setPendingPhoto(file)
+    setPhotoPreview(URL.createObjectURL(file))
     setMessage(null)
-    try {
-      const { data } = await authApi.updateMyProfile(formData)
-      updateLocalUser(data.membre || data)
-      setMessage({ type: 'success', text: t('accountProfile.messages.photoUpdated') })
-    } catch {
-      setMessage({ type: 'error', text: t('accountProfile.messages.photoUpdateFailed') })
-    } finally {
-      setIsUploading(false)
-      event.target.value = ''
-    }
+    event.target.value = ''
   }
 
   const handleSave = async (event) => {
@@ -240,8 +232,16 @@ export default function ProfilePage() {
     setIsSaving(true)
     setMessage(null)
     try {
-      const { data } = await authApi.updateMyProfile(form)
+      const payload = pendingPhoto ? new FormData() : form
+      if (pendingPhoto) {
+        Object.entries(form).forEach(([field, value]) => payload.append(field, value || ''))
+        payload.append('photo', pendingPhoto)
+      }
+      const { data } = await authApi.updateMyProfile(payload)
       updateLocalUser(data.membre || data)
+      if (photoPreview) URL.revokeObjectURL(photoPreview)
+      setPendingPhoto(null)
+      setPhotoPreview('')
       setMessage({ type: 'success', text: t('accountProfile.messages.profileSaved') })
     } catch {
       setMessage({ type: 'error', text: t('accountProfile.messages.profileSaveFailed') })
@@ -252,6 +252,9 @@ export default function ProfilePage() {
 
   const resetForm = () => {
     setForm(getProfileForm(user))
+    if (photoPreview) URL.revokeObjectURL(photoPreview)
+    setPendingPhoto(null)
+    setPhotoPreview('')
     setMessage(null)
   }
 
@@ -314,7 +317,7 @@ export default function ProfilePage() {
           <AccountAvatar name={displayName} photo={photo} t={t} className="pr-hero-avatar" />
           <label className="pr-hero-camera" title={t('accountProfile.photoCameraTitle')}>
             <FiCamera aria-hidden="true" />
-            <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" disabled={isUploading} onChange={handlePhotoUpload} />
+            <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" disabled={isSaving} onChange={handlePhotoUpload} />
           </label>
         </div>
         <div className="pr-hero-content">
@@ -358,8 +361,8 @@ export default function ProfilePage() {
                   <AccountAvatar name={displayName} photo={photo} t={t} className="pr-photo-avatar" />
                   <div>
                     <label className="pr-photo-button">
-                      <FiCamera />{isUploading ? t('accountProfile.uploading') : t('accountProfile.addImage')}
-                      <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" disabled={isUploading} onChange={handlePhotoUpload} />
+                      <FiCamera />{pendingPhoto ? t('common.edit') : t('accountProfile.addImage')}
+                      <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handlePhotoUpload} />
                     </label>
                     <p className="pr-photo-hint">{t('accountProfile.imageHint')}</p>
                   </div>

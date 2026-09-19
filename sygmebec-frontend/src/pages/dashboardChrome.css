@@ -1,6 +1,12 @@
 /* The dashboard uses the same royal-blue visual signature as the login page. */
 .sidebar-premium {
-  position: relative;
+  /* The navigation must stay visible while page content scrolls. */
+  position: fixed !important;
+  inset: 0 auto 0 0 !important;
+  z-index: 50 !important;
+  height: 100dvh !important;
+  max-height: 100dvh;
+  overscroll-behavior: contain;
   overflow: hidden;
   background: linear-gradient(160deg, #0000cc 0%, #000099 45%, #000033 100%) !important;
   box-shadow: 10px 0 30px rgba(0, 0, 51, .16) !important;

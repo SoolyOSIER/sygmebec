@@ -6,7 +6,7 @@ from django.test import override_settings
 from django.utils import timezone
 from rest_framework.test import APITestCase
 from sygmebec_backend.apps.accounts.models import Utilisateur, RoleAcces
-from sygmebec_backend.apps.members.models import Membre
+from sygmebec_backend.apps.members.models import Membre, Statut
 from .models import AuditLog, UserPreference, UserSession, Backup, OrganizationSetting
 from .audit import log_audit, sanitize
 
@@ -69,7 +69,8 @@ class AdministrationTests(APITestCase):
         self.assertNotIn('WrongSecret123!',json.dumps(list(AuditLog.objects.values('changes','metadata'))))
 
     def test_member_changes_record_actor_and_only_differences(self):
-        member=Membre.objects.create(nom='Before')
+        statut, _ = Statut.objects.get_or_create(libelle='Actif')
+        member=Membre.objects.create(nom='Before', statut=statut)
         r=self.client.patch(f'/api/v1/membres/{member.pk}/',{'nom':'After'},format='json')
         self.assertEqual(r.status_code,200,r.data)
         row=AuditLog.objects.filter(action='MEMBER_UPDATED',object_id=str(member.pk)).first()

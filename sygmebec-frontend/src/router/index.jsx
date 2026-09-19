@@ -11,7 +11,6 @@ import MainLayout from '../layouts/MainLayout'
 
 // Pages
 import LoginPage from '../pages/auth/LoginPage'
-import RegisterPage from '../pages/auth/RegisterPage'
 import DashboardPage from '../pages/DashboardPage'
 import ProfilePage from '../pages/ProfilePage'
 import SettingsPage from '../pages/SettingsPage'
@@ -47,7 +46,7 @@ export default function AppRouter() {
       {/* Routes publiques */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<Navigate to="/login" replace />} />
       </Route>
 
       {/* Routes protégées */}

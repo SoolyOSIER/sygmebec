@@ -565,7 +565,7 @@ html.dark body {
   color: #171bc1 !important;
 }
 
-/* The login form stays white in both light and dark modes. */
+/* Login uses the same surface system as the rest of the application. */
 .app-blue-shell .login-form-panel {
   background: #fff;
   color: #0f172a;
@@ -600,6 +600,30 @@ html.dark body {
   border-color: #0000ff !important;
   box-shadow: 0 0 0 3px rgba(0, 0, 255, .16) !important;
 }
+
+.dark .app-blue-shell .login-form-panel,
+.dark .app-blue-shell .login-form-panel form {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .app-blue-shell .login-form-panel :is(.text-secondary-900, .text-secondary-800, .text-secondary-700) {
+  color: #f8fafc !important;
+}
+
+.dark .app-blue-shell .login-form-panel :is(.text-secondary-600, .text-secondary-500, .text-secondary-400) {
+  color: #cbd5e1 !important;
+}
+
+.dark .app-blue-shell .login-form-panel input {
+  background: #111827 !important;
+  border-color: #475569 !important;
+  color: #f8fafc !important;
+  caret-color: #f8fafc;
+}
+
+.dark .app-blue-shell .login-form-panel input::placeholder { color: #94a3b8 !important; }
 
 /* Saved organization colors and personal accessibility preferences. */
 html{font-size:calc(16px * var(--ui-text-scale,1))}

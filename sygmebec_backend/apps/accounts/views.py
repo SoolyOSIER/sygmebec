@@ -45,11 +45,27 @@ class LoginView(TokenObtainPairView):
         from sygmebec_backend.apps.core.audit import log_audit, client_ip
         from sygmebec_backend.apps.core.settings_schema import organization
         policy = organization()['security']
-        recent = AuditLog.objects.filter(action='AUTH_LOGIN_FAILURE', timestamp__gte=timezone.now()-timedelta(minutes=policy['lock_minutes']))
-        if recent.filter(Q(actor_identifier=identifiant) | Q(ip_address=client_ip(request))).count() >= policy['login_attempts']:
-            log_audit(action='AUTH_ACCOUNT_LOCKED', module='AUTH', request=request, status='DENIED', severity='SECURITY')
+        recent = AuditLog.objects.filter(
+            action='AUTH_LOGIN_FAILURE',
+            timestamp__gte=timezone.now() - timedelta(minutes=policy['lock_minutes']),
+            actor_identifier=identifiant[:150],
+            ip_address=client_ip(request),
+        )
+        if recent.count() >= policy['login_attempts']:
+            already_reported = AuditLog.objects.filter(
+                action='AUTH_ACCOUNT_LOCKED',
+                timestamp__gte=timezone.now() - timedelta(minutes=policy['lock_minutes']),
+                actor_identifier=identifiant[:150],
+                ip_address=client_ip(request),
+            ).exists()
+            if not already_reported:
+                log_audit(
+                    action='AUTH_ACCOUNT_LOCKED', module='AUTH', request=request,
+                    status='DENIED', severity='SECURITY', actor_identifier=identifiant,
+                    summary='Compte temporairement verrouillé après plusieurs tentatives',
+                )
             request._request._audit_logged = True
-            return Response({'detail': 'Trop de tentatives. R?essayez apr?s le d?lai de verrouillage.'}, status=429)
+            return Response({'detail': 'Trop de tentatives. Réessayez après le délai de verrouillage.'}, status=429)
         
         from django.contrib.auth import authenticate
         # L'identifiant est traité sans tenir compte des majuscules. Un membre
@@ -60,15 +76,32 @@ class LoginView(TokenObtainPairView):
         user = authenticate(identifiant=compte.identifiant, password=password) if compte else None
         
         if not user:
-            entry = log_audit(action='AUTH_LOGIN_FAILURE', module='AUTH', request=request, status='FAILURE', severity='WARNING')
-            # Identifier is captured only from a matched account, never arbitrary credentials.
+            log_audit(
+                action='AUTH_LOGIN_FAILURE', module='AUTH', request=request,
+                status='FAILURE', severity='WARNING', actor_identifier=identifiant,
+                summary='Connexion refusée',
+            )
             request._request._audit_logged = True
+            if recent.count() + 1 >= policy['login_attempts']:
+                log_audit(
+                    action='AUTH_ACCOUNT_LOCKED', module='AUTH', request=request,
+                    status='DENIED', severity='SECURITY', actor_identifier=identifiant,
+                    summary='Compte temporairement verrouillé après plusieurs tentatives',
+                )
+                return Response({'detail': 'Trop de tentatives. Réessayez après le délai de verrouillage.'}, status=429)
             return Response(
                 {'error': 'Identifiant ou mot de passe incorrect.'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
         if not user.is_active:
+            log_audit(
+                action='AUTH_LOGIN_FAILURE', module='AUTH', request=request,
+                status='DENIED', severity='SECURITY', actor_identifier=user.identifiant,
+                actor_role=getattr(user.role_acces, 'nomRole', ''),
+                summary='Connexion refusée : compte désactivé',
+            )
+            request._request._audit_logged = True
             return Response(
                 {'error': 'Ce compte est désactivé.'},
                 status=status.HTTP_403_FORBIDDEN
@@ -77,6 +110,13 @@ class LoginView(TokenObtainPairView):
         # The ADMINISTRATEUR role is reserved for the one designated owner.
         # This remains server-side so a direct API request cannot bypass it.
         if user.role_acces_id and user.role_acces.nomRole == 'ADMINISTRATEUR' and not user.est_administrateur_principal:
+            log_audit(
+                action='AUTH_LOGIN_FAILURE', module='AUTH', request=request,
+                status='DENIED', severity='SECURITY', actor_identifier=user.identifiant,
+                actor_role=user.role_acces.nomRole,
+                summary='Connexion administrateur refusée',
+            )
+            request._request._audit_logged = True
             notify_primary_admin_of_login(user=user, request=request, blocked=True)
             return Response(
                 {'error': "Seul l'administrateur principal est autorisé à se connecter avec le rôle Administrateur."},

@@ -54,6 +54,11 @@ def redact_audit_changes(value):
 
 
 class AuditLogSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(source='timestamp', read_only=True)
+    target_type = serializers.CharField(source='content_type', read_only=True)
+    target_id = serializers.CharField(source='object_id', read_only=True)
+    target_label = serializers.CharField(source='object_repr', read_only=True)
+    archive_batch = serializers.SerializerMethodField()
     before_data = serializers.SerializerMethodField()
     after_data = serializers.SerializerMethodField()
     metadata = serializers.SerializerMethodField()
@@ -61,12 +66,16 @@ class AuditLogSerializer(serializers.ModelSerializer):
     changes = serializers.SerializerMethodField()
     class Meta:
         model = AuditLog
-        fields = ['id', 'actor', 'action', 'content_type', 'object_id', 'object_repr', 'changes', 'timestamp', 'actor_identifier', 'actor_role', 'action_label', 'module', 'severity', 'status', 'before_data', 'after_data', 'changed_fields', 'summary', 'request_id', 'ip_address', 'user_agent', 'source', 'metadata']
+        fields = ['id', 'actor', 'action', 'content_type', 'object_id', 'object_repr', 'target_type', 'target_id', 'target_label', 'changes', 'timestamp', 'created_at', 'actor_identifier', 'actor_role', 'action_label', 'module', 'severity', 'status', 'before_data', 'after_data', 'changed_fields', 'summary', 'request_id', 'ip_address', 'user_agent', 'source', 'metadata', 'archive_batch']
         read_only_fields = fields
     def get_actor(self, obj):
         if obj.actor:
             return {'id': obj.actor.id, 'identifiant': obj.actor.identifiant}
         return None
+
+    def get_archive_batch(self, obj):
+        archive = next(iter(obj.archives.all()), None)
+        return archive.pk if archive else None
 
     def get_changes(self, obj):
         return redact_audit_changes(obj.changes)

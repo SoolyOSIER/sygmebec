@@ -1,0 +1,3 @@
+# Dépendances Python du backend SYGMEBEC (production).
+# Le frontend React s'installe séparément avec : npm ci --prefix sygmebec-frontend
+-r sygmebec_backend/requirements/production.txt
