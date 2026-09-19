@@ -12,3 +12,4 @@ build/
 .idea/
 
 /private_backups/
+*.log

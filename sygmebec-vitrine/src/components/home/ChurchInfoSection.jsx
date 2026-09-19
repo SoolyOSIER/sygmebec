@@ -1,9 +1,0 @@
-import { BookOpen, Clock3, HeartHandshake, Target } from 'lucide-react'
-import AnimatedSection from '../ui/AnimatedSection'
-import { churchObjectives, churchPurpose, serviceSchedule } from '../../content/churchContent'
-
-const purposeLabel = 'Notre raison d\u2019\u00eatre'
-
-export default function ChurchInfoSection() {
-  return <section className="relative overflow-hidden bg-white py-20"><div className="container-custom relative"><div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]"><AnimatedSection><div className="rounded-3xl border border-primary-100 bg-primary-50/60 p-7 md:p-10"><span className="section-subtitle"><HeartHandshake className="h-4 w-4" /> {purposeLabel}</span><p className="mt-5 text-xl font-medium leading-relaxed text-navy-900">{churchPurpose}</p><div className="mt-8 border-t border-primary-100 pt-7"><h2 className="flex items-center gap-2 text-2xl font-bold text-navy-900"><Target className="h-6 w-6 text-primary-600" /> Nos objectifs</h2><ul className="mt-5 space-y-3 text-gray-700">{churchObjectives.map((objective) => <li key={objective} className="flex gap-3"><BookOpen className="mt-0.5 h-5 w-5 shrink-0 text-gold-600" />{objective}</li>)}</ul></div></div></AnimatedSection><AnimatedSection delay={0.1}><div className="h-full rounded-3xl bg-navy-900 p-7 text-white shadow-premium md:p-10"><span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-sm font-semibold text-gold-300"><Clock3 className="h-4 w-4" /> Horaire des services</span><div className="mt-7 space-y-6">{serviceSchedule.map(({ day, services }) => <div key={day} className="border-b border-white/10 pb-5 last:border-0 last:pb-0"><h2 className="font-playfair text-xl font-bold text-gold-300">{day}</h2><ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-200">{services.map((service) => <li key={service}>{service}</li>)}</ul></div>)}</div></div></AnimatedSection></div></div></section>
-}

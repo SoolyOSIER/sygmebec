@@ -1,7 +1,7 @@
 // ============================================
 // src/components/ui/Avatar.jsx - Premium
 // ============================================
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiUser } from 'react-icons/fi'
 import { getMediaUrl } from '../../utils/media'
 
@@ -14,6 +14,10 @@ const Avatar = ({
   ...props
 }) => {
   const [error, setError] = useState(false)
+
+  useEffect(() => {
+    setError(false)
+  }, [src])
 
   const sizes = {
     sm: 'w-8 h-8 text-xs',
